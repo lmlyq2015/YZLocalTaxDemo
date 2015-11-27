@@ -12,7 +12,30 @@
 <script type="text/javascript" src="jquery/jquery.easyui.min.js"></script>
 <body class="easyui-layout" fit="true">
 
-      <div region="north" title="消息内容" split="true" style="height:200px;"></div>  
+      <div region="north" title="消息内容" split="true" style="height:100px;">
+      			<div title="高级搜索">
+			<form id="searchForm">
+				<table>
+					<tr>
+						<th height="50">标题:</th>
+						<td height="50"><input id="title" class="easyui-validatebox" type="text" name="title"></td>
+						<td width="20"></td>
+						<th>消息内容:</th>
+						<td><textarea style="width: 300px;" class="easyui-validatebox"  name="content"></textarea></td>
+						<td width="20"></td>
+						<th>发送时间:</th>
+						<td><input id="sendDate" class="easyui-datebox" type="text" name="sendDate"></td>	
+						<td><a class="easyui-linkbutton" href="javascript:void(0);">发送</a></td>
+						
+						<td><a class="easyui-linkbutton" href="javascript:void(0);">清空</a></td>
+					</tr>
+
+				</table>
+
+			</form>
+		</div>
+      
+      </div>  
 
       
       <div region="center" href="./page/center.html" title="企业列表" style="padding:5px;background:#eee;">
