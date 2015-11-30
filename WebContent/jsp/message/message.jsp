@@ -26,6 +26,7 @@ $(function() {
 		title:'搜索',
 		pagination : false,
 		pageSize:20,
+		nowrap : false,
 		pageList:[20,30,40],
 		iconCls:'icon-reload',
 		rownumbers: true,
@@ -47,13 +48,13 @@ $(function() {
 			{
 				title:'纳税人识别号',
 				field:'taxNo',
-				width:8	
+				width:10	
 				
 			},
 			{
 				title:'纳税人名称',
 				field:'taxer',
-				width:10
+				width:15
 			},
 			{
 				title:'生产经营地址',
@@ -69,7 +70,7 @@ $(function() {
 			{
 				title:'法人手机',
 				field:'lawRepMobile',
-				width:8
+				width:7
 			},
 			{
 				title:'办税员',
@@ -89,7 +90,7 @@ $(function() {
 			{
 				title:'财务主管手机',
 				field:'fanAdminMobile',
-				width:8
+				width:7
 			}
 		]],
 		toolbar:'#enterpriceSearch'
