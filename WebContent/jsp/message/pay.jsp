@@ -19,7 +19,7 @@
 	$(function() {
 		$('#dg').datagrid(
 						{
-							loadMsg : '数据加载中请稍后',
+							loadMsg : '数据加载中请稍后3231',
 							url : '<%=basePath%>getAllCustomer', //请求方法的地址
 			title : '催报信息',
 			nowrap : false, 
