@@ -1,0 +1,24 @@
+[
+    {
+        "taxNo": "330227591582312",
+        "taxer": "宁波宏鑫汇通企业管理咨询有限公司",
+        "address": "宁波市鄞州区鄞县大道东段1299号2203室",
+        "lawRep": "夏栋波",
+        "lawRepMobile": "15958891110",
+        "taxEmp": "刘艳涛",
+        "taxEmpMobile": "15958891110",
+        "fanAdmin": "蔡蓓宁",
+        "fanAdminMobile": "15958289090"
+    },
+    {
+        "taxNo": "330227595390553",
+        "taxer": "宁波市鄞州易顺投资咨询有限公司",
+        "address": "宁波市鄞州区鄞县大道中段1357号1506室",
+        "lawRep": "李建军",
+        "lawRepMobile": "15336622818",
+        "taxEmp": "周玉亚",
+        "taxEmpMobile": "13586687028",
+        "fanAdmin": "周玉亚",
+        "fanAdminMobile": "13586687028"
+    }
+]
