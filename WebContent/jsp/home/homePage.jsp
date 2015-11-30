@@ -23,8 +23,8 @@
 						{"menuid":"1","icon":"icon-sys","menuname":"信息中心",
 							"menus":[
 									{"menuname":"公告通知","icon":"icon-edit","url":"jsp/message/message.jsp"},			
-									{"menuname":"催缴通知","icon":"icon-print","url":""},
-									{"menuname":"催报通知","icon":"icon-print","url":""},
+									{"menuname":"催缴通知","icon":"icon-print","url":"jsp/message/pay.jsp"},
+									{"menuname":"催报通知","icon":"icon-print","url":"jsp/message/report.jsp"},
 									{"menuname":"消息状态","icon":"icon-nav","url":"jsp/message/status.jsp"}
 								]
 						},
