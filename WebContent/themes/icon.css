@@ -73,3 +73,6 @@
 .icon-network-config {
 	background: url('icons/network_config.png') no-repeat;
 }
+.icon-message-send {
+	background: url('icons/email_go.png') no-repeat;
+}
