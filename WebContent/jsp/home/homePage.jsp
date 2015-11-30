@@ -11,7 +11,6 @@
 <link href="css/default.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css" href="themes/icon.css" />
-
 <script type="text/javascript" src="jquery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src='jquery/outlook2.js'> </script>
 <script type="text/javascript" src="jquery/jquery.easyui.min.js"></script>
@@ -25,7 +24,8 @@
 									{"menuname":"公告通知","icon":"icon-edit","url":"jsp/message/message.jsp"},			
 									{"menuname":"催缴通知","icon":"icon-print","url":""},
 									{"menuname":"催报通知","icon":"icon-print","url":""},
-									{"menuname":"消息状态","icon":"icon-nav","url":"jsp/message/status.jsp"}
+									{"menuname":"消息状态","icon":"icon-nav","url":"jsp/message/status.jsp"},
+									{"menuname":"草稿箱","icon":"icon-nav","url":""}
 								]
 						},
 						{"menuid":"2","icon":"icon-sys","menuname":"知识库",
@@ -198,8 +198,9 @@
 		</div>
 
 	</div>
-	<div region="east" split="true" title="备忘录" style="width: 230px;"
-		id="east"></div>
+<!-- 	<div region="east" split="true" title="效果" style="width: 230px;" -->
+<!-- 		id="east"> -->
+<!-- 		</div> -->
 	<div id="mainPanle" region="center"
 		style="background: #eee; overflow-y: hidden">
 		<div id="tabs" class="easyui-tabs" fit="true" border="false">
