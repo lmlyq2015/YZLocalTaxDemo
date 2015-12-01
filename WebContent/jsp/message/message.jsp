@@ -24,7 +24,7 @@ $(function() {
 	$('#enterpriceDg').datagrid({
 		url:'<%=basePath%>jsp/message/enterprice_json.json',
 		title:'搜索',
-		pagination : false,
+		pagination : true,
 		pageSize:20,
 		nowrap : false,
 		pageList:[20,30,40],
@@ -32,7 +32,6 @@ $(function() {
 		rownumbers: true,
 		singleSelect:false,
 		fitColumns:true,
-		idField:'id',
 		showFooter: true,
 		remoteSort: false,
 		columns:[[
@@ -53,7 +52,7 @@ $(function() {
 			},
 			{
 				title:'纳税人名称',
-				field:'taxer',
+				field:'taxName',
 				width:15
 			},
 			{
@@ -69,35 +68,81 @@ $(function() {
 			
 			{
 				title:'法人手机',
-				field:'lawRepMobile',
+				field:'lawRepMob',
 				width:7
 			},
 			{
 				title:'办税员',
-				field : 'taxEmp',
+				field : 'taxer',
 				width : 5
 			},
 			{
 				title:'办税员手机',
-				field:'taxEmpMobile',
+				field:'taxerMob',
 				width:8
 			},
 			{
 				title:'财务主管',
-				field:'fanAdmin',
+				field:'admin',
 				width:5
 			},
 			{
 				title:'财务主管手机',
-				field:'fanAdminMobile',
+				field:'adminMob',
 				width:7
 			}
 		]],
 		toolbar:'#enterpriceSearch'
 
 	});	
-});
+	$('#msgSend').click(function(){
+		var content = $('#content').val();
+		var sign = $('#sign').val();
+		if (content == null || content == "") {
+			$.messager.alert('操作提示', "请输入消息内容","info");
+			return;
+		}
+		if (sign == null || sign == "") {
+			$.messager.alert('操作提示', "请输入消息签名","info");
+			return;
+		}
+		var rows = $('#enterpriceDg').datagrid('getSelections');
+		if (rows.length == 0) {
+			$.messager.alert('操作提示', "请选择发送对象","info");
+			return;
+		} else {
+			var formObj = sy.serializeObject($("#msgForm").form());
+			var formStr = encodeURI(JSON.stringify(formObj),"UTF-8");
+			var data = encodeURI(JSON.stringify(rows),"UTF-8");
+			$.ajax({
+				url : '<%=basePath%>sendNotificationMsg',
+				type : "POST",
+				dataType : "json",
+				data : 'data=' + formStr + "=" + data,
+				success : function(result) {
+					alert(result);
+				},
+				error : function() {
+					
+				}
+			});
+		}
+		
+	});
 
+});
+var sy = $.extend({}, sy);
+sy.serializeObject = function (form) { /*将form表单内的元素序列化为对象，扩展Jquery的一个方法*/
+    var o = {};
+    $.each(form.serializeArray(), function (index) {
+        if (o[this['name']]) {
+            o[this['name']] = o[this['name']] + "," + this['value'];
+        } else {
+            o[this['name']] = this['value'];
+        }
+    });
+    return o;
+};
 </script>
 <body class="easyui-layout">
 
@@ -124,7 +169,7 @@ $(function() {
 					<table>
 					<tr>
 						<td>
-						<textarea style="width: 200px;height: 400px;" class="easyui-validatebox"  name="content" placeholder="请输入短信内容（根据运营商政策规定，建议每次提交小于等于225个字符  含签名、空格、字母、符号等） " maxlength="255"></textarea>
+						<textarea id="content" style="width: 200px;height: 400px;" class="easyui-validatebox"  name="content" placeholder="请输入短信内容（根据运营商政策规定，建议每次提交小于等于225个字符  含签名、空格、字母、符号等） " maxlength="255"></textarea>
 						</td>
 					</tr>
 					<tr height="30" align="center">
@@ -134,12 +179,12 @@ $(function() {
 					</tr>
 					<tr height="50" align="center">
 						<td>
-						发送时间：<input id="sendTime" class="easyui-datebox"  name="sendTime">
+						发送时间：<input id="sendDate" class="easyui-datebox"  name="sendDate">
 						</td>
 					</tr>
 					<tr align="center">
 						<td>
-						<a icon="icon-ok" class="easyui-linkbutton" href="javascript:void(0);">发送</a><a icon="icon-cancel" class="easyui-linkbutton" href="javascript:void(0);">清空</a>
+						<a id="msgSend" icon="icon-ok" class="easyui-linkbutton" href="javascript:void(0);">发送</a><a icon="icon-cancel" class="easyui-linkbutton" href="javascript:void(0);">清空</a>
 						</td>
 					</tr>
 				

@@ -1,24 +1,24 @@
 [
     {
         "taxNo": "330227591582312",
-        "taxer": "宁波宏鑫汇通企业管理咨询有限公司",
+        "taxName": "宁波宏鑫汇通企业管理咨询有限公司",
         "address": "宁波市鄞州区鄞县大道东段1299号2203室",
         "lawRep": "刘铭",
-        "lawRepMobile": "15258117490",
-        "taxEmp": "刘铭",
-        "taxEmpMobile": "15258117490",
-        "fanAdmin": "刘铭",
-        "fanAdminMobile": "15258117490"
+        "lawRepMob": "15258117490",
+        "taxer": "刘铭",
+        "taxerMob": "15258117490",
+        "admin": "刘铭",
+        "adminMob": "15258117490"
     },
     {
         "taxNo": "330227595390553",
-        "taxer": "宁波市鄞州易顺投资咨询有限公司",
+        "taxName": "宁波市鄞州易顺投资咨询有限公司",
         "address": "宁波市鄞州区鄞县大道中段1357号1506室",
         "lawRep": "刘铭",
-        "lawRepMobile": "15258117490",
-        "taxEmp": "刘铭",
-        "taxEmpMobile": "15258117490",
-        "fanAdmin": "刘铭",
-        "fanAdminMobile": "15258117490"
+        "lawRepMob": "15258117490",
+        "taxer": "刘铭",
+        "taxerMob": "15258117490",
+        "admin": "刘铭",
+        "adminMob": "15258117490"
     }
 ]
