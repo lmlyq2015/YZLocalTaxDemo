@@ -9,8 +9,6 @@ public class Message {
 	private String sign;
 	private String sendDate;
 	private List<NotificationVo> voList;
-	private String status;
-	private String resultMsg;
 	private String sendBy;
 	public int getId() {
 		return id;
@@ -41,18 +39,6 @@ public class Message {
 	}
 	public void setVoList(List<NotificationVo> voList) {
 		this.voList = voList;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	public String getResultMsg() {
-		return resultMsg;
-	}
-	public void setResultMsg(String resultMsg) {
-		this.resultMsg = resultMsg;
 	}
 	public String getSendBy() {
 		return sendBy;

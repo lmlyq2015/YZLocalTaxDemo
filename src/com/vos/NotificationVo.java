@@ -10,6 +10,20 @@ public class NotificationVo {
 	private String taxerMob;
 	private String admin;
 	private String adminMob;
+	private String status;
+	private String resultMsg;
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getResultMsg() {
+		return resultMsg;
+	}
+	public void setResultMsg(String resultMsg) {
+		this.resultMsg = resultMsg;
+	}
 	public String getTaxNo() {
 		return taxNo;
 	}
