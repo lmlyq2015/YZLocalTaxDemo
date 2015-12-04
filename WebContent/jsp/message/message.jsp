@@ -119,16 +119,19 @@ $(function() {
 				type : "POST",
 				dataType : "json",
 				data : 'data=' + formStr + "=" + data,
-				success : function(result) {
-					alert(result);
+				success : function(r) {
+					$.messager.alert('操作提示', r.msg,r.result);
+					$('#content').val('');
+					$('#enterpriceDg').datagrid('unselectAll');
 				},
 				error : function() {
-					
+					$.messager.alert('操作提示', "服务器出错","error");
 				}
 			});
 		}
 		
 	});
+	$('#sendDate').datebox('setValue', formatterDate(new Date()));
 
 });
 var sy = $.extend({}, sy);
@@ -143,6 +146,12 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
     });
     return o;
 };
+ function formatterDate(date) {
+	var day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+	var month = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0"
+	+ (date.getMonth() + 1);
+	return date.getFullYear() + '-' + month + '-' + day;
+	};
 </script>
 <body class="easyui-layout">
 

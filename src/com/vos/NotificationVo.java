@@ -12,6 +12,13 @@ public class NotificationVo {
 	private String adminMob;
 	private String status;
 	private String resultMsg;
+	private String address;
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	public String getStatus() {
 		return status;
 	}

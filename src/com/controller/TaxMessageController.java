@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.service.MessageService;
+import com.util.TaxUtil;
+import com.vos.JsonResult;
 import com.vos.Message;
 import com.vos.NotificationVo;
 
@@ -44,16 +47,33 @@ public class TaxMessageController {
 			String msgData = arrData[0];
 			String taxEntArr = arrData[1];
 			JSONObject object = JSONObject.fromObject(msgData);
-			Message vo = (Message) object.toBean(JSONObject.fromObject(msgData), Message.class);
+			Message msg = (Message) object.toBean(JSONObject.fromObject(msgData), Message.class);
 			JSONArray json = JSONArray.fromObject(taxEntArr);
 			List <NotificationVo> list  = json.toList(json, NotificationVo.class);
-			pw.print(vo.toString() + list.toString());
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
+			msg.setVoList(list);
+			int id = messageService.sendNotificationMsg(msg);
+			if (id > 0) {
+				pw.print(messageSuc());
+			} else {
+				pw.print(messageErr());
+			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public String messageSuc() {
+		JsonResult jr = new JsonResult();
+		jr.setResult(TaxUtil.RESULT_INFO);
+		jr.setMsg(TaxUtil.MESSAEG_SEND_SUCCESS);
+		JSONObject json = JSONObject.fromObject(jr);
+		return json.toString();
+	}
+	public String messageErr() {
+		JsonResult jr = new JsonResult();
+		jr.setResult(TaxUtil.RESULT_ERROR);
+		jr.setMsg(TaxUtil.MESSAGE_SEND_FAILED);
+		JSONObject json = JSONObject.fromObject(jr);
+		return json.toString();
 	}
 }

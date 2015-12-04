@@ -10,6 +10,13 @@ public class Message {
 	private String sendDate;
 	private List<NotificationVo> voList;
 	private String sendBy;
+	private String msgType;
+	public String getMsgType() {
+		return msgType;
+	}
+	public void setMsgType(String msgType) {
+		this.msgType = msgType;
+	}
 	public int getId() {
 		return id;
 	}

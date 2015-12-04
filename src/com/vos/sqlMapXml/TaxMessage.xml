@@ -3,5 +3,17 @@
 						"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 						
 <sqlMap>
+	<insert id="saveMsg" parameterClass="com.vos.Message">
+		insert into tax_message(content,type,etdate) values(#content#,#msgType#,str_to_date(now(),'%Y-%m-%d %H:%i:%s'))
+	<selectKey resultClass="java.lang.Integer"  keyProperty="id" >    
+             SELECT last_insert_id() as id
+        </selectKey>  
+	</insert>
 	
+	<insert id="saveMsgResult" parameterClass="java.util.Map">
+		insert into tax_state(taxid,mesid,empid,senddate,state,resultmsg) values (#taxId#,#mesId#,#empId#,str_to_date(#sendDate#,'%Y-%m-%d %H:%i:%s'),#status#,#msg#)
+		<selectKey resultClass="java.lang.Integer"  keyProperty="Id" >    
+             SELECT last_insert_id() as id
+        </selectKey>  
+	</insert>
 </sqlMap>
