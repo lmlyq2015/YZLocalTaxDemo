@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.aop.ThrowsAdvice;
@@ -65,5 +66,24 @@ public class MessageDaoImp implements MessageDao {
 			//throw e;
 		}
 		return id;
+	}
+
+	@Override
+	public List getMessageResultList(int firstRow, int pageSize)
+			throws SQLException {
+		List<Message> list = null;
+		Map<String,Object> map = new HashMap<String,Object>();
+		//int endRow = pageSize+firstRow;
+		map.put("beginRow", firstRow);
+		map.put("pageSize", pageSize);
+		list = sqlMapClient.queryForList("getMessageResultList",map);
+		return list;
+	}
+
+	@Override
+	public int getMessageResultCount() throws SQLException {
+		int count = 0;
+		count = (Integer) sqlMapClient.queryForObject("getMessageResultCount");
+		return count;
 	}
 }

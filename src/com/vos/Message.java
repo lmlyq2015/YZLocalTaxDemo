@@ -11,6 +11,20 @@ public class Message {
 	private List<NotificationVo> voList;
 	private String sendBy;
 	private String msgType;
+	private int successCount;
+	public int getSuccessCount() {
+		return successCount;
+	}
+	public void setSuccessCount(int successCount) {
+		this.successCount = successCount;
+	}
+	public int getFailCount() {
+		return failCount;
+	}
+	public void setFailCount(int failCount) {
+		this.failCount = failCount;
+	}
+	private int failCount;
 	public String getMsgType() {
 		return msgType;
 	}

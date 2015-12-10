@@ -78,4 +78,17 @@ public class MessageServiceImp implements MessageService {
 		}
 		return id;
 	}
+
+	@Override
+	public List getMessageResultList(int firstRow, int pageSize)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.getMessageResultList(firstRow, pageSize);
+	}
+
+	@Override
+	public int getMessageResultCount() throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.getMessageResultCount();
+	}
 }

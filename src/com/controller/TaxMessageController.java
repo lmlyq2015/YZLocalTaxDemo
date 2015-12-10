@@ -5,7 +5,10 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +19,7 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.service.MessageService;
@@ -75,5 +79,30 @@ public class TaxMessageController {
 		jr.setMsg(TaxUtil.MESSAGE_SEND_FAILED);
 		JSONObject json = JSONObject.fromObject(jr);
 		return json.toString();
+	}
+	@RequestMapping("/getMessageResultList")
+	@ResponseBody
+	public Map<String,Object> getMessageResultList(@RequestParam("rows") Integer pageSize,
+			@RequestParam("page") Integer pageNumber) {
+		int count = 0;
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Message> pageList = new ArrayList<Message>();
+		List<Message> totalList = new ArrayList<Message>();
+		int intPageNum=pageNumber==null||pageNumber<=0?1:pageNumber;
+		int intPageSize=pageSize==null||pageSize<=0?2:pageSize;
+		int firstRow = (pageNumber - 1) * pageSize;
+		try{
+			pageList = messageService.getMessageResultList(firstRow, pageSize);
+			
+			count = messageService.getMessageResultCount();
+			map.put("rows", pageList);
+			map.put("total", count);
+			return map;
+		}catch(Exception e) {
+			e.printStackTrace();
+			map.put("error", false);
+			return map;
+		}
+		
 	}
 }
