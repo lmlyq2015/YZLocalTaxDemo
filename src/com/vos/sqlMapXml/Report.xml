@@ -3,5 +3,51 @@
 						"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 						
 <sqlMap>
+	<select id="getAllReport" resultClass="com.vos.Report" parameterClass="java.util.Map">
+	<![CDATA[
+		select b.taxId,b.taxName,b.taxAgentName,b.taxAgentMobile,b.adminName,b.adminMobile,b.rep,b.repMobile,a.year,a.month,a.imposeType from tax_report a,tax_entbasicinfor b
+	]]>
+		<dynamic prepend="WHERE">
+			 <isNotNull prepend="AND" property="taxId">       
+                  (a.taxId = #taxId#)       
+            </isNotNull>
+            <isNotNull prepend="AND" property="taxName">       
+                  (taxName like '%$taxName$%')       
+            </isNotNull>
+             <isNotNull prepend="AND" property="year">       
+                  (year = #year#)       
+            </isNotNull>
+             <isNotNull prepend="AND" property="month">       
+                  (month = #month#)       
+            </isNotNull>
+             <isNotEmpty prepend="AND" property="imposeType">    
+                  (imposeType like '%$imposeType$%')    
+            </isNotEmpty> 
+		</dynamic>		
+	</select>
+	
+	<select id="getReportCount" resultClass="java.lang.Integer" parameterClass="com.vos.ReportSearchVO">
+	<![CDATA[
+		select count(*) from tax_report
+		]]>
+		<dynamic prepend="WHERE"> 
+			 <isNotNull prepend="AND" property="taxId">       
+                  (taxId = #taxId#)       
+            </isNotNull>
+            <isNotNull prepend="AND" property="taxName">       
+                  (taxName like '%$taxName$%')       
+            </isNotNull>
+             <isNotNull prepend="AND" property="year">       
+                  (year = #year#)       
+            </isNotNull>
+             <isNotNull prepend="AND" property="month">       
+                  (month = #month#)       
+            </isNotNull>
+             <isNotEmpty prepend="AND" property="imposeType">    
+                  (imposeType like '%$imposeType$%')    
+            </isNotEmpty> 
+		</dynamic>		
+		
+	</select>
 	
 </sqlMap>

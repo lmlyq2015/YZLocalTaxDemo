@@ -57,7 +57,7 @@
 			<tx:method name="edit*" propagation="REQUIRED" isolation="READ_COMMITTED" />
 			<tx:method name="delete*" propagation="REQUIRED" isolation="READ_COMMITTED" />
 			<tx:method name="send*" propagation="REQUIRED" isolation="READ_COMMITTED" />
-			<tx:method name="*" read-only="true" />
+			<tx:method name="*"  />
 		</tx:attributes>
 	</tx:advice>
 	
@@ -79,6 +79,18 @@
 		<property name="messageDao" ref="messageDao"></property>
 	</bean>
 	<bean id="messageDao" class="com.dao.imp.MessageDaoImp">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="reportService" class="com.service.imp.ReportServiceImp">
+		<property name="reportDao" ref="reportDao"></property>
+	</bean>
+	<bean id="reportDao" class="com.dao.imp.ReportDaoImp">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="poiService" class="com.service.imp.PoiServiceImp">
+		<property name="poiDao" ref="poiDao"></property>
+	</bean>
+	<bean id="poiDao" class="com.dao.imp.PoiDaoImp">
 		<property name="sqlMapClient" ref="sqlMapClient" />
 	</bean>
 	<mvc:default-servlet-handler/>

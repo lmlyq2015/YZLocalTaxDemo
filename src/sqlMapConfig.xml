@@ -8,5 +8,7 @@
 	<settings lazyLoadingEnabled="true" useStatementNamespaces="false" />
 	
 	<!-- 配置sql映射文件 -->
-	<sqlMap resource="com/vos/sqlMapXml/TaxMessage.xml" />
+	<sqlMap resource="com/vos/sqlMapXml/TaxMessage.xml" />	
+	<sqlMap resource="com/vos/sqlMapXml/Report.xml" />
+	<sqlMap resource="com/vos/sqlMapXml/Poi.xml" />
 </sqlMapConfig>	

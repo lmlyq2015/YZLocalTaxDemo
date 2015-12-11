@@ -17,16 +17,20 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.service.MessageService;
+import com.service.ReportService;
 import com.util.TaxUtil;
 import com.vos.JsonResult;
 import com.vos.Message;
 import com.vos.NotificationVo;
+import com.vos.Report;
+import com.vos.ReportSearchVO;
 
 @Controller
 @SessionAttributes
@@ -103,6 +107,35 @@ public class TaxMessageController {
 			map.put("error", false);
 			return map;
 		}
+		
+	}
+	
+	@Resource(name = "reportService")
+	private ReportService reportService;
+
+	public ReportService getReportService() {
+		return reportService;
+	}
+	@RequestMapping("/getAllReport")
+	@ResponseBody
+	public Map<String, Object> getAllReport(@RequestParam("rows") Integer pageSize,@RequestParam("page") Integer pageNumber,HttpServletResponse response,@ModelAttribute ReportSearchVO reportSearchVO) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Report> pageList = new ArrayList<Report>();
+		int intPageNum=pageNumber==null||pageNumber<=0?1:pageNumber;
+		int intPageSize=pageSize==null||pageSize<=0?10:pageSize;
+		int firstRow = (pageNumber - 1) * pageSize;
+		try {
+			pageList = reportService.getAllReport(firstRow, pageSize,reportSearchVO);
+			int count = reportService.getReportCount(reportSearchVO);
+			map.put("rows", pageList);
+			map.put("total", count);
+			return map;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			map.put("error", false);
+		}
+		return null;
 		
 	}
 }
