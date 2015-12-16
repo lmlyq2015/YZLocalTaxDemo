@@ -3,7 +3,10 @@ package com.service.imp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -72,7 +75,7 @@ public class PoiServiceImp implements PoiService {
 	}
 
 	@Override
-	public List<Report> readReport(InputStream inp) throws SQLException {
+	public List<Report> readReport(InputStream inp) throws SQLException, ParseException {
 		// TODO Auto-generated method stub
 		List<Report> reportList = new ArrayList<Report>();
 
@@ -96,15 +99,16 @@ public class PoiServiceImp implements PoiService {
 					continue;
 				}
 
-				for (int j = 0; j < row.getLastCellNum(); j++) {
+				int[] cellInt = {0,1,20,17,18,21,22,23,24,25,26,27};
+				for (int j = 0; j < cellInt.length; j++) {
 
-					Cell cell = row.getCell(j); // 获得单元格(cell)对象
-
+					Cell cell = row.getCell(cellInt[j]); // 获得单元格(cell)对象
+					
 					// 转换接收的单元格
 					cellStr = ConvertCellStr(cell, cellStr);
-
+					
 					// 将单元格的数据添加至一个对象
-					addReport = addingReport(j, report, cellStr);
+					addReport = addingReport(cellInt[j], report, cellStr);
 
 				}
 				// 将添加数据后的对象填充至list中
@@ -143,8 +147,9 @@ public class PoiServiceImp implements PoiService {
 
 	@Override
 	public Report addingReport(int j, Report report, String cellStr)
-			throws SQLException {
+			throws SQLException, ParseException {
 		// TODO Auto-generated method stub
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		switch (j) {
 		case 0:
 			report.setId(null);
@@ -152,24 +157,35 @@ public class PoiServiceImp implements PoiService {
 		case 1:
 			report.setTaxId(cellStr);
 			break;
-		case 2:
+		case 20:
 			report.setImposeType(cellStr);
 			break;
-		case 3:
+		case 17:
 			report.setYear(cellStr);
 			break;
-		case 4:
+		case 18:
 			report.setMonth(cellStr);
 			break;
-		case 5:
+		case 21:
 			report.setPeriod(cellStr);
 			break;
-		
-		case 9:
+		case 22:
+			report.setStartTime(sdf.parse(cellStr));
+			break;
+		case 23:
+			report.setEndTime(sdf.parse(cellStr));
+			break;
+		case 24:
+			report.setDeclareDate(sdf.parse(cellStr));
+			break;
+		case 25:
 			report.setDeadLine(cellStr);
 			break;
-		case 10:
+		case 26:
 			report.setDeclareWay(cellStr);
+			break;
+		case 27:
+			report.setEntryDate(sdf.parse(cellStr));
 			break;
 		
 		}
@@ -214,4 +230,5 @@ public class PoiServiceImp implements PoiService {
 		}
 		return cellStr;
 	}
+	
 }

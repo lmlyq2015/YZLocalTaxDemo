@@ -36,12 +36,6 @@ public class ReportServiceImp implements ReportService {
 		return reportDao.getReportCount(reportSearchVO);
 	}
 
-	@Override
-	public int batchImport(String name, MultipartFile file) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	
 
 	

@@ -1,7 +1,7 @@
 package com.vos;
 
 public class ReportSearchVO {
-	private int taxId;
+	private String taxId;
 	private String taxName;
 	private String taxAgentName;
 	private String taxAgentMobile;
@@ -12,10 +12,10 @@ public class ReportSearchVO {
 	private String year;
 	private String month;
 	private String imposeType;
-	public int getTaxId() {
+	public String getTaxId() {
 		return taxId;
 	}
-	public void setTaxId(int taxId) {
+	public void setTaxId(String taxId) {
 		this.taxId = taxId;
 	}
 	public String getTaxName() {
@@ -30,7 +30,6 @@ public class ReportSearchVO {
 	public void setTaxAgentName(String taxAgentName) {
 		this.taxAgentName = taxAgentName;
 	}
-
 	public String getTaxAgentMobile() {
 		return taxAgentMobile;
 	}

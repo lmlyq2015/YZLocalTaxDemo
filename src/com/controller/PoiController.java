@@ -1,11 +1,15 @@
 package com.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.service.PoiService;
+import com.vos.JsonResult;
 import com.vos.Report;
 
 @Controller  
@@ -54,18 +59,30 @@ public class PoiController {
 	    /** 
 	     * 读取excel报表 
 	     * @throws SQLException 
+	     * @throws ParseException 
 	     */  
 	    @RequestMapping(value = "/read", method = RequestMethod.POST)  
 	    
-	    public String getReadReport(@RequestParam MultipartFile file)  
-	            throws IOException, SQLException {  
+	    public void getReadReport(@RequestParam MultipartFile file,HttpServletResponse response)  
+	            throws IOException, SQLException, ParseException {  
 	    	
 	        List<Report> list = poiService.readReport(file.getInputStream());  
-	        poiService.insertReport(list);  
-	        
-	        
-	        
-	        return "message/addedReport";  
+	         
+	        PrintWriter pw = null;
+			try {
+				pw = response.getWriter();
+				poiService.insertReport(list);
+				JsonResult jr = new JsonResult();
+				jr.setMsg("导入成功");
+				JSONObject json = JSONObject.fromObject(jr);
+				pw.print(json.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+				JsonResult jr = new JsonResult();
+				jr.setMsg("导入失败");
+				JSONObject json = JSONObject.fromObject(jr);
+				pw.print(json.toString());
+			}  
 	  
 	    }  
 }

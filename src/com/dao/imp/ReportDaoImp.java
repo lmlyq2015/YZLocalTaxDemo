@@ -63,9 +63,5 @@ public class ReportDaoImp implements ReportDao {
 		return (Integer) sqlMapClient.queryForObject("getReportCount",reportSearchVO);
 	}
 
-	@Override
-	public int batchImport(String name, MultipartFile file) throws SQLException {
-		// TODO Auto-generated method stub
-		return (Integer) sqlMapClient.queryForObject("batchimport", name, file);
-	}
+	
 }

@@ -3,9 +3,9 @@
 						"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 						
 <sqlMap>
-	<select id="getAllReport" resultClass="com.vos.Report" parameterClass="java.util.Map">
+	<select id="getAllReport" resultClass="com.vos.ReportSearchVO" parameterClass="java.util.Map">
 	<![CDATA[
-		select b.taxId,b.taxName,b.taxAgentName,b.taxAgentMobile,b.adminName,b.adminMobile,b.rep,b.repMobile,a.year,a.month,a.imposeType from tax_report a,tax_entbasicinfor b
+		select a.taxId,b.taxName,b.taxAgentName,b.taxAgentMobile,b.adminName,b.adminMobile,b.rep,b.repMobile,a.year,a.month,a.imposeType from tax_report a,tax_entbasicinfor b where a.taxId=b.taxId
 	]]>
 		<dynamic prepend="WHERE">
 			 <isNotNull prepend="AND" property="taxId">       
@@ -23,7 +23,8 @@
              <isNotEmpty prepend="AND" property="imposeType">    
                   (imposeType like '%$imposeType$%')    
             </isNotEmpty> 
-		</dynamic>		
+		</dynamic>
+		limit #firstRow#,#pageSize#		
 	</select>
 	
 	<select id="getReportCount" resultClass="java.lang.Integer" parameterClass="com.vos.ReportSearchVO">

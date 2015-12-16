@@ -15,6 +15,5 @@ public interface ReportService {
 
 	public int getReportCount(ReportSearchVO reportSearchVO) throws SQLException;
 
-	public int batchImport(String name, MultipartFile file) throws SQLException;
 
 }

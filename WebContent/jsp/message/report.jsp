@@ -23,80 +23,90 @@
 							url : '<%=basePath%>getAllReport', //请求方法的地址
 			title : '催报信息',
 			nowrap : false,
-			fitColumns : false,
-			pagination : true,
 			fit : true,
-			pageSize : 3,
-			pageList : [ 3, 5, 10 ],
+			fitColumns : true,
+			pagination : true,
+			pageSize : 50,
+			pageList : [ 10, 50, 100 ],
 			rownumbers : true,
+			showFooter: true,
+			remoteSort: false,
 			singleSelect : false,
 			iconCls : '',
 			idField : 'id',
 			columns : [ [ {
+				field:'check',
+				checkbox:true
+			},{
 				title : '纳税人识别号',
 				field : 'taxId',
-				editor : 'text',
-				align : 'center',
 				width : 100
 			}, {
 				title : '纳税人名称',
 				field : 'taxName',
-				editor : 'text',
-				align : 'center',
 				width : 100
 			}, {
 				title : '办税员名称',
 				field : 'taxAgentName',
-				editor : 'text',
-				align : 'center',
 				width : 100
 			}, {
 				title : '办税员号码',
 				field : 'taxAgentMobile',
-				editor : 'text',
-				align : 'center',
 				width : 100
 			}, {
 				title : '财务负责人名称',
 				field : 'adminName',
-				editor : 'text',
-				align : 'center',
 				width : 100
 			}, {
 				title : '财务负责人号码',
 				field : 'adminMobile',
-				align : 'center',
 				width : 100
 			}, {
 				title : '法人名称',
 				field : 'rep',
-				align : 'center',
 				width : 100
 			}, {
 				title : '法人号码',
 				field : 'repMobile',
-				align : 'center',
 				width : 100
 			}, {
 				title : '申报年',
 				field : 'year',
-				align : 'center',
 				width : 100
 			}, {
 				title : '申报月',
 				field : 'month',
-				align : 'center',
 				width : 100
 			}, {
 				title : '征收项目',
 				field : 'imposeType',
-				align : 'center',
 				width : 100
 			} ] ],
 			toolbar : '#reportSearch'
-
 		});
-
+		
+		$('#readReportForm').form({
+			url : '<%=basePath%>report/read',
+			onSubmit: function(){
+				return $('#readReportForm').form('validate');
+			},
+			success : function(data) {
+				 var res = jQuery.parseJSON(data);
+					if (res) {
+					$.messager.alert('操作提示', res.msg);
+					$('#dg').datagrid('load');
+					$('#file').val('');
+				}
+					else{
+						$.messager.alert('操作提示', res.msg);
+						$('#file').val('');
+					}
+			}
+			
+		});
+			$('#formBtn').click(function(){	
+				$('#readReportForm').form('submit');
+		});
 	});
 
 	var sy = $.extend({}, sy);
@@ -115,7 +125,7 @@
 	function searchReport() {
 		var data1 = sy.serializeObject($('#reportTable').form());
 		var data = encodeURI(JSON.stringify(data1), "UTF-8");
-		$('#dg').datagrid('load', data1);
+		$('#dg').datagrid('load', data);
 	}
 
 	function clearSearch() {
@@ -123,29 +133,21 @@
 		$('#reportTable').form("clear");
 	}
 
-	  function check() {  
-		     var excel_file = $('#excel_file').val();  
-		     if (excel_file == "" || excel_file.length == 0) {  
-		         alert("请选择文件路径！");  
-		         return false;  
-		     } else {  
-		        return true;  
-		    }  
-		} 
+
 </script>
 
-<body class="easyui-layout" fit="true">
-	<div region="center">
+<body class="easyui-layout">
+	<div region="center" fit="true">
 		<table id="dg" class="easyui-datagrid"
 			style="width: 100%; height: 100%"></table>
 		<div id="reportSearch" style="height: 60px;">
-			<form name="readReportForm" method="post" action="<%=basePath%>/report/read"
+			<form name="readReportForm" method="post"
 				enctype="multipart/form-data" id="readReportForm">
 				<table id="reportTable" style="width: 400px; height: 100%">
 					<tr>
 						<th>选择文件:</th>
 						<td><input id="file" type="file" name="file" />
-							<button type="submit">导入</button></td>
+							<button id="formBtn" type="submit">导入</button></td>
 					</tr>
 				</table>
 			</form>

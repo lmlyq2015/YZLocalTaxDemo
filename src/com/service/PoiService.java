@@ -3,7 +3,9 @@ package com.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -36,8 +38,9 @@ public interface PoiService {
     
     /** 
      * 读取报表 
+     * @throws ParseException 
      */  
-    public List<Report> readReport(InputStream inp) throws SQLException;
+    public List<Report> readReport(InputStream inp) throws SQLException, ParseException;
   
     /** 
      * 从数据库获得所有的Report信息. 
@@ -61,8 +64,9 @@ public interface PoiService {
      * @param cellStr 
      *            单元格数据 
      * @return 
+     * @throws ParseException 
      */  
-    public Report addingReport(int j, Report report, String cellStr) throws SQLException;
+    public Report addingReport(int j, Report report, String cellStr) throws SQLException, ParseException;
     
     /** 
      * 把单元格内的类型转换至String类型 
