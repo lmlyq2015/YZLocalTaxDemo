@@ -11,20 +11,32 @@
 	</insert>
 	
 	<insert id="saveMsgResult" parameterClass="java.util.Map">
-		insert into tax_state(taxid,mesid,empid,senddate,state,resultmsg) values (#taxId#,#mesId#,#empId#,str_to_date(#sendDate#,'%Y-%m-%d %H:%i:%s'),#status#,#msg#)
+		insert into tax_state(taxid,mesid,empid,senddate,state,resultmsg,RecId) values (#taxId#,#mesId#,#empId#,str_to_date(#sendDate#,'%Y-%m-%d %H:%i:%s'),#status#,#msg#,#receiver#)
 		<selectKey resultClass="java.lang.Integer"  keyProperty="Id" >    
              SELECT last_insert_id() as id
         </selectKey>  
 	</insert>
 	<select id="getMessageResultList" resultClass="com.vos.Message" parameterClass="java.util.Map">
 		<![CDATA[
-			select m.mesId as Id,m.Content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '0' then 1 else 0 end) as failCount,s.SendDate as sendDate,e.Name as sendBy from tax_state s,tax_employees e,tax_message m 
+			select m.mesId as Id,m.content as content,m.Content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,s.SendDate as sendDate,e.loginname as sendBy 
+							from tax_state s,tax_employees e,tax_message m 
 										where s.EmpId=e.EmpId and s.MesId = m.MesId  group by m.MesId limit #beginRow#,#pageSize#
 		]]>
 	</select>
 		<select id="getMessageResultCount" resultClass="java.lang.Integer">
 		<![CDATA[
-			select count(*) from tax_state;
+					select count(*) from (select m.mesId as Id,m.Content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,s.SendDate as sendDate,e.loginname as sendBy 
+										from tax_state s,tax_employees e,tax_message m 
+												where s.EmpId=e.EmpId and s.MesId = m.MesId  group by m.MesId) a
 		]]>
 	</select>
+	<select id="getFailMsgStateList" resultClass="com.vos.NotificationVo" parameterClass="java.util.Map">
+		<![CDATA[
+		select s.TaxId as taxNo, b.TaxName as taxName,s.State as status,s.ResultMsg as resultMsg,case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver,b.TaxAgentMobile as taxerMob,b.AdminMobile as adminMob,b.RepMobile as lawRepMob 
+								from tax_state s,tax_entbasicinfor b where s.TaxId = b.TaxId and s.MesId = #msgId# and s.State < 0 limit #beginRow#,#pageSize#
+		]]>
+	</select>
+	<update id="updateMsgResult" parameterClass="java.util.Map">
+		update tax_state set state = #status#,senddate = #sendDate#,resultMsg = #msg#,empid = #empId#,recid = #receiver# where mesid = #mesId# and state = #errCode#
+	</update>
 </sqlMap>

@@ -15,4 +15,8 @@ public interface MessageDao {
 	public List getMessageResultList(int firstRow, int pageSize) throws SQLException;
 
 	public int getMessageResultCount() throws SQLException;
+	
+	public List<NotificationVo> getFailMsgStateList(int firstRow, int pageSize, int msgId) throws SQLException;
+	
+	public int updateMsgResult(int msgKey,NotificationVo vo,String sendDate,String oldErrCode) throws SQLException;
 }

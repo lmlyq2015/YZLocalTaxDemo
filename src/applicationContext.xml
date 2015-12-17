@@ -56,7 +56,7 @@
 			<tx:method name="add*" propagation="REQUIRED" isolation="READ_COMMITTED" />
 			<tx:method name="edit*" propagation="REQUIRED" isolation="READ_COMMITTED" />
 			<tx:method name="delete*" propagation="REQUIRED" isolation="READ_COMMITTED" />
-			<tx:method name="send*" propagation="REQUIRED" isolation="READ_COMMITTED" />
+			<tx:method name="send*" propagation="REQUIRED" isolation="READ_COMMITTED" rollback-for="Exception,SQLException"/>
 			<tx:method name="*"  />
 		</tx:attributes>
 	</tx:advice>

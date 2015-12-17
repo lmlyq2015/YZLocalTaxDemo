@@ -138,4 +138,50 @@ public class TaxMessageController {
 		return null;
 		
 	}
+	@RequestMapping("/getFailMsgState")
+	@ResponseBody
+	public Map<String,Object> getFailMsgState(@RequestParam("msgId") int msgId,@RequestParam("rows") Integer pageSize,@RequestParam("page") Integer pageNumber,
+												HttpServletResponse response,@RequestParam("failCount") int failCount){
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<NotificationVo> pageList = new ArrayList<NotificationVo>();
+		int intPageNum=pageNumber==null||pageNumber<=0?1:pageNumber;
+		int intPageSize=pageSize==null||pageSize<=0?10:pageSize;
+		int firstRow = (pageNumber - 1) * pageSize;
+		try {
+			pageList = messageService.getFailMsgStateList(firstRow, pageSize, msgId);			
+			map.put("rows", pageList);
+			map.put("total", failCount);
+			return map;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			map.put("error", false);
+		}
+		return null;
+	}
+	@RequestMapping("/reSendMsg")
+	public void reSendMsg(@RequestParam("data") String data,HttpServletResponse response) {
+		String str;
+		PrintWriter pw= null;
+		try {
+			pw = response.getWriter();
+			str = URLDecoder.decode(data,"UTF-8");
+			String[]arrData = str.split("=");
+			String msgData = arrData[0];
+			String recData = arrData[1];
+			JSONObject object = JSONObject.fromObject(msgData);
+			Message msg = (Message) object.toBean(JSONObject.fromObject(msgData), Message.class);
+			NotificationVo rec = (NotificationVo)object.toBean(JSONObject.fromObject(recData), NotificationVo.class);
+			messageService.reSendMsg(msg, rec);
+			pw.print(messageSuc());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		
+	}
 }

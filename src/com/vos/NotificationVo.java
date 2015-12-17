@@ -13,6 +13,13 @@ public class NotificationVo {
 	private String status;
 	private String resultMsg;
 	private String address;
+	private String receiver;
+	public String getReceiver() {
+		return receiver;
+	}
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
 	public String getAddress() {
 		return address;
 	}

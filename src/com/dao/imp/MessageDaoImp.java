@@ -31,7 +31,7 @@ public class MessageDaoImp implements MessageDao {
 	public int saveMessage(Message msg) throws SQLException {
 		int key = 0;
 		try{
-			msg.setContent(msg.getContent() + msg.getSign());
+			msg.setContent(msg.getContent() + " " + msg.getSign());
 			msg.setMsgType(TaxUtil.MESSAGE_NOTIFICATION_MESSAGE_TYPE);		
 			key = (Integer) sqlMapClient.insert("saveMsg",msg);
 		}catch(SQLException e) {
@@ -53,6 +53,7 @@ public class MessageDaoImp implements MessageDao {
 			map.put("status", vo.getStatus());
 			map.put("msg", vo.getResultMsg());
 			map.put("empId", "admin");
+			map.put("receiver", vo.getReceiver());
 			if (sendDate == null || sendDate.equals("")) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				sendDate = sdf.format(new Date()).toString();
@@ -85,5 +86,40 @@ public class MessageDaoImp implements MessageDao {
 		int count = 0;
 		count = (Integer) sqlMapClient.queryForObject("getMessageResultCount");
 		return count;
+	}
+
+	@Override
+	public List<NotificationVo> getFailMsgStateList(int firstRow, int pageSize,
+			int msgId) throws SQLException {
+		List<NotificationVo> list = null;
+		Map<String,Object> map = new HashMap<String,Object>();
+		//int endRow = pageSize+firstRow;
+		map.put("beginRow", firstRow);
+		map.put("pageSize", pageSize);
+		map.put("msgId",msgId);
+		list = sqlMapClient.queryForList("getFailMsgStateList",map);
+		return list;
+	}
+
+	@Override
+	public int updateMsgResult(int msgKey, NotificationVo vo, String sendDate,String oldErrCode)
+			throws SQLException {
+		int id = 0;
+		try{
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("mesId", msgKey);
+			map.put("errCode", oldErrCode);
+			map.put("status", vo.getStatus());
+			map.put("msg", vo.getResultMsg());
+			map.put("empId", "admin");
+			map.put("receiver", vo.getReceiver());
+			map.put("sendDate", sendDate);
+			id = sqlMapClient.update("updateMsgResult",map);
+			return id;
+		}catch(SQLException e){
+			e.printStackTrace();
+			throw e;
+		}
+		//return id;
 	}
 }

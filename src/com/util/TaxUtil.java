@@ -71,6 +71,10 @@ public class TaxUtil {
 	public final static String MESSAGE_STATUS_BALANCE_ISSUE_MSG = "八信账号余额不足";
 	
 	public final static String MESSAGE_STATUS_UNKNOW_MSG = "未知错误";
+	
+	public final static String MESSAGE_RECEVIER_TAXER = "1";
+	public final static String MESSAGE_RECEVIER_ADMIN = "2";
+	public final static String MESSAGE_RECEVIER_LAWER = "3";
 	public static String sendMessage(String content,String mobile,String plantime) {
 		String result = null;
 		try {
@@ -151,23 +155,28 @@ public class TaxUtil {
 		System.out.println(mr);
 	}
 	public static MessageResult parseResult(String result) {
-		MessageResult mr = new MessageResult();
-		String[] arr = result.split("&");
-		for (int i = 0; i<arr.length; i++) {
-			if (arr[i].contains("errid=")) {
-				String [] msg = arr[i].split("=");
-				mr.setErrid(msg[1]);
-			} else if (arr[i].contains("msgid=")) {
-				String [] msg = arr[i].split("=");
-				mr.setMsgid(msg[1]);
-			} else if (arr[i].contains("fails=")) {
-				String [] msg = arr[i].split("=");
-				if (msg.length == 2) {
-					mr.setFails(msg[1]);
-				}				
+		try {
+			MessageResult mr = new MessageResult();
+			String[] arr = result.split("&");
+			for (int i = 0; i < arr.length; i++) {
+				if (arr[i].contains("errid=")) {
+					String[] msg = arr[i].split("=");
+					mr.setErrid(msg[1]);
+				} else if (arr[i].contains("msgid=")) {
+					String[] msg = arr[i].split("=");
+					mr.setMsgid(msg[1]);
+				} else if (arr[i].contains("fails=")) {
+					String[] msg = arr[i].split("=");
+					if (msg.length == 2) {
+						mr.setFails(msg[1]);
+					}
+				}
 			}
+			return mr;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return mr;
+		return null;
 		
 	}
 }

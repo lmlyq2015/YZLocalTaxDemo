@@ -16,9 +16,9 @@ $(function(){
 		url:'<%=basePath%>getMessageResultList',
 		title:'搜索',
 		pagination : true,
-		pageSize:20,
+		pageSize:10,
 		nowrap : false,
-		pageList:[20,30,40],
+		pageList:[10,20,30],
 		iconCls:'icon-reload',
 		rownumbers: true,
 		singleSelect:true,
@@ -38,18 +38,18 @@ $(function(){
 			{
 				title:'消息编号',
 				field:'id',
-				width:10	
+				width:100	
 				
 			},
 			{
 				title:'消息内容',
 				field:'content',
-				width:15
+				width:200
 			},
 			{
 				title:'发送时间',
 				field:'sendDate',
-				width:15,
+				width:100,
 				editor: {//设置其为可编辑
 					type: 'datebox',//设置编辑格式
 					options: {
@@ -60,15 +60,15 @@ $(function(){
 			{
 				title:'成功数',
 				field:'successCount',
-				width:15
+				width:100
 			},
 			{
 				title:'失败数',
 				field:'failCount',
-				width:5,
+				width:100,
 				formatter: function (value, rec, rowIndex) {
 					if (value > 0) {
-						return "<a style='color: red;' onclick='openFailureWin();'>"+value+"</a>";
+						return "<a href='javascript:void(0);' class='easyui-linkbutton' style='color: red;' onclick='openFailureWin();'>"+value+"</a>";
 					} else {
 						return value;
 					}
@@ -78,14 +78,22 @@ $(function(){
 			{
 				title:'发送人',
 				field:'sendBy',
-				width:7
+				width:100
 			},
 			{
-				title:'消息类型',
-				field:'msgType',
-				width:7
+				title:'状态',
+				field:'operate',
+				width:100,
+				formatter: function (value, rec, rowIndex) {
+					if (rec.failCount > 0) {
+						return "<a href='javascript:void(0);' class='easyui-linkbutton' style='color: red;' id='resendBtn' onclick='reSendMsg()'>全部重新发送</a>";
+					} else {
+						return "成功";
+					}
+				}
 			}
-		]]
+		]],
+		toolbar:'#resultToolbar'
 
 	});	
 
@@ -94,18 +102,23 @@ $(function(){
 	
 	
 	
-	updateDeviceWin();
+	initFailMsgWin();
+	
+	$('#clearBtn').click(function(){
+		
+		$('#searchForm').form('clear');
+	});
 	
 });
 
 
 function openFailureWin(row) {
-	$('#updateDeviceWin').window('open');
-	
+	$('#failMsgWin').window('open');
+ 	$('#failMsgWin').window('refresh','<%=basePath%>window/failureWin.jsp');
 }
-function updateDeviceWin() {
-	$('#updateDeviceWin').window({
-		title : '设备运行参数',
+function initFailMsgWin() {
+	$('#failMsgWin').window({
+		title : '详细信息',
 		width : 800,
 		modal : true,
 		shadow : true,
@@ -117,26 +130,62 @@ function updateDeviceWin() {
 		}
 	});
 }
-
+function reSendMsg() {
+	alert('123');
+}
 
 </script>
-<body class="easyui-layout" fit="true">
+<body class="easyui-layout" style="width:100%;height:100%;">
       
-      <div region="center"  title="发送状态列表" fit="true">
-      		<table id="resultDg">
+      <div region="center"  title="发送状态列表">
+      		<table id="resultDg" fit="true">
       		
       		</table>
      
 
-  	  </div> 
-     <div id="updateDeviceWin" class="easyui-window" title="修改设备参数" collapsible="false" minimizable="false"
-        maximizable="false" icon="icon-save"  style="width: 300px; height: 150px; padding: 5px;
+  	  </div>
+     <div id="failMsgWin" class="easyui-window"
+         icon="icon-save"  style="width: 300px; height: 150px; padding: 5px;
         background: #fafafa;">
-        <div class="easyui-layout" fit="true">
-            <div region="center" border="false" style="padding: 10px; background: #fff; border: 1px solid #ccc;">
-                 
+        <div class="easyui-layout" fit="true" border="faslse">
+            <div region="center" border="false" fit="true">
+                  <table id="failMsgDg" fit="true">
+ 
+ 				  </table>
             </div>
         </div>
+    </div>
+    <div id="resultToolbar" fit="true"> 
+    	<form id="searchForm">
+    	    <table>
+    			<tr>
+    				<th>消息内容:</th>
+    				<td><input id="content" class="easyui-validatebox"  name="content"></td>
+    				<th>
+		  			发送时间:
+		  			</th>
+		  			<td>
+		  			<input id="sendDate" class="easyui-datebox"  name="sendDate" editable="false"> - <input id="sendDateEnd" class="easyui-datebox"  name="sendDateEnd" editable="false"> 
+		  			</td>
+		  			<th>发送结果:</th>
+		  			<td><select id="status" class="easyui-combobox"  name="status">
+		  				<option value="none">--请选择--</option>
+		  				<option value="failure">失败</option>
+		  				<option value="success">成功</option>
+		  			</select></td>
+		  			<th>发送人:</th>
+		  			<td><input id="sendBy" class="easyui-validatebox"  name="sendBy"></td>
+    				<td>
+		  			<a id="searchBtn"class="easyui-linkbutton" href="javascript:void(0)" icon="icon-search">搜索</a>
+		  			</td>
+		  			<td>
+		  			<a id="clearBtn"class="easyui-linkbutton" href="javascript:void(0)" icon="icon-cancel">清除</a>
+		  			</td>
+    			</tr>
+    		
+    		</table>
+    	
+    	</form>   
     </div>
 </body>
 </html>
