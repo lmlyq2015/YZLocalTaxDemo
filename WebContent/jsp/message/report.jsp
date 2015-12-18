@@ -21,9 +21,9 @@
 						{
 							loadMsg : '数据加载中请稍后',
 							url : '<%=basePath%>getAllReport', //请求方法的地址
-			title : '催报信息',
+			//title : '导入搜索',
 			nowrap : false,
-			fit : true,
+			//fit : true,
 			fitColumns : true,
 			pagination : true,
 			pageSize : 50,
@@ -33,14 +33,13 @@
 			remoteSort: false,
 			singleSelect : false,
 			iconCls : '',
-			idField : 'id',
 			columns : [ [ {
 				field:'check',
 				checkbox:true
 			},{
 				title : '纳税人识别号',
 				field : 'taxId',
-				width : 100
+				width : 50
 			}, {
 				title : '纳税人名称',
 				field : 'taxName',
@@ -48,42 +47,57 @@
 			}, {
 				title : '办税员名称',
 				field : 'taxAgentName',
-				width : 100
+				width : 30
 			}, {
 				title : '办税员号码',
 				field : 'taxAgentMobile',
-				width : 100
+				width : 50
 			}, {
 				title : '财务负责人名称',
 				field : 'adminName',
-				width : 100
+				width : 30
 			}, {
 				title : '财务负责人号码',
 				field : 'adminMobile',
-				width : 100
+				width : 50
 			}, {
 				title : '法人名称',
 				field : 'rep',
-				width : 100
+				width : 30
 			}, {
 				title : '法人号码',
 				field : 'repMobile',
-				width : 100
+				width : 50
 			}, {
 				title : '申报年',
 				field : 'year',
-				width : 100
+				width : 20
 			}, {
 				title : '申报月',
 				field : 'month',
-				width : 100
+				width : 20
 			}, {
 				title : '征收项目',
 				field : 'imposeType',
-				width : 100
+				width : 100,
+// 				editor: {
+//                      type: 'combobox',
+//                      options: {
+//                          required: true,
+//                          editable:false,
+//                           missingMessage: '请选择',
+<%--                           url: '<%=basePath%>getImposeTypeList',                         --%>
+//                          valueField: 'imposeType',
+//                          textField: 'imposeType',
+//                          panelHeight: 'auto'
+//                      }
+//                  }
 			} ] ],
 			toolbar : '#reportSearch'
 		});
+
+
+		
 		
 		$('#readReportForm').form({
 			url : '<%=basePath%>report/read',
@@ -107,6 +121,73 @@
 			$('#formBtn').click(function(){	
 				$('#readReportForm').form('submit');
 		});
+			
+			
+			$('#ReportMsgSend').click(function(){
+				//var content = $('#content').val();
+				var sign = $('#sign').val();
+// 				if (content == null || content == "") {
+// 					$.messager.alert('操作提示', "请输入消息内容","info");
+// 					return;
+// 				}
+				if (sign == null || sign == "") {
+					$.messager.alert('操作提示', "请输入消息签名","info");
+					return;
+				}
+				var rows = $('#dg').datagrid('getSelections');
+				if (rows.length == 0) {
+					$.messager.alert('操作提示', "请选择发送对象","info");
+					return;
+				} else {
+					var formObj = sy.serializeObject($("#msgForm").form());
+					var formStr = encodeURI(JSON.stringify(formObj),"UTF-8");
+					var data = encodeURI(JSON.stringify(rows),"UTF-8");
+					$.ajax({
+						url : '<%=basePath%>sendReportMsg',
+						type : "POST",
+						dataType : "json",
+						data : 'data=' + formStr + "=" + data,
+						success : function(r) {
+							$.messager.alert('操作提示', r.msg,r.result);
+							//$('#content').val('');
+							$('#dg').datagrid('unselectAll');
+						},
+						error : function() {
+							$.messager.alert('操作提示', "服务器出错","error");
+						}
+					});
+				}
+				
+			});
+			$('#sendDate').datebox('setValue', formatterDate(new Date()));
+			
+			
+// 			$('#sendReport').click(function()){
+// 				var rows = $('#dg').datagrid('getSelected');
+// 				if(rows.length == 0){
+// 					$.messager.alert('操作提示', "请选择发送对象","info");
+// 				}else{
+//  				var formObj = sy.serializeObject($('#sendReportMessage').form());
+//  		   	 	var formStr = encodeURI(JSON.stringify(formObj),"UTF-8");
+// 		   	    var data = encodeURI(JSON.stringify(rows),"UTF-8");
+// 				  if (row) {
+// 		          	$.ajax({
+<%-- 		          		url:'<%=basePath%>sendReport', --%>
+// 		          		data : 'data=' + data,
+// 		          		dataType : 'json',
+// 		          		type : 'post',
+// 		          		success : function(result){
+// 		                      if (result) {
+// 		                          $.messager.alert("提示信息", result.msg);
+// 		                          $('#dg').datagrid('unselectAll');
+// 		                      } else {
+// 		                      	$.messager.alert("提示信息", "服务器出错");      		
+// 		          	}   
+// 		          }
+// 		      });
+// 		  	}
+// 			}
+// 			}
 	});
 
 	var sy = $.extend({}, sy);
@@ -122,28 +203,34 @@
 		return o;
 	};
 
+	function formatterDate(date) {
+		var day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+		var month = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0"
+		+ (date.getMonth() + 1);
+		return date.getFullYear() + '-' + month + '-' + day;
+		};
+	
 	function searchReport() {
-		var data1 = sy.serializeObject($('#reportTable').form());
+		var data1 = sy.serializeObject($('#reportTable1').form());
 		var data = encodeURI(JSON.stringify(data1), "UTF-8");
-		$('#dg').datagrid('load', data);
+		$('#dg').datagrid('load', data1);
 	}
 
 	function clearSearch() {
 		$('#dg').datagrid("load", {});
-		$('#reportTable').form("clear");
+		$('#reportTable1').form("clear");
 	}
-
 
 </script>
 
 <body class="easyui-layout">
-	<div region="center" fit="true">
-		<table id="dg" class="easyui-datagrid"
-			style="width: 100%; height: 100%"></table>
-		<div id="reportSearch" style="height: 60px;">
+	<div region="center" title="企业列表"
+		 fit="true">
+		<table id="dg" fit="true"></table>
+		<div id="reportSearch" style="height: 90px;">
 			<form name="readReportForm" method="post"
 				enctype="multipart/form-data" id="readReportForm">
-				<table id="reportTable" style="width: 400px; height: 100%">
+				<table id="reportTable" >
 					<tr>
 						<th>选择文件:</th>
 						<td><input id="file" type="file" name="file" />
@@ -152,8 +239,8 @@
 				</table>
 			</form>
 
-			<form id="reportTable">
-				<table id="reportTable" style="width: 100%; height: 100%">
+			<form id="reportTable1">
+				<table id="reportTable1" >
 					<tr>
 						<th>纳税人识别号:</th>
 						<td><input id="taxId" type="text"
@@ -161,10 +248,6 @@
 						<th>纳税人名称:</th>
 						<td><input id="taxName" class="easyui-validatebox"
 							type="text" name="taxName" /></td>
-						<th>申报年月:</th>
-						<td><input id="year" class="easyui-validatebox" type="text"
-							name="year" /><input id="month" class="easyui-validatebox"
-							type="text" name="month" /></td>
 						<th>征收项目:</th>
 						<td><input id="imposeType" class="easyui-validatebox"
 							type="text" name="imposeType" /></td>
@@ -177,6 +260,22 @@
 
 				</table>
 			</form>
+			
+			<form id="msgForm">
+			<table>
+				<tr>
+					<th>签名:</th><td><input id="sign" class="easyui-validatebox"
+						value="鄞州地税直属分局" name="sign">
+					</td>
+					<th>发送时间：</th><td><input id="sendDate" class="easyui-datebox"
+						name="sendDate">
+					</td>
+					<td><a id="ReportMsgSend" icon="icon-ok" class="easyui-linkbutton"
+						href="javascript:void(0);">发送</a></td>
+				</tr>
+			</table>
+		</form>
+
 
 		</div>
 
