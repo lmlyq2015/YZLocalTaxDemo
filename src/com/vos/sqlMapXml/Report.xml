@@ -7,48 +7,62 @@
 	<![CDATA[
 		select a.taxId,b.taxName,b.taxAgentName,b.taxAgentMobile,b.adminName,b.adminMobile,b.rep,b.repMobile,a.year,a.month,a.imposeType from tax_report a,tax_entbasicinfor b where a.taxId=b.taxId
 	]]>
-		<dynamic prepend="WHERE">
+		<dynamic>
 			 <isNotNull prepend="AND" property="taxId">       
                   (a.taxId = #taxId#)       
             </isNotNull>
             <isNotNull prepend="AND" property="taxName">       
-                  (taxName like '%$taxName$%')       
+                  (b.taxName like '%$taxName$%')       
             </isNotNull>
-             <isNotNull prepend="AND" property="year">       
-                  (year = #year#)       
-            </isNotNull>
-             <isNotNull prepend="AND" property="month">       
-                  (month = #month#)       
-            </isNotNull>
-             <isNotEmpty prepend="AND" property="imposeType">    
-                  (imposeType like '%$imposeType$%')    
-            </isNotEmpty> 
+             <isNotNull prepend="AND" property="imposeType">    
+                  (a.imposeType like '%$imposeType$%')    
+            </isNotNull> 
 		</dynamic>
 		limit #firstRow#,#pageSize#		
 	</select>
 	
 	<select id="getReportCount" resultClass="java.lang.Integer" parameterClass="com.vos.ReportSearchVO">
 	<![CDATA[
-		select count(*) from tax_report
+		select count(*) from tax_report a,tax_entbasicinfor b where a.taxId=b.taxId
 		]]>
-		<dynamic prepend="WHERE"> 
+		<dynamic > 
 			 <isNotNull prepend="AND" property="taxId">       
-                  (taxId = #taxId#)       
+                  (a.taxId = #taxId#)       
             </isNotNull>
             <isNotNull prepend="AND" property="taxName">       
-                  (taxName like '%$taxName$%')       
+                  (b.taxName like '%$taxName$%')       
             </isNotNull>
-             <isNotNull prepend="AND" property="year">       
-                  (year = #year#)       
-            </isNotNull>
-             <isNotNull prepend="AND" property="month">       
-                  (month = #month#)       
-            </isNotNull>
-             <isNotEmpty prepend="AND" property="imposeType">    
-                  (imposeType like '%$imposeType$%')    
-            </isNotEmpty> 
+             <isNotNull prepend="AND" property="imposeType">    
+                  (a.imposeType like '%$imposeType$%')    
+            </isNotNull> 
 		</dynamic>		
 		
 	</select>
 	
+	
+	<select id="getReportList" resultClass="com.vos.ReportSend" parameterClass="java.util.Map">
+	<![CDATA[
+		select b.taxAgentName,b.taxName,a.taxId,a.year,a.month,a.imposeType from tax_report a,tax_entbasicinfor b where a.taxId=b.TaxId and a.TaxId=#taxId#
+		]]>
+	</select>
+	
+		<select id="getImposeTypeList" resultClass="com.vos.Report">
+	<![CDATA[
+		select imposeType from tax_report
+			]]>
+	</select>
+	
+	<insert id="saveReportMsg" parameterClass="com.vos.ReportVO">
+		insert into tax_message(content,type,etdate) values(#content#,#msgType#,str_to_date(now(),'%Y-%m-%d %H:%i:%s'))
+	<selectKey resultClass="java.lang.Integer"  keyProperty="id" >    
+             SELECT last_insert_id() as id
+        </selectKey>  
+	</insert>
+	
+	<insert id="saveReportMsgResult" parameterClass="java.util.Map">
+		insert into tax_state(taxid,mesid,empid,senddate,state,resultmsg,RecId) values (#taxId#,#mesId#,#empId#,str_to_date(#sendDate#,'%Y-%m-%d %H:%i:%s'),#status#,#msg#,#receiver#)
+		<selectKey resultClass="java.lang.Integer"  keyProperty="Id" >    
+             SELECT last_insert_id() as id
+        </selectKey>  
+	</insert>
 </sqlMap>

@@ -30,7 +30,10 @@ import com.vos.JsonResult;
 import com.vos.Message;
 import com.vos.NotificationVo;
 import com.vos.Report;
+import com.vos.ReportNotificationVo;
 import com.vos.ReportSearchVO;
+import com.vos.ReportSend;
+import com.vos.ReportVO;
 
 @Controller
 @SessionAttributes
@@ -138,6 +141,80 @@ public class TaxMessageController {
 		return null;
 		
 	}
+	@RequestMapping("/sendReport")
+	@ResponseBody
+	public void sendReport(@RequestParam("taxId") String taxId,
+			HttpServletResponse response,@ModelAttribute ReportSend reportSend) throws Exception {
+		PrintWriter pw = null;
+		try {
+			pw = response.getWriter();
+			int id = reportService.sendReport(taxId,reportSend);
+			JsonResult jr = new JsonResult();
+			if(id > 0){		
+			jr.setMsg("发送成功");
+			}
+			else{
+				jr.setMsg("发送失败");
+				JSONObject json = JSONObject.fromObject(jr);
+				pw.print(json.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			JsonResult jr = new JsonResult();
+			JSONObject json = JSONObject.fromObject(jr);
+			pw.print(json.toString());
+		}
+	}
+	
+	
+	@RequestMapping("/getImposeTypeList")
+	public void getImposeTypeList(HttpServletResponse response) {
+		PrintWriter pw = null;
+		try {
+			pw = response.getWriter();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		List<Report> list = new ArrayList<Report>();
+		try {
+			list = reportService.getImposeTypeList();
+			if (list != null && list.size() > 0) {
+				JSONArray json = JSONArray.fromObject(list);
+				pw.write(json.toString());	
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@RequestMapping("/sendReportMsg")
+	public void sendReportMsg(@RequestParam("data") String data,HttpServletResponse response) {
+		PrintWriter pw= null;
+		try {
+			pw = response.getWriter();
+			String str = URLDecoder.decode(data,"UTF-8");
+			String[]arrData = str.split("=");
+			String msgData = arrData[0];
+			String taxEntArr = arrData[1];
+			JSONObject object = JSONObject.fromObject(msgData);
+			ReportVO msg = (ReportVO) object.toBean(JSONObject.fromObject(msgData), ReportVO.class);
+			JSONArray json = JSONArray.fromObject(taxEntArr);
+			List <ReportNotificationVo> list  = json.toList(json, ReportNotificationVo.class);
+			msg.setVoList(list);
+			int id = reportService.sendReportMsg(msg);
+			if (id > 0) {
+				pw.print(messageSuc());
+			} else {
+				pw.print(messageErr());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@RequestMapping("/getFailMsgState")
 	@ResponseBody
 	public Map<String,Object> getFailMsgState(@RequestParam("msgId") int msgId,@RequestParam("rows") Integer pageSize,@RequestParam("page") Integer pageNumber,
@@ -181,7 +258,5 @@ public class TaxMessageController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		
 	}
 }
