@@ -32,11 +32,13 @@ hojo.declare("icallcenter.callProcessor", null, {
 		var callType = data.callType; 
 		var status = data.status;
 		var ringTime= data.offeringTime;
+		var callPro = data.callerProvince;
+		var callCity = data.callerCity;
 		var beginTime= "";
 		var endTime= "";
 		var monitorFilename= "";
 		hojo.byId("icallcenter.dialout.input").value = callNo;
-		//alert("agent:" + agent +";callNo:" + callNo+";calledNo:"+calledNo+";callType:"+callType+";status:"+status+";ringTime:"+ringTime+";beginTime:"+beginTime+";endTime:"+endTime+";monitorFilename:"+monitorFilename);
+		alert("Province:" + callPro + ";city:" +callCity+ ";agent:" + agent +";callNo:" + callNo+";calledNo:"+calledNo+";callType:"+callType+";status:"+status+";ringTime:"+ringTime+";beginTime:"+beginTime+";endTime:"+endTime+";monitorFilename:"+monitorFilename);
 		var phoneJson = {
 	    		Command: "Action",
 	    		Action: "Ring",
