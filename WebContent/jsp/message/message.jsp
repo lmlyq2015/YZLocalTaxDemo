@@ -208,7 +208,7 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 
       
       <div region="center" title="企业列表" style="padding:5px;background:#eee;" fit="true">
-		<table id="enterpriceDg">
+		<table id="enterpriceDg" fit="true">
 		
 		</table>
 	  <div id="enterpriceSearch">

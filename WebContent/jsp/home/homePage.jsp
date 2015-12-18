@@ -30,6 +30,7 @@
 						},
 						{"menuid":"2","icon":"icon-sys","menuname":"知识库",
 							"menus":[
+							         
 								]
 						},
 						{"menuid":"3","icon":"icon-sys","menuname":"微信公众平台",
@@ -38,6 +39,7 @@
 						},
 						{"menuid":"4","icon":"icon-sys","menuname":"呼叫中心",
 							"menus":[
+								{"menuname":"接听呼叫","icon":"icon-edit","url":"jsp/callcenter/callHome.jsp"}
 								]
 						},
 						{"menuid":"5","icon":"icon-sys","menuname":"数据采集",
