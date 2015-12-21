@@ -15,7 +15,6 @@ import com.util.TaxUtil;
 import com.vos.Report;
 import com.vos.ReportNotificationVo;
 import com.vos.ReportSearchVO;
-import com.vos.ReportSend;
 import com.vos.ReportVO;
 
 public class ReportDaoImp implements ReportDao {
@@ -105,11 +104,12 @@ public class ReportDaoImp implements ReportDao {
 
 
 	@Override
-	public int saveReportMsg(ReportVO msg) throws SQLException {
+	public int saveReportMsg(ReportVO msg,String content) throws SQLException {
 		// TODO Auto-generated method stub
 		int key = 0;
 		try{
-			msg.setContent(msg.getContent() + " " + msg.getSign());
+			//msg.setContent(msg.getContent() + " " + msg.getSign());
+			msg.setContent(content + " " + msg.getSign());
 			msg.setMsgType(TaxUtil.MESSAGE_NOTIFICATION_MESSAGE_TYPE);		
 			key = (Integer) sqlMapClient.insert("saveReportMsg",msg);
 		}catch(SQLException e) {
@@ -146,43 +146,5 @@ public class ReportDaoImp implements ReportDao {
 		}
 		return id;
 	}
-
-	@Override
-	public List<ReportSend> getReportList(int taxId, ReportSend reportSend)
-			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int sendReport(String taxId, ReportSend reportSend)
-			throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-//	@Override
-//	public int sendReport(String taxId, ReportSend reportSend)
-//			throws SQLException {
-//		// TODO Auto-generated method stub
-//		try{
-//			Map<String,Object> map = new HashMap<String, Object>();
-//			List<ReportSend> list = new ArrayList<ReportSend>();
-//			map.put("taxAgentName", reportSend.getTaxAgentName());
-//			map.put("taxName", reportSend.getTaxName());
-//			map.put("taxId", taxId);
-//			map.put("year", reportSend.getYear());
-//			map.put("month", reportSend.getMonth());
-//			map.put("imposeType", reportSend.getImposeType());
-//			
-//			list = sqlMapClient.queryForList("sendReport",map);
-//			return list;
-//
-//		}catch(SQLException e) {
-//			e.printStackTrace();
-//			throw e;
-//		}
-//	}
 	
 }

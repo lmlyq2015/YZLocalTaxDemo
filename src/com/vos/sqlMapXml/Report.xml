@@ -39,19 +39,6 @@
 		
 	</select>
 	
-	
-	<select id="getReportList" resultClass="com.vos.ReportSend" parameterClass="java.util.Map">
-	<![CDATA[
-		select b.taxAgentName,b.taxName,a.taxId,a.year,a.month,a.imposeType from tax_report a,tax_entbasicinfor b where a.taxId=b.TaxId and a.TaxId=#taxId#
-		]]>
-	</select>
-	
-		<select id="getImposeTypeList" resultClass="com.vos.Report">
-	<![CDATA[
-		select imposeType from tax_report
-			]]>
-	</select>
-	
 	<insert id="saveReportMsg" parameterClass="com.vos.ReportVO">
 		insert into tax_message(content,type,etdate) values(#content#,#msgType#,str_to_date(now(),'%Y-%m-%d %H:%i:%s'))
 	<selectKey resultClass="java.lang.Integer"  keyProperty="id" >    
