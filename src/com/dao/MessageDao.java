@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.vos.Message;
+import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
 
 public interface MessageDao {
@@ -19,4 +20,9 @@ public interface MessageDao {
 	public List<NotificationVo> getFailMsgStateList(int firstRow, int pageSize, int msgId) throws SQLException;
 	
 	public int updateMsgResult(int msgKey,NotificationVo vo,String sendDate,String oldErrCode) throws SQLException;
+
+	public List<MessageSearchVO> getAllComp(int firstRow, Integer pageSize,
+			MessageSearchVO messageSearchVO) throws SQLException;
+
+	public int getCompCount(MessageSearchVO messageSearchVO) throws SQLException;
 }

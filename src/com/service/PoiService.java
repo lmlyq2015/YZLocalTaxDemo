@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dao.PoiDao;
 import com.poi.FillReportManager;
 import com.poi.Layouter;
+import com.vos.MessageSearchVO;
 import com.vos.Report;
 import com.poi.Writer;
 
@@ -72,4 +73,11 @@ public interface PoiService {
      * 把单元格内的类型转换至String类型 
      */  
     public String ConvertCellStr(Cell cell, String cellStr) throws SQLException;
+
+	public List<MessageSearchVO> readComp(InputStream inputStream) throws SQLException, ParseException;
+
+	public int[] insertComp(List<MessageSearchVO> list) throws SQLException;
+	
+	public MessageSearchVO addingComp(int j, MessageSearchVO messageSearchVO,
+			String cellStr) throws SQLException, ParseException;
 }

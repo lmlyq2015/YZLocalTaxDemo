@@ -16,4 +16,12 @@
 		</iterate> 
 	</insert>
 	
+	<insert id="insertComp" parameterClass="java.util.ArrayList">
+		INSERT INTO
+		tax_entbasicinfor(TAXID,TAXNAME,ADDRESS,REP,REPMOBILE,TAXADMIN,TAXAGENTNAME,TAXAGENTMOBILE,ADMINNAME,ADMINMOBILE,EID,STATE)
+		VALUES
+		<iterate conjunction=",">  
+		(#value[].taxId#,#value[].taxName#,#value[].address#,#value[].rep#,#value[].repMobile#,#value[].taxAdmin#,#value[].taxAgentName#,#value[].taxAgentMobile#,#value[].adminName#,#value[].adminMobile#,#value[].eid#,#value[].state#)
+		</iterate> 
+	</insert>
 </sqlMap>

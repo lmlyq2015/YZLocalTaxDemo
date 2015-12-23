@@ -11,6 +11,7 @@ import com.util.DateUtils;
 import com.util.TaxUtil;
 import com.vos.Message;
 import com.vos.MessageResult;
+import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
 @Service
 public class MessageServiceImp implements MessageService {
@@ -150,5 +151,19 @@ public class MessageServiceImp implements MessageService {
 			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_UNKNOW_MSG);
 		 }
 		 return vo;
+	}
+
+	@Override
+	public List<MessageSearchVO> getAllComp(int firstRow, Integer pageSize,
+			MessageSearchVO messageSearchVO) throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.getAllComp(firstRow, pageSize, messageSearchVO);
+	}
+
+	@Override
+	public int getCompCount(MessageSearchVO messageSearchVO)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.getCompCount(messageSearchVO);
 	}
 }

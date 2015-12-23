@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.service.PoiService;
 import com.vos.JsonResult;
+import com.vos.MessageSearchVO;
 import com.vos.Report;
 
 @Controller  
@@ -57,7 +58,7 @@ public class PoiController {
 	    }  
 	  
 	    /** 
-	     * 读取excel报表 
+	     * 读取excel报表（Report） 
 	     * @throws SQLException 
 	     * @throws ParseException 
 	     */  
@@ -82,7 +83,36 @@ public class PoiController {
 				jr.setMsg("导入失败");
 				JSONObject json = JSONObject.fromObject(jr);
 				pw.print(json.toString());
-			}  
-	  
-	    }  
+			}    
+	    } 
+	    
+	    /** 
+	     * 读取excel报表（Message） 
+	     * @throws SQLException 
+	     * @throws ParseException 
+	     */  
+	    @RequestMapping(value = "/readComp", method = RequestMethod.POST)  
+	    
+	    public void getReadComp(@RequestParam MultipartFile file,HttpServletResponse response)  
+	            throws IOException, SQLException, ParseException {  
+	    	
+	        List<MessageSearchVO> list = poiService.readComp(file.getInputStream());  
+	         
+	        PrintWriter pw = null;
+			try {
+				pw = response.getWriter();
+				poiService.insertComp(list);
+				JsonResult jr = new JsonResult();
+				jr.setMsg("导入成功");
+				JSONObject json = JSONObject.fromObject(jr);
+				pw.print(json.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+				JsonResult jr = new JsonResult();
+				jr.setMsg("导入失败");
+				JSONObject json = JSONObject.fromObject(jr);
+				pw.print(json.toString());
+			}    
+	    } 
+	    
 }

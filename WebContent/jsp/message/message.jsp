@@ -22,12 +22,14 @@ textarea {
 <script type="text/javascript">
 $(function() {
 	$('#enterpriceDg').datagrid({
-		url:'<%=basePath%>jsp/message/enterprice_json.json',
+<%-- 	url:'<%=basePath%>jsp/message/enterprice_json.json', --%>
+		loadMsg : '数据加载中请稍后',
+		url:'<%=basePath%>getAllComp',
 		title:'搜索',
 		pagination : true,
-		pageSize:20,
+		pageSize:10,
 		nowrap : false,
-		pageList:[20,30,40],
+		pageList:[10,30,40],
 		iconCls:'icon-reload',
 		rownumbers: true,
 		singleSelect:false,
@@ -45,8 +47,14 @@ $(function() {
 //                 }
 			},
 			{
+				title:'纳税人电子档案号',
+				field:'eid',
+				width:10	
+				
+			},
+			{
 				title:'纳税人识别号',
-				field:'taxNo',
+				field:'taxId',
 				width:10	
 				
 			},
@@ -56,45 +64,79 @@ $(function() {
 				width:15
 			},
 			{
-				title:'生产经营地址',
+				title:'地址',
 				field:'address',
 				width:15
 			},
 			{
+				title:'税收管理员',
+				field:'taxAdmin',
+				width:15
+			},
+			{
+				title:'企业状态',
+				field:'state',
+				width:15
+			},
+			{
 				title:'法人',
-				field:'lawRep',
+				field:'rep',
 				width:5
 			},
 			
 			{
 				title:'法人手机',
-				field:'lawRepMob',
+				field:'repMobile',
 				width:7
 			},
 			{
 				title:'办税员',
-				field : 'taxer',
+				field : 'taxAgentName',
 				width : 5
 			},
 			{
 				title:'办税员手机',
-				field:'taxerMob',
+				field:'taxAgentMobile',
 				width:8
 			},
 			{
 				title:'财务主管',
-				field:'admin',
+				field:'adminName',
 				width:5
 			},
 			{
 				title:'财务主管手机',
-				field:'adminMob',
+				field:'adminMobile',
 				width:7
 			}
 		]],
 		toolbar:'#enterpriceSearch'
 
 	});	
+	
+	$('#readCompForm').form({
+		url : '<%=basePath%>report/readComp',
+		onSubmit: function(){
+			return $('#readCompForm').form('validate');
+		},
+		success : function(data) {
+			 var res = jQuery.parseJSON(data);
+				if (res) {
+				$.messager.alert('操作提示', res.msg);
+				$('#enterpriceDg').datagrid('load');
+				$('#file').val('');
+			}
+				else{
+					$.messager.alert('操作提示', res.msg);
+					$('#file').val('');
+				}
+		}
+		
+	});
+		$('#formBtn').click(function(){	
+			$('#readCompForm').form('submit');
+	});
+	
 	$('#msgSend').click(function(){
 		var content = $('#content').val();
 		var sign = $('#sign').val();
@@ -211,7 +253,17 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 		<table id="enterpriceDg" fit="true">
 		
 		</table>
-	  <div id="enterpriceSearch">
+	  <div id="enterpriceSearch" style="height: 60px;">
+	  <form name="readCompForm" method="post"
+				enctype="multipart/form-data" id="readCompForm">
+				<table id="reportTable" >
+					<tr>
+						<th>选择文件:</th>
+						<td><input id="file" type="file" name="file" />
+							<button id="formBtn" type="submit">导入</button></td>
+					</tr>
+				</table>
+			</form>
 	  	<form>
 	  		<table>
 	  			<tr>

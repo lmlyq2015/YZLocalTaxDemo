@@ -28,6 +28,7 @@ import com.service.ReportService;
 import com.util.TaxUtil;
 import com.vos.JsonResult;
 import com.vos.Message;
+import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
 import com.vos.Report;
 import com.vos.ReportNotificationVo;
@@ -209,5 +210,28 @@ public class TaxMessageController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@RequestMapping("/getAllComp")
+	@ResponseBody
+	public Map<String, Object> getAllComp(@RequestParam("rows") Integer pageSize,@RequestParam("page") Integer pageNumber,HttpServletResponse response,@ModelAttribute MessageSearchVO messageSearchVO) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<MessageSearchVO> pageList = new ArrayList<MessageSearchVO>();
+		int intPageNum=pageNumber==null||pageNumber<=0?1:pageNumber;
+		int intPageSize=pageSize==null||pageSize<=0?10:pageSize;
+		int firstRow = (pageNumber - 1) * pageSize;
+		try {
+			pageList = messageService.getAllComp(firstRow, pageSize,messageSearchVO);
+			int count = messageService.getCompCount(messageSearchVO);
+			map.put("rows", pageList);
+			map.put("total", count);
+			return map;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			map.put("error", false);
+		}
+		return null;
+		
 	}
 }

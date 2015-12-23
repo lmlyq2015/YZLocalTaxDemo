@@ -39,4 +39,34 @@
 	<update id="updateMsgResult" parameterClass="java.util.Map">
 		update tax_state set state = #status#,senddate = #sendDate#,resultMsg = #msg#,empid = #empId#,recid = #receiver# where mesid = #mesId# and state = #errCode#
 	</update>
+	
+	<select id="getAllComp" resultClass="com.vos.MessageSearchVO" parameterClass="java.util.Map">
+	<![CDATA[
+		select * from tax_entbasicinfor
+	]]>
+		<dynamic prepend="WHERE">
+			 <isNotNull prepend="AND" property="taxId">       
+                  (taxId = #taxId#)       
+            </isNotNull>
+            <isNotNull prepend="AND" property="taxName">       
+                  (taxName like '%$taxName$%')       
+            </isNotNull>
+		</dynamic>
+		limit #firstRow#,#pageSize#		
+	</select>
+	
+	<select id="getCompCount" resultClass="java.lang.Integer" parameterClass="com.vos.MessageSearchVO">
+	<![CDATA[
+		select count(*) from tax_entbasicinfor
+		]]>
+		<dynamic prepend="WHERE"> 
+			 <isNotNull prepend="AND" property="taxId">       
+                  (taxId = #taxId#)       
+            </isNotNull>
+            <isNotNull prepend="AND" property="taxName">       
+                  (taxName like '%$taxName$%')       
+            </isNotNull> 
+		</dynamic>		
+		
+	</select>
 </sqlMap>

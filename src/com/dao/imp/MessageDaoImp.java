@@ -2,6 +2,7 @@ package com.dao.imp;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import com.dao.MessageDao;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.util.TaxUtil;
 import com.vos.Message;
+import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
 
 public class MessageDaoImp implements MessageDao {
@@ -121,5 +123,42 @@ public class MessageDaoImp implements MessageDao {
 			throw e;
 		}
 		//return id;
+	}
+
+	@Override
+	public List<MessageSearchVO> getAllComp(int firstRow, Integer pageSize,
+			MessageSearchVO messageSearchVO) throws SQLException {
+		// TODO Auto-generated method stub
+		try{
+			Map<String,Object> map = new HashMap<String, Object>();
+			List<MessageSearchVO> list = new ArrayList<MessageSearchVO>();
+			map.put("taxId", messageSearchVO.getTaxId());
+			map.put("taxName", messageSearchVO.getTaxName());
+			map.put("taxAgentName", messageSearchVO.getTaxAgentName());
+			map.put("taxAgentMobile", messageSearchVO.getTaxAgentMobile());
+			map.put("adminName", messageSearchVO.getAdminName());
+			map.put("adminMobile", messageSearchVO.getAdminMobile());
+			map.put("rep", messageSearchVO.getRep());
+			map.put("repMobile", messageSearchVO.getRepMobile());
+			map.put("address", messageSearchVO.getAddress());
+			map.put("state", messageSearchVO.getState());
+			map.put("eid", messageSearchVO.getEid());
+			map.put("firstRow",firstRow);
+			map.put("pageSize",pageSize);
+			
+			list = sqlMapClient.queryForList("getAllComp",map);
+			return list;
+
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public int getCompCount(MessageSearchVO messageSearchVO)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		return (Integer) sqlMapClient.queryForObject("getCompCount",messageSearchVO);
 	}
 }

@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +26,7 @@ import com.poi.FillReportManager;
 import com.poi.Layouter;
 import com.poi.Writer;
 import com.service.PoiService;
+import com.vos.MessageSearchVO;
 import com.vos.Report;
 
 public class PoiServiceImp implements PoiService {
@@ -63,7 +63,7 @@ public class PoiServiceImp implements PoiService {
 		FillReportManager.fillReport(worksheet, startRowIndex, startColIndex,
 				getReport());
 
-		// 6.设置reponse参数
+		// 6.设置response参数
 		String fileName = "Report.xls";
 		response.setHeader("Content-Disposition", "inline; filename="
 				+ fileName);
@@ -229,6 +229,115 @@ public class PoiServiceImp implements PoiService {
 			break;
 		}
 		return cellStr;
+	}
+
+	@Override
+	public List<MessageSearchVO> readComp(InputStream inp) throws SQLException,
+			ParseException {
+		// TODO Auto-generated method stub
+		List<MessageSearchVO> compList = new ArrayList<MessageSearchVO>();
+
+		try {
+			String cellStr = null;
+
+			Workbook wb = WorkbookFactory.create(inp);
+
+			Sheet sheet = wb.getSheetAt(0);// 取得第一个sheets
+
+			// 从第二行开始读取数据
+			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+
+				MessageSearchVO messageSearchVO = new MessageSearchVO();
+				MessageSearchVO addMessageSearchVO = new MessageSearchVO();
+
+				Row row = sheet.getRow(i); // 获取行(row)对象
+
+				if (row == null) {
+					// row为空的话,不处理
+					continue;
+				}
+
+				for (int j = 1; j < row.getLastCellNum(); j++) {
+
+					Cell cell = row.getCell(j); // 获得单元格(cell)对象
+					
+					// 转换接收的单元格
+					cellStr = ConvertCellStr(cell, cellStr);
+					
+					// 将单元格的数据添加至一个对象
+					addMessageSearchVO = addingComp(j, messageSearchVO, cellStr);
+
+				}
+				// 将添加数据后的对象填充至list中
+				compList.add(addMessageSearchVO);
+			}
+
+		} catch (InvalidFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (inp != null) {
+				try {
+					inp.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				logger.info("没有数据流!");
+			}
+		}
+		return compList;
+	}
+
+	public MessageSearchVO addingComp(int j, MessageSearchVO messageSearchVO,
+			String cellStr) throws SQLException, ParseException{
+		// TODO Auto-generated method stub
+		switch (j) {
+		case 1:
+			messageSearchVO.setEid(cellStr);
+			break;
+		case 2:
+			messageSearchVO.setTaxId(cellStr);
+			break;
+		case 3:
+			messageSearchVO.setTaxName(cellStr);
+			break;
+		case 4:
+			messageSearchVO.setAddress(cellStr);
+			break;
+		case 5:
+			messageSearchVO.setTaxAdmin(cellStr);
+			break;
+		case 6:
+			messageSearchVO.setState(cellStr);
+			break;
+		case 7:
+			messageSearchVO.setRep(cellStr);
+			break;
+		case 8:
+			messageSearchVO.setRepMobile(cellStr);
+			break;
+		case 9:
+			messageSearchVO.setTaxAgentName(cellStr);
+			break;
+		case 10:
+			messageSearchVO.setTaxAgentMobile(cellStr);
+			break;
+		case 11:
+			messageSearchVO.setAdminName(cellStr);
+			break;
+		case 12:
+			messageSearchVO.setAdminMobile(cellStr);
+			break;
+		}
+		return messageSearchVO;
+	}
+
+	@Override
+	public int[] insertComp(List<MessageSearchVO> list) throws SQLException {
+		// TODO Auto-generated method stub
+		return poiDao.insertComp(list);
 	}
 	
 }

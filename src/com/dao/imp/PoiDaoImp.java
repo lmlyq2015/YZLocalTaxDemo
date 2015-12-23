@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.dao.PoiDao;
 import com.ibatis.sqlmap.client.SqlMapClient;
+import com.vos.MessageSearchVO;
 import com.vos.Report;
 
 public class PoiDaoImp implements PoiDao{
@@ -28,6 +29,12 @@ public class PoiDaoImp implements PoiDao{
 	public int[] insertReport(List<Report> list) throws SQLException {
 		// TODO Auto-generated method stub
 		return (int[]) sqlMapClient.insert("insertReport", list);
+	}
+
+	@Override
+	public int[] insertComp(List<MessageSearchVO> list) throws SQLException {
+		// TODO Auto-generated method stub
+		return (int[]) sqlMapClient.insert("insertComp", list);
 	}
 	
 	
