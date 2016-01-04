@@ -13,6 +13,7 @@ import com.vos.Message;
 import com.vos.MessageResult;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
+import com.vos.User;
 @Service
 public class MessageServiceImp implements MessageService {
 
@@ -165,5 +166,11 @@ public class MessageServiceImp implements MessageService {
 			throws SQLException {
 		// TODO Auto-generated method stub
 		return messageDao.getCompCount(messageSearchVO);
+	}
+
+	@Override
+	public User validateUser(User user) throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.validateUser(user);
 	}
 }

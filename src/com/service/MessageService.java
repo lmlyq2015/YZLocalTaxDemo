@@ -6,6 +6,7 @@ import java.util.List;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
+import com.vos.User;
 
 public interface MessageService {
 
@@ -23,4 +24,6 @@ public interface MessageService {
 			MessageSearchVO messageSearchVO) throws SQLException;
 
 	public int getCompCount(MessageSearchVO messageSearchVO) throws SQLException;
+	
+	public User validateUser(User user) throws SQLException;
 }

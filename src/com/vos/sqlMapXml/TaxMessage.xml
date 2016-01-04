@@ -69,4 +69,7 @@
 		</dynamic>		
 		
 	</select>
+	<select id="validateUser" parameterClass="com.vos.User" resultClass="com.vos.User">
+		select * from tax_employees where loginName = #loginName# and password = #password#
+	</select>
 </sqlMap>

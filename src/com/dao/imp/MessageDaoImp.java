@@ -16,6 +16,7 @@ import com.util.TaxUtil;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
+import com.vos.User;
 
 public class MessageDaoImp implements MessageDao {
 
@@ -160,5 +161,10 @@ public class MessageDaoImp implements MessageDao {
 			throws SQLException {
 		// TODO Auto-generated method stub
 		return (Integer) sqlMapClient.queryForObject("getCompCount",messageSearchVO);
+	}
+
+	@Override
+	public User validateUser(User user) throws SQLException {
+		return (User) sqlMapClient.queryForObject("validateUser",user);
 	}
 }

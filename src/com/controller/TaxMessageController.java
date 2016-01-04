@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
@@ -34,6 +35,7 @@ import com.vos.Report;
 import com.vos.ReportNotificationVo;
 import com.vos.ReportSearchVO;
 import com.vos.ReportVO;
+import com.vos.User;
 
 @Controller
 @SessionAttributes
@@ -234,4 +236,33 @@ public class TaxMessageController {
 		return null;
 		
 	}
+	@RequestMapping("/login")
+	@ResponseBody
+	public void login(@RequestParam("loginName") String LoginName,@RequestParam("password") String password,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		User user = new User();
+		user.setLoginName(LoginName);
+		user.setPassword(password);
+		PrintWriter pw = response.getWriter();
+		
+		String incode = (String)request.getParameter("code");   
+	    String rightcode = (String)request.getSession().getAttribute("rCode");  
+	    
+		try {
+			User u = messageService.validateUser(user);
+			if(u != null && (incode.equals(rightcode))){
+				request.getSession().setAttribute("current_user", u.getLoginName());
+				TaxUtil.CURRENT_USER = LoginName;
+				pw.print("{\"result\":" + true + ",\"msg\":\"" + "登录成功" + "\"}");
+			} else {
+				pw.print("{\"result\":" + false + ",\"msg\":\"" + "信息验证错误" + "\"}");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			pw.flush();
+			pw.close();
+		}
+	}
+
 }
