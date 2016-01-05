@@ -27,6 +27,7 @@ import com.poi.Layouter;
 import com.poi.Writer;
 import com.service.PoiService;
 import com.vos.MessageSearchVO;
+import com.vos.NotificationVo;
 import com.vos.Report;
 
 public class PoiServiceImp implements PoiService {
@@ -50,7 +51,7 @@ public class PoiServiceImp implements PoiService {
 		HSSFWorkbook workbook = new HSSFWorkbook();
 
 		// 2.创建一个 worksheet
-		HSSFSheet worksheet = workbook.createSheet("Report");
+		HSSFSheet worksheet = workbook.createSheet("Export");
 
 		// 3.定义起始行和列
 		int startRowIndex = 0;
@@ -61,10 +62,10 @@ public class PoiServiceImp implements PoiService {
 
 		// 5.填充数据
 		FillReportManager.fillReport(worksheet, startRowIndex, startColIndex,
-				getReport());
+				getFailMsg());
 
 		// 6.设置response参数
-		String fileName = "Report.xls";
+		String fileName = "Export.xls";
 		response.setHeader("Content-Disposition", "inline; filename="
 				+ fileName);
 		// 确保发送的当前文本格式
@@ -134,9 +135,9 @@ public class PoiServiceImp implements PoiService {
 	}
 
 	@Override
-	public List<Report> getReport() throws SQLException {
+	public List<NotificationVo> getFailMsg() throws SQLException {
 		// TODO Auto-generated method stub
-		return poiDao.getReport();
+		return poiDao.getFailMsg();
 	}
 
 	@Override

@@ -11,9 +11,9 @@ public interface MessageService {
 
 	public int sendNotificationMsg(Message msg) throws SQLException;
 	
-	public List getMessageResultList(int firstRow, int pageSize) throws SQLException;
+	public List<Message> getMessageResultList(int firstRow, int pageSize,Message message) throws SQLException;
 
-	public int getMessageResultCount() throws SQLException;
+	public int getMessageResultCount(Message message) throws SQLException;
 	
 	public List<NotificationVo> getFailMsgStateList(int firstRow,int pageSize,int msgId) throws SQLException;
 	

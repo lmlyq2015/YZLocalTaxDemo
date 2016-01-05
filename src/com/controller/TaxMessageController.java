@@ -90,7 +90,7 @@ public class TaxMessageController {
 	@RequestMapping("/getMessageResultList")
 	@ResponseBody
 	public Map<String,Object> getMessageResultList(@RequestParam("rows") Integer pageSize,
-			@RequestParam("page") Integer pageNumber) {
+			@RequestParam("page") Integer pageNumber,@ModelAttribute Message message) {
 		int count = 0;
 		Map<String,Object> map = new HashMap<String,Object>();
 		List<Message> pageList = new ArrayList<Message>();
@@ -99,18 +99,17 @@ public class TaxMessageController {
 		int intPageSize=pageSize==null||pageSize<=0?2:pageSize;
 		int firstRow = (pageNumber - 1) * pageSize;
 		try{
-			pageList = messageService.getMessageResultList(firstRow, pageSize);
+			pageList = messageService.getMessageResultList(firstRow, pageSize,message);
 			
-			count = messageService.getMessageResultCount();
+			count = messageService.getMessageResultCount(message);
 			map.put("rows", pageList);
 			map.put("total", count);
 			return map;
 		}catch(Exception e) {
 			e.printStackTrace();
 			map.put("error", false);
-			return map;
 		}
-		
+		return null;
 	}
 	
 	@Resource(name = "reportService")

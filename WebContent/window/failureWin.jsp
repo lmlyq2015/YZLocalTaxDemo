@@ -29,8 +29,7 @@ $(function(){
 			{
 				title:'纳税人识别号',
 				field:'taxNo',
-				width:100	
-				
+				width:100					
 			},
 			{
 				title:'纳税人名称',
@@ -120,12 +119,18 @@ $(function(){
 // 		 	 	}
 // 		 	},"-",
 		 	{
-		 	 	text: "关闭窗口",
+		 		text: "导出失败信息",
+		 	 	iconCls: "icon-save",
+		 	 	handler: function () {
+		 	 		exportFailMsg()
+		 	 	}		
+		 	},"-",
+		 	{
+		 		text: "关闭窗口",
 		 	 	iconCls: "icon-cancel",
 		 	 	handler: function () {
 		 	 		$('#failMsgWin').window('close');
 		 	 	}	
-		 		
 		 	}
 		     ]
 
@@ -154,7 +159,7 @@ $.extend($.fn.datagrid.methods, {
 });
 var editIndex = undefined;
 function endEditing(){
-	if (editIndex == undefined){return true}
+	if (editIndex == undefined){return true;}
 	if ($('#failMsgDg').datagrid('validateRow', editIndex)){
 		$('#failMsgDg').datagrid('endEdit', editIndex);
 		editIndex = undefined;
@@ -192,25 +197,28 @@ function reSendFailMsg() {
 	    			error : function() {
 	    				$.messager.alert('操作提示', '服务器出错', 'error');
 	    			} 
-			 });
-			 
-			 
+			 });			 
 		 }
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
 	 });
 	
 }
 
-
+function exportFailMsg(){
+		//alert("123");
+		$.ajax({
+                type: "POST",
+                url: '<%=basePath%>report/exportFailMsg',
+                success : function(r) {
+    				if(r) {
+    					$.messager.alert('操作提示', r.msg, r.result);
+    				}
+    			},
+    			error : function() {
+    				$.messager.alert('操作提示', '服务器出错', 'error');
+    			} 
+     });
+}
+	
 </script>
 
 

@@ -28,6 +28,7 @@ import com.dao.PoiDao;
 import com.poi.FillReportManager;
 import com.poi.Layouter;
 import com.vos.MessageSearchVO;
+import com.vos.NotificationVo;
 import com.vos.Report;
 import com.poi.Writer;
 
@@ -44,11 +45,11 @@ public interface PoiService {
     public List<Report> readReport(InputStream inp) throws SQLException, ParseException;
   
     /** 
-     * 从数据库获得所有的Report信息. 
+     * 从数据库获得所有的List信息. 
      * @throws SQLException 
      */  
-    public List<Report> getReport() throws SQLException;
-  
+    public List<NotificationVo> getFailMsg() throws SQLException;
+    
     /** 
      * 读取报表的数据后批量插入 
      * @throws SQLException 
@@ -80,4 +81,5 @@ public interface PoiService {
 	
 	public MessageSearchVO addingComp(int j, MessageSearchVO messageSearchVO,
 			String cellStr) throws SQLException, ParseException;
+
 }

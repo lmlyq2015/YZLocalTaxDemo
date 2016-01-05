@@ -76,6 +76,7 @@ $(function() {
 			{
 				title:'企业状态',
 				field:'state',
+				hidden:'true',
 				width:15
 			},
 			{
@@ -194,6 +195,18 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 	+ (date.getMonth() + 1);
 	return date.getFullYear() + '-' + month + '-' + day;
 	};
+	
+	function searchComp() {
+		var data1 = sy.serializeObject($('#CompSearch').form());
+		var data = encodeURI(JSON.stringify(data1), "UTF-8");
+		$('#enterpriceDg').datagrid('load', data1);
+	}
+
+	function clearSearch() {
+		$('#enterpriceDg').datagrid("load", {});
+		$('#CompSearch').form("clear");
+	}
+
 </script>
 <body class="easyui-layout">
 
@@ -264,14 +277,14 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 					</tr>
 				</table>
 			</form>
-	  	<form>
+	  	<form id="CompSearch">
 	  		<table>
 	  			<tr>
 	  			<th>
 	  			纳税人识别号:
 	  			</th>
 	  			<td>
-	  			<input id="taxNo" class="easyui-validatebox"  name="taxNo">
+	  			<input id="taxId" class="easyui-validatebox"  name="taxId">
 	  			</td>
 	  			<th>
 	  			纳税人名称:
@@ -280,10 +293,10 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 	  			<input id="taxName" class="easyui-validatebox"  name="taxName">
 	  			</td>
 	  			<td>
-	  			<a class="easyui-linkbutton" href="javascript:void(0)" icon="icon-search">搜索</a>
+	  			<a class="easyui-linkbutton" href="javascript:void(0)" icon="icon-search" onclick="searchComp();">查找</a>
 	  			</td>
 	  			<td>
-	  			<a class="easyui-linkbutton" href="javascript:void(0)" icon="icon-cancel">清除</a>
+	  			<a class="easyui-linkbutton" href="javascript:void(0)" icon="icon-cancel" onclick="clearSearch();">重置</a>
 	  			</td>
 	  			</tr>
 	  		</table>
