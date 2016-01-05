@@ -124,12 +124,7 @@
 			
 			
 			$('#ReportMsgSend').click(function(){
-				//var content = $('#content').val();
 				var sign = $('#sign').val();
-// 				if (content == null || content == "") {
-// 					$.messager.alert('操作提示', "请输入消息内容","info");
-// 					return;
-// 				}
 				if (sign == null || sign == "") {
 					$.messager.alert('操作提示', "请输入消息签名","info");
 					return;
@@ -149,7 +144,6 @@
 						data : 'data=' + formStr + "=" + data,
 						success : function(r) {
 							$.messager.alert('操作提示', r.msg,r.result);
-							//$('#content').val('');
 							$('#dg').datagrid('unselectAll');
 						},
 						error : function() {

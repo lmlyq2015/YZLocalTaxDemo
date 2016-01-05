@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="themes/demo.css">
 <script type="text/javascript" src="jquery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="jquery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 $(function(){
 	$('#resultDg').datagrid({
@@ -134,6 +135,34 @@ function reSendMsg() {
 	alert('123');
 }
 
+function exportFailMsg(){
+		//alert("123");
+		var msgRecord = $('#resultDg').datagrid('getSelected');
+		$.ajax({
+                type: "POST",
+                url: '<%=basePath%>report/exportFailMsg?msgId=' + msgRecord.id + '&failCount=' + msgRecord.failCount,
+                success : function(r) {
+    				if(r) {
+    					$.messager.alert('操作提示', r.msg, r.result);
+    				}
+    			},
+    			error : function() {
+    				$.messager.alert('操作提示', '服务器出错', 'error');
+    			} 
+     });
+}
+
+function searchStatus() {
+	var data1 = sy.serializeObject($('#searchForm').form());
+	var data = encodeURI(JSON.stringify(data1), "UTF-8");
+	$('#resultDg').datagrid('load', data1);
+}
+
+function clearSearch() {
+	$('#resultDg').datagrid("load", {});
+	$('#searchForm').form("clear");
+}
+
 </script>
 <body class="easyui-layout" style="width:100%;height:100%;">
       
@@ -168,7 +197,7 @@ function reSendMsg() {
 		  			<input id="sendDate" class="easyui-datebox"  name="sendDate" editable="false"> - <input id="sendDateEnd" class="easyui-datebox"  name="sendDateEnd" editable="false"> 
 		  			</td>
 		  			<th>发送结果:</th>
-		  			<td><select id="status" class="easyui-combobox"  name="status">
+		  			<td><select id="status" class="easyui-combobox"  name="status" editable="false">
 		  				<option value="none">--请选择--</option>
 		  				<option value="failure">失败</option>
 		  				<option value="success">成功</option>
@@ -176,10 +205,10 @@ function reSendMsg() {
 		  			<th>发送人:</th>
 		  			<td><input id="sendBy" class="easyui-validatebox"  name="sendBy"></td>
     				<td>
-		  			<a id="searchBtn"class="easyui-linkbutton" href="javascript:void(0)" icon="icon-search">搜索</a>
+		  			<a id="searchBtn"class="easyui-linkbutton" href="javascript:void(0)" icon="icon-search" onclick="searchStatus();">查找</a>
 		  			</td>
 		  			<td>
-		  			<a id="clearBtn"class="easyui-linkbutton" href="javascript:void(0)" icon="icon-cancel">清除</a>
+		  			<a id="clearBtn"class="easyui-linkbutton" href="javascript:void(0)" icon="icon-cancel" onclick="clearSearch();">重置</a>
 		  			</td>
     			</tr>
     		

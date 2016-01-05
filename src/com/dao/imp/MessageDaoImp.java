@@ -72,20 +72,33 @@ public class MessageDaoImp implements MessageDao {
 		return id;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List getMessageResultList(int firstRow, int pageSize)
+	public List<Message> getMessageResultList(int firstRow, int pageSize,Message message)
 			throws SQLException {
-		List<Message> list = null;
-		Map<String,Object> map = new HashMap<String,Object>();
-		//int endRow = pageSize+firstRow;
+		try{
+		Map<String,Object> map = new HashMap<String, Object>();
+		List<Message> list = new ArrayList<Message>();
+		map.put("id", message.getId());
+		map.put("content", message.getContent());
+		map.put("sendDate", message.getSendDate());
+		map.put("successCount", message.getSuccessCount());
+		map.put("failCount", message.getFailCount());
+		map.put("sendBy", message.getSendBy());
+		map.put("operate", message.getMsgType());	
 		map.put("beginRow", firstRow);
 		map.put("pageSize", pageSize);
 		list = sqlMapClient.queryForList("getMessageResultList",map);
 		return list;
+	}catch(SQLException e) {
+		e.printStackTrace();
+		throw e;
 	}
+	// TODO Auto-generated method stub
+}
 
 	@Override
-	public int getMessageResultCount() throws SQLException {
+	public int getMessageResultCount(Message message) throws SQLException {
 		int count = 0;
 		count = (Integer) sqlMapClient.queryForObject("getMessageResultCount");
 		return count;
@@ -126,6 +139,7 @@ public class MessageDaoImp implements MessageDao {
 		//return id;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<MessageSearchVO> getAllComp(int firstRow, Integer pageSize,
 			MessageSearchVO messageSearchVO) throws SQLException {

@@ -20,8 +20,27 @@
 		<![CDATA[
 			select m.mesId as Id,m.content as content,m.Content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,s.SendDate as sendDate,e.loginname as sendBy 
 							from tax_state s,tax_employees e,tax_message m 
-										where s.EmpId=e.EmpId and s.MesId = m.MesId  group by m.MesId limit #beginRow#,#pageSize#
+										where s.EmpId=e.EmpId and s.MesId = m.MesId  
 		]]>
+			<dynamic>
+			 <isNotNull prepend="AND" property="content">       
+                  (content like '%$content$%')       
+            </isNotNull>
+            <isNotNull prepend="AND" property="sendDate">
+            <![CDATA[       
+                  (sendDate >=  #sendDate#)  
+                   ]]>      
+            </isNotNull>
+            <isNotNull prepend="AND" property="sendDateEnd">  
+            <![CDATA[     
+                  (sendDate <=  #sendDateEnd#) 
+                  ]]>       
+            </isNotNull>
+<!--              <isNotNull prepend="AND" property="status">     -->
+<!--                   (failCount > 0)     -->
+<!--             </isNotNull>  -->
+		</dynamic>
+		group by m.MesId limit #beginRow#,#pageSize#
 	</select>
 		<select id="getMessageResultCount" resultClass="java.lang.Integer">
 		<![CDATA[
@@ -69,6 +88,15 @@
 		</dynamic>		
 		
 	</select>
+	<select id="validateUser" parameterClass="com.vos.User" resultClass="com.vos.User">
+		select * from tax_employees where loginName = #loginName# and password = #password#
+	</select>
+	
+		<select id="getFailMsg" resultClass="com.vos.NotificationVo" parameterClass="java.util.Map">
+		<![CDATA[
+		select s.TaxId as taxNo, b.TaxName as taxName,s.State as status,s.ResultMsg as resultMsg,case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver from tax_state s,tax_entbasicinfor b where s.MesId = #msgId# and s.State < 0
+		]]>
+		</select>
 	<select id="validateUser" parameterClass="com.vos.User" resultClass="com.vos.User">
 		select * from tax_employees where loginName = #loginName# and password = #password#
 	</select>

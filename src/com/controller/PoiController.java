@@ -52,7 +52,7 @@ public class PoiController {
 	     * 导出excel报表 
 	     * @throws SQLException 
 	     */  
-	    @RequestMapping(value = "/export", method = RequestMethod.GET)  
+	    @RequestMapping(value = "/exportFailMsg", method = RequestMethod.GET)  
 	    public void getXLS(HttpServletResponse response) throws SQLException {  
 	    	poiService.exportXLS(response);  
 	    }  
@@ -62,8 +62,7 @@ public class PoiController {
 	     * @throws SQLException 
 	     * @throws ParseException 
 	     */  
-	    @RequestMapping(value = "/read", method = RequestMethod.POST)  
-	    
+	    @RequestMapping(value = "/read", method = RequestMethod.POST)      
 	    public void getReadReport(@RequestParam MultipartFile file,HttpServletResponse response)  
 	            throws IOException, SQLException, ParseException {  
 	    	
