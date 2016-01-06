@@ -36,7 +36,7 @@ import com.poi.Writer;
 public interface PoiService {
 
   
-    public void exportXLS(HttpServletResponse response) throws SQLException; 
+    public void exportXLS(int msgId,HttpServletResponse response) throws SQLException; 
     
     /** 
      * 读取报表 
@@ -48,7 +48,7 @@ public interface PoiService {
      * 从数据库获得所有的List信息. 
      * @throws SQLException 
      */  
-    public List<NotificationVo> getFailMsg() throws SQLException;
+    public List<NotificationVo> getFailMsg(int msgId) throws SQLException;
     
     /** 
      * 读取报表的数据后批量插入 

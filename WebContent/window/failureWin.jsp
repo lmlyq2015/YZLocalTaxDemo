@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+	pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<%String path = request.getContextPath(); 
-      String basePath = request.getScheme()+"://"+ request.getServerName()+":"+request.getServerPort()+path+"/";%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 <base href="<%=basePath%>">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
@@ -205,26 +209,30 @@ function reSendFailMsg() {
 
 function exportFailMsg(){
 		//alert("123");
-		$.ajax({
-                type: "POST",
-                url: '<%=basePath%>report/exportFailMsg',
-                success : function(r) {
-    				if(r) {
-    					$.messager.alert('操作提示', r.msg, r.result);
-    				}
-    			},
-    			error : function() {
-    				$.messager.alert('操作提示', '服务器出错', 'error');
-    			} 
-     });
+		var msgRecord = $('#resultDg').datagrid('getSelected');
+        var form = $("<form>");  
+      	 form.attr('style','display:none');  
+      	 form.attr('target','');  
+      	 form.attr('method','post');  
+      	 form.attr('action','<%=basePath%>report/exportFailMsg?msgId=' + msgRecord.id);  
+      	 $('body').append(form); 
+      	 form.form('submit',{
+
+        success : function(r) {
+
+		},
+		error : function() {
+			$.messager.alert('操作提示', '服务器出错', 'error');
+		} 
+});
 }
 	
 </script>
 
 
 
- <table id="failMsgDg" fit="true">
- 
- </table>
+<table id="failMsgDg" fit="true">
+
+</table>
 
 </html>

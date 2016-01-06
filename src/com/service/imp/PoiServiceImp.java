@@ -45,13 +45,13 @@ public class PoiServiceImp implements PoiService {
 	private static Logger logger = Logger.getLogger("service");
 
 	@Override
-	public void exportXLS(HttpServletResponse response) throws SQLException {
+	public void exportXLS(int msgId,HttpServletResponse response) throws SQLException {
 		// TODO Auto-generated method stub
 		// 1.创建一个 workbook
 		HSSFWorkbook workbook = new HSSFWorkbook();
 
 		// 2.创建一个 worksheet
-		HSSFSheet worksheet = workbook.createSheet("Export");
+		HSSFSheet worksheet = workbook.createSheet();
 
 		// 3.定义起始行和列
 		int startRowIndex = 0;
@@ -62,17 +62,22 @@ public class PoiServiceImp implements PoiService {
 
 		// 5.填充数据
 		FillReportManager.fillReport(worksheet, startRowIndex, startColIndex,
-				getFailMsg());
+				getFailMsg(msgId));
 
 		// 6.设置response参数
 		String fileName = "Export.xls";
-		response.setHeader("Content-Disposition", "inline; filename="
+		response.setHeader("Content-Disposition", "attachment; filename="
 				+ fileName);
 		// 确保发送的当前文本格式
-		response.setContentType("application/vnd.ms-excel");
+		response.setContentType("application/vnd.ms-excel;charset=utf-8");
 
 		// 7. 输出流
-		Writer.write(response, worksheet);
+		try {
+			Writer.write(response, worksheet);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -135,9 +140,9 @@ public class PoiServiceImp implements PoiService {
 	}
 
 	@Override
-	public List<NotificationVo> getFailMsg() throws SQLException {
+	public List<NotificationVo> getFailMsg(int msgId) throws SQLException {
 		// TODO Auto-generated method stub
-		return poiDao.getFailMsg();
+		return poiDao.getFailMsg(msgId);
 	}
 
 	@Override

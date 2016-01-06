@@ -1,7 +1,9 @@
 package com.dao.imp;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.dao.PoiDao;
 import com.ibatis.sqlmap.client.SqlMapClient;
@@ -22,9 +24,13 @@ public class PoiDaoImp implements PoiDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<NotificationVo> getFailMsg() throws SQLException {
+	public List<NotificationVo> getFailMsg(int msgId) throws SQLException {
 		// TODO Auto-generated method stub
-		return sqlMapClient.queryForList("getFailMsg");
+		List<NotificationVo> list = null;
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("msgId",msgId);
+		list =  sqlMapClient.queryForList("getFailMsg",map);
+		return list;
 	}
 
 	@Override

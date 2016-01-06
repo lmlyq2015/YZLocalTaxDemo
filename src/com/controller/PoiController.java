@@ -52,9 +52,9 @@ public class PoiController {
 	     * 导出excel报表 
 	     * @throws SQLException 
 	     */  
-	    @RequestMapping(value = "/exportFailMsg", method = RequestMethod.GET)  
-	    public void getXLS(HttpServletResponse response) throws SQLException {  
-	    	poiService.exportXLS(response);  
+	    @RequestMapping(value = "/exportFailMsg", method = RequestMethod.POST)  
+	    public void getXLS(@RequestParam("msgId") int msgId,HttpServletResponse response) throws SQLException {  
+	    	poiService.exportXLS(msgId,response);  
 	    }  
 	  
 	    /** 

@@ -144,7 +144,7 @@
 						data : 'data=' + formStr + "=" + data,
 						success : function(r) {
 							$.messager.alert('操作提示', r.msg,r.result);
-							$('#dg').datagrid('unselectAll');
+							$('#dg').datagrid("load",{});
 						},
 						error : function() {
 							$.messager.alert('操作提示', "服务器出错","error");
