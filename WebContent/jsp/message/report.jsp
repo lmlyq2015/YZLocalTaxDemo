@@ -143,8 +143,10 @@
 						dataType : "json",
 						data : 'data=' + formStr + "=" + data,
 						success : function(r) {
+							$('#dg').datagrid("loading", "短信发送中……");
 							$.messager.alert('操作提示', r.msg,r.result);
-							$('#dg').datagrid('unselectAll');
+							$('#dg').datagrid("load",{});
+							$('#dg').datagrid("loaded");
 						},
 						error : function() {
 							$.messager.alert('操作提示', "服务器出错","error");

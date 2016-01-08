@@ -12,6 +12,7 @@ import java.util.Map;
 import com.dao.ReportDao;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.util.TaxUtil;
+import com.vos.ImposeType;
 import com.vos.Report;
 import com.vos.ReportNotificationVo;
 import com.vos.ReportSearchVO;
@@ -145,6 +146,21 @@ public class ReportDaoImp implements ReportDao {
 			//throw e;
 		}
 		return id;
+	}
+
+	@Override
+	public List<ImposeType> getImposeTypes(String taxId) throws SQLException {
+		// TODO Auto-generated method stub
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("taxId", taxId);
+		map.put("type", null);
+		return sqlMapClient.queryForList("getImposeTypes",map);
+	}
+
+	@Override
+	public void deleteReport(String taxId) throws SQLException {
+		// TODO Auto-generated method stub
+		sqlMapClient.delete("deleteReport", taxId);
 	}
 	
 }

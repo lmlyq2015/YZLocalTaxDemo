@@ -51,35 +51,6 @@ public class FillReportManager {
             HSSFCell cell5 = row.createCell(startColIndex+4);  
             cell5.setCellValue(datasource.get(i-2).getReceiver());  
             cell5.setCellStyle(bodyCellStyle);  
-          
-//
-//            HSSFCell cell6 = row.createCell(startColIndex+5);  
-//            cell6.setCellValue(datasource.get(i-2).getPeriod());  
-//            cell6.setCellStyle(bodyCellStyle);  
-//            
-//            HSSFCell cell7 = row.createCell(startColIndex+6);  
-//            cell7.setCellValue(datasource.get(i-2).getStartTime());  
-//            cell7.setCellStyle(bodyCellStyle); 
-//            
-//            HSSFCell cell8 = row.createCell(startColIndex+7);  
-//            cell8.setCellValue(datasource.get(i-2).getEndTime());  
-//            cell8.setCellStyle(bodyCellStyle); 
-//            
-//            HSSFCell cell9 = row.createCell(startColIndex+8);  
-//            cell9.setCellValue(datasource.get(i-2).getDeclareDate());  
-//            cell9.setCellStyle(bodyCellStyle); 
-//            
-//            HSSFCell cell10 = row.createCell(startColIndex+9);  
-//            cell10.setCellValue(datasource.get(i-2).getDeadLine());  
-//            cell10.setCellStyle(bodyCellStyle); 
-//            
-//            HSSFCell cell11 = row.createCell(startColIndex+10);  
-//            cell11.setCellValue(datasource.get(i-2).getDeclareWay());  
-//            cell11.setCellStyle(bodyCellStyle); 
-//            
-//            HSSFCell cell12 = row.createCell(startColIndex+11);  
-//            cell12.setCellValue(datasource.get(i-2).getEntryDate());  
-//            cell12.setCellStyle(bodyCellStyle); 
         }  
     }  
 }

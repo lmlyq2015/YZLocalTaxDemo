@@ -157,9 +157,19 @@ public class TaxMessageController {
 			ReportVO msg = (ReportVO) object.toBean(JSONObject.fromObject(msgData), ReportVO.class);
 			JSONArray json = JSONArray.fromObject(taxEntArr);
 			List <ReportNotificationVo> list  = json.toList(json, ReportNotificationVo.class);
+			for(int i =  0 ;i < list.size()-1;i++){ 
+				    for(int j = list.size()-1;j > i;j--)   { 
+				      if(list.get(j).getTaxId().equals(list.get(i).getTaxId())){ 
+				        list.remove(j); 
+				      } 
+				    } 
+				  }
 			msg.setVoList(list);
 			int id = reportService.sendReportMsg(msg);
 			if (id > 0) {
+				for(int i =  0 ;i < list.size();i++){ 
+				reportService.deleteReport(list.get(i).getTaxId());
+				}
 				pw.print(messageSuc());
 			} else {
 				pw.print(messageErr());

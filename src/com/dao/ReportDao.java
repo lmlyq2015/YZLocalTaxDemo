@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 
+import com.vos.ImposeType;
 import com.vos.Report;
 import com.vos.ReportNotificationVo;
 import com.vos.ReportSearchVO;
@@ -21,6 +22,10 @@ public interface ReportDao {
 
 	public int saveReportMsgResult(int msgKey, ReportNotificationVo vo, String sendDate)
 			throws SQLException;
+
+	public List<ImposeType> getImposeTypes(String taxId) throws SQLException;
+
+	public void deleteReport(String taxId) throws SQLException;
 
 	
 

@@ -94,7 +94,8 @@
 	
 	<select id="getFailMsg" resultClass="com.vos.NotificationVo" parameterClass="java.util.Map">
 		<![CDATA[
-		select s.TaxId as taxNo, b.TaxName as taxName,s.State as status,s.ResultMsg as resultMsg,case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver from tax_state s,tax_entbasicinfor b where s.MesId = #msgId# and s.State < 0
+		select s.TaxId as taxNo, b.TaxName as taxName,s.State as status,s.ResultMsg as resultMsg,case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver
+								from tax_state s,tax_entbasicinfor b where s.TaxId = b.TaxId and s.MesId = #msgId# and s.State < 0 
 		]]>
 	</select>
 	<select id="getAllUser" resultClass="com.vos.User" parameterClass="java.util.Map">

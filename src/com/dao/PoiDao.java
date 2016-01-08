@@ -10,7 +10,7 @@ import com.vos.Report;
 public interface PoiDao {
 	
 
-	public List<NotificationVo> getFailMsg() throws SQLException;
+	public List<NotificationVo> getFailMsg(int msgId) throws SQLException;
 
 	public int[] insertReport(List<Report> list) throws SQLException;
 

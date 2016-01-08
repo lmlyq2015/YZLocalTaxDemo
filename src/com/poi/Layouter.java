@@ -19,12 +19,11 @@ public class Layouter {
     public static void buildReport(HSSFSheet worksheet, int startRowIndex,  
             int startColIndex) {  
         // 设置列的宽度  
-        worksheet.setColumnWidth(0, 5000);  
-        worksheet.setColumnWidth(1, 5000);  
-        worksheet.setColumnWidth(2, 5000);  
-        worksheet.setColumnWidth(3, 5000);  
-        worksheet.setColumnWidth(4, 5000);  
-        worksheet.setColumnWidth(5, 5000);  
+        worksheet.setColumnWidth(0, 10000);  
+        worksheet.setColumnWidth(1, 10000);  
+        worksheet.setColumnWidth(2, 10000);  
+        worksheet.setColumnWidth(3, 10000);  
+        worksheet.setColumnWidth(4, 10000); 
   
         buildTitle(worksheet, startRowIndex, startColIndex);  
   
@@ -53,7 +52,7 @@ public class Layouter {
         HSSFRow rowTitle = worksheet.createRow((short) startRowIndex);  
         rowTitle.setHeight((short) 500);  
         HSSFCell cellTitle = rowTitle.createCell(startColIndex);  
-        cellTitle.setCellValue("Computer Report!");  
+        cellTitle.setCellValue("短信发送失败列表");  
         cellTitle.setCellStyle(cellStyleTitle);  
   
         // 合并区域内的报告标题  
@@ -90,51 +89,23 @@ public class Layouter {
         rowHeader.setHeight((short) 500);  
   
         HSSFCell cell1 = rowHeader.createCell(startColIndex + 0);  
-        cell1.setCellValue("Id");  
+        cell1.setCellValue("纳税人识别号");  
         cell1.setCellStyle(headerCellStyle);  
   
         HSSFCell cell2 = rowHeader.createCell(startColIndex + 1);  
-        cell2.setCellValue("TaxId");  
+        cell2.setCellValue("纳税人名称");  
         cell2.setCellStyle(headerCellStyle);  
   
         HSSFCell cell3 = rowHeader.createCell(startColIndex + 2);  
-        cell3.setCellValue("ImposeType");  
+        cell3.setCellValue("发送状态");  
         cell3.setCellStyle(headerCellStyle);  
   
         HSSFCell cell4 = rowHeader.createCell(startColIndex + 3);  
-        cell4.setCellValue("Year");  
+        cell4.setCellValue("失败原因");  
         cell4.setCellStyle(headerCellStyle);  
   
         HSSFCell cell5 = rowHeader.createCell(startColIndex + 4);  
-        cell5.setCellValue("Month");  
+        cell5.setCellValue("接收人");  
         cell5.setCellStyle(headerCellStyle);  
-  
-        HSSFCell cell6 = rowHeader.createCell(startColIndex + 5);  
-        cell6.setCellValue("Period");  
-        cell6.setCellStyle(headerCellStyle);
-        
-        HSSFCell cell7 = rowHeader.createCell(startColIndex + 6);  
-        cell7.setCellValue("StartTime");  
-        cell7.setCellStyle(headerCellStyle); 
-        
-        HSSFCell cell8 = rowHeader.createCell(startColIndex + 7);  
-        cell8.setCellValue("EndTime");  
-        cell8.setCellStyle(headerCellStyle);  
-        
-        HSSFCell cell9 = rowHeader.createCell(startColIndex + 8);  
-        cell9.setCellValue("DeclareDate");  
-        cell9.setCellStyle(headerCellStyle);  
-        
-        HSSFCell cell10 = rowHeader.createCell(startColIndex + 9);  
-        cell10.setCellValue("DeadLine");  
-        cell10.setCellStyle(headerCellStyle);  
-        
-        HSSFCell cell11 = rowHeader.createCell(startColIndex + 10);  
-        cell11.setCellValue("DaclareWay");  
-        cell11.setCellStyle(headerCellStyle);  
-        
-        HSSFCell cell12 = rowHeader.createCell(startColIndex + 11);  
-        cell12.setCellValue("EntryDate");  
-        cell12.setCellStyle(headerCellStyle); 
     }  
 }
