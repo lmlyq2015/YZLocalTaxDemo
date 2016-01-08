@@ -17,6 +17,8 @@ public interface ReportService {
 
 	public int sendReportMsg(ReportVO msg) throws SQLException;
 
+	public void deleteReport(String taxId) throws SQLException;
+
 
 
 

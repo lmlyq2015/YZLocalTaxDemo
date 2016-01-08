@@ -49,6 +49,7 @@ $(function() {
 			{
 				title:'纳税人电子档案号',
 				field:'eid',
+				hidden:'true',
 				width:10	
 				
 			},

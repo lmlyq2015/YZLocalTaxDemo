@@ -52,4 +52,17 @@
              SELECT last_insert_id() as id
         </selectKey>  
 	</insert>
+	
+	<select id="getImposeTypes" resultClass="com.vos.ImposeType" parameterClass="java.util.Map">
+	<![CDATA[
+	select a.imposeType as name from tax_report a,tax_entbasicinfor b where a.taxId=b.taxId and a.TaxId = #taxId#
+		]]>
+	</select>
+	
+	<delete id="deleteReport" parameterClass="java.lang.String">
+		<![CDATA[
+			delete from tax_report where taxid = #taxId#
+		]]>
+		
+	</delete>
 </sqlMap>
