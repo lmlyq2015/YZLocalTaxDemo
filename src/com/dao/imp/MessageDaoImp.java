@@ -53,8 +53,8 @@ public class MessageDaoImp implements MessageDao {
 		try{
 			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("mesId", msgKey);
-			map.put("taxId", vo.getTaxNo());
-			map.put("status", vo.getStatus());
+			map.put("taxId", vo.getTaxId());
+			map.put("status", vo.getState());
 			map.put("msg", vo.getResultMsg());
 			map.put("empId", "admin");
 			map.put("receiver", vo.getReceiver());
@@ -126,7 +126,7 @@ public class MessageDaoImp implements MessageDao {
 			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("mesId", msgKey);
 			map.put("errCode", oldErrCode);
-			map.put("status", vo.getStatus());
+			map.put("status", vo.getState());
 			map.put("msg", vo.getResultMsg());
 			map.put("empId", "admin");
 			map.put("receiver", vo.getReceiver());

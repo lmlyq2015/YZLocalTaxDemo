@@ -29,7 +29,7 @@ public class FillReportManager {
   
             // Retrieve the id value  
             HSSFCell cell1 = row.createCell(startColIndex+0);  
-            cell1.setCellValue(datasource.get(i-2).getTaxNo());  
+            cell1.setCellValue(datasource.get(i-2).getTaxId());  
             cell1.setCellStyle(bodyCellStyle);  
   
  
@@ -39,7 +39,7 @@ public class FillReportManager {
   
  
             HSSFCell cell3 = row.createCell(startColIndex+2);  
-            cell3.setCellValue(datasource.get(i-2).getStatus());  
+            cell3.setCellValue(datasource.get(i-2).getState());  
             cell3.setCellStyle(bodyCellStyle);  
   
 

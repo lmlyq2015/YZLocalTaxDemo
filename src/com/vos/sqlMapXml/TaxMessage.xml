@@ -51,7 +51,7 @@
 	</select>
 	<select id="getFailMsgStateList" resultClass="com.vos.NotificationVo" parameterClass="java.util.Map">
 		<![CDATA[
-		select s.TaxId as taxNo, b.TaxName as taxName,s.State as status,s.ResultMsg as resultMsg,case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver,b.TaxAgentMobile as taxerMob,b.AdminMobile as adminMob,b.RepMobile as lawRepMob 
+		select s.TaxId as taxId, b.TaxName as taxName,s.State as state,s.ResultMsg as resultMsg,case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver,b.TaxAgentMobile as taxAgentMobile,b.AdminMobile as adminMobile,b.RepMobile as repMobile 
 								from tax_state s,tax_entbasicinfor b where s.TaxId = b.TaxId and s.MesId = #msgId# and s.State < 0 limit #beginRow#,#pageSize#
 		]]>
 	</select>
@@ -94,7 +94,7 @@
 	
 	<select id="getFailMsg" resultClass="com.vos.NotificationVo" parameterClass="java.util.Map">
 		<![CDATA[
-		select s.TaxId as taxNo, b.TaxName as taxName,s.State as status,s.ResultMsg as resultMsg,case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver
+		select s.TaxId as taxId, b.TaxName as taxName,s.State as state,s.ResultMsg as resultMsg,case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver
 								from tax_state s,tax_entbasicinfor b where s.TaxId = b.TaxId and s.MesId = #msgId# and s.State < 0 
 		]]>
 	</select>

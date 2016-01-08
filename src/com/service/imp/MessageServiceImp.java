@@ -41,7 +41,7 @@ public class MessageServiceImp implements MessageService {
 			msg.setId(key);
 			for (NotificationVo vo : list) {
 				//1办税员
-				 result = TaxUtil.sendMessage(msgContent, vo.getTaxerMob(), sendDate);
+				 result = TaxUtil.sendMessage(msgContent, vo.getTaxAgentMobile(), sendDate);
 				 mr = TaxUtil.parseResult(result);
 //				 if (mr.getErrid() != TaxUtil.MESSAGE_STATUS_SUCCESS) {//发送失败则继续发送下一人
 //					 //2财务主管
@@ -53,7 +53,7 @@ public class MessageServiceImp implements MessageService {
 //						 mr = TaxUtil.parseResult(result);
 //					 }
 //				 }
-				 vo.setStatus(mr.getErrid());			 
+				 vo.setState(mr.getErrid());			 
 //				 if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_SUCCESS)) {
 //					 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_SUCCESS_MSG);
 //				 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_SYSTEM_ISSUE)) {
@@ -111,19 +111,19 @@ public class MessageServiceImp implements MessageService {
 			String receiver = vo.getReceiver();
 			String mobile = null;
 			MessageResult mr = null;
-			String oldErrCode = vo.getStatus();
+			String oldErrCode = vo.getState();
 			int id = 0;
 			if (receiver.equals(TaxUtil.MESSAGE_RECEVIER_TAXER)) {
-				mobile = vo.getTaxerMob();
+				mobile = vo.getTaxAgentMobile();
 			} else if (receiver.equals(TaxUtil.MESSAGE_RECEVIER_ADMIN)) {
-				mobile = vo.getAdminMob();
+				mobile = vo.getAdminMobile();
 			} else if (receiver.equals(TaxUtil.MESSAGE_RECEVIER_LAWER)) {
-				mobile = vo.getLawRepMob();
+				mobile = vo.getRepMobile();
 			}
 			result = TaxUtil.sendMessage(msg.getContent(), mobile,
 					DateUtils.getNowTime());
 			mr = TaxUtil.parseResult(result);
-			vo.setStatus(mr.getErrid());	
+			vo.setState(mr.getErrid());	
 			setResultMsg(vo, mr);
 			id = messageDao.updateMsgResult(msg.getId(), vo, DateUtils.getNowTime(),oldErrCode);
 			return id;
