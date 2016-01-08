@@ -76,14 +76,9 @@ public class ReportUtil {
 	public final static String MESSAGE_RECEVIER_ADMIN = "2";
 	public final static String MESSAGE_RECEVIER_LAWER = "3";
 	public static String getReportContent(ReportNotificationVo vo) {
-		String[] it = vo.getImposeType().split("&");
-		String msg = "";
-		for (int i = 0; i < it.length; i++) {
-			msg = msg + it[i] + "，";
-		}
 		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
 				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报：所属" + vo.getYear() + "年" + vo.getMonth() + "月的"
-				+ msg + "请尽快向鄞州地税局直属分局申报。联系电话：28862886。";
+				+ vo.getImposeType() + "请尽快向鄞州地税局直属分局申报。联系电话：28862886。";
 		System.out.println(content);
 		return content;
 	}

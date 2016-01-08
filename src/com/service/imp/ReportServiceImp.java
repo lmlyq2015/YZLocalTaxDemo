@@ -7,6 +7,7 @@ import java.util.List;
 import com.dao.ReportDao;
 import com.service.ReportService;
 import com.util.ReportUtil;
+import com.vos.ImposeType;
 import com.vos.MessageResult;
 import com.vos.Report;
 import com.vos.ReportNotificationVo;
@@ -45,6 +46,7 @@ public class ReportServiceImp implements ReportService {
 		try {
 			String result = null;
 			MessageResult mr = null;
+			
 			//int key = reportDao.saveReportMsg(msg);
 			String sendDate = msg.getSendDate();
 			List<ReportNotificationVo> list = msg.getVoList();
@@ -52,6 +54,15 @@ public class ReportServiceImp implements ReportService {
 			for (ReportNotificationVo vo : list) {
 				//1办税员
 				 //result = ReportUtil.sendReport(msgContent, vo.getTaxAgentMobile(), sendDate);
+				
+
+				List<ImposeType> imposeTypes = reportDao.getImposeTypes(vo.getTaxId());
+				String contents = "";
+				for (int i = 0; i < imposeTypes.size(); i++) {
+					contents = contents + imposeTypes.get(i).getName() + "、";
+				}
+				vo.setImposeType(contents);
+				
 				result = ReportUtil.sendReport(ReportUtil.getReportContent(vo), vo.getTaxAgentMobile(), sendDate);
 				 mr = ReportUtil.parseResult(result);
 //				 if (mr.getErrid() != ReportUtil.MESSAGE_STATUS_SUCCESS) {//发送失败则继续发送下一人
@@ -105,6 +116,12 @@ public class ReportServiceImp implements ReportService {
 			 vo.setResultMsg(ReportUtil.MESSAGE_STATUS_UNKNOW_MSG);
 		 }
 		 return vo;
+	}
+
+	@Override
+	public void deleteReport(String taxId) throws SQLException {
+		// TODO Auto-generated method stub
+		reportDao.deleteReport(taxId);
 	}
 	
 }

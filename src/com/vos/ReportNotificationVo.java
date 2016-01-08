@@ -58,12 +58,6 @@ public class ReportNotificationVo {
 	private String resultMsg;
 	private String address;
 	private String receiver;
-	public String gettaxId() {
-		return taxId;
-	}
-	public void settaxId(String taxId) {
-		this.taxId = taxId;
-	}
 	public String getTaxName() {
 		return taxName;
 	}
