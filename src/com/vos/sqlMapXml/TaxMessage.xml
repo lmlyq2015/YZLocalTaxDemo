@@ -92,9 +92,57 @@
 		select * from tax_employees where loginName = #loginName# and password = #password#
 	</select>
 	
-		<select id="getFailMsg" resultClass="com.vos.NotificationVo" parameterClass="java.util.Map">
+	<select id="getFailMsg" resultClass="com.vos.NotificationVo" parameterClass="java.util.Map">
 		<![CDATA[
 		select s.TaxId as taxNo, b.TaxName as taxName,s.State as status,s.ResultMsg as resultMsg,case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver from tax_state s,tax_entbasicinfor b where s.MesId = #msgId# and s.State < 0
 		]]>
-		</select>
+	</select>
+	<select id="getAllUser" resultClass="com.vos.User" parameterClass="java.util.Map">
+	<![CDATA[
+		select empId,loginName,mobile as contact,email,lastlogindate as lastLoginDate,sendtoself as sendToSelf from tax_employees
+	]]>
+		<dynamic prepend="WHERE">
+			 <isNotNull prepend="AND" property="empId">       
+                  (empId like '%$empId$%')       
+            </isNotNull>
+            <isNotNull prepend="AND" property="loginName">       
+                  (loginName like '%$loginName$%')       
+            </isNotNull>
+            <isNotNull prepend="AND" property="beginDate">
+            <![CDATA[       
+                  (LastLoginDate >=  #beginDate#)  
+                   ]]>      
+            </isNotNull>
+            <isNotNull prepend="AND" property="endDate">  
+            <![CDATA[     
+                  (LastLoginDate <=  #endDate#) 
+                  ]]>
+             </isNotNull>
+		</dynamic>
+		limit #firstRow#,#pageSize#		
+	</select>
+	<select id="getUserCount" resultClass="java.lang.Integer" parameterClass="com.vos.UserSearchVo">
+	<![CDATA[
+		select count(*) from tax_employees
+		]]>
+		<dynamic prepend="WHERE">
+			 <isNotNull prepend="AND" property="empId">       
+                  (empId like '%$empId$%')       
+            </isNotNull>
+            <isNotNull prepend="AND" property="loginName">       
+                  (loginName like '%$loginName$%')       
+            </isNotNull>
+            <isNotEmpty  prepend="AND" property="beginDate">
+            <![CDATA[       
+                  (LastLoginDate >=  #beginDate#)  
+                   ]]>      
+            </isNotEmpty >
+            <isNotEmpty  prepend="AND" property="endDate">
+            <![CDATA[     
+                  (LastLoginDate <=  #endDate#) 
+                  ]]>
+             </isNotEmpty >
+		</dynamic>	
+		
+	</select>
 </sqlMap>

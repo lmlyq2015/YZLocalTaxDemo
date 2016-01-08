@@ -8,8 +8,15 @@ public class User {
 	private String password;
 	private String lastLoginDate;
 	private String email;
+	public String getSendToSelf() {
+		return sendToSelf;
+	}
+	public void setSendToSelf(String sendToSelf) {
+		this.sendToSelf = sendToSelf;
+	}
 	private String contact;
 	private int roleId;
+	private String sendToSelf;
 	public String getEmpId() {
 		return empId;
 	}

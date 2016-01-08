@@ -36,6 +36,7 @@ import com.vos.ReportNotificationVo;
 import com.vos.ReportSearchVO;
 import com.vos.ReportVO;
 import com.vos.User;
+import com.vos.UserSearchVo;
 
 @Controller
 @SessionAttributes
@@ -262,6 +263,28 @@ public class TaxMessageController {
 			pw.flush();
 			pw.close();
 		}
+	}
+	@RequestMapping("/getAllUser")
+	@ResponseBody
+	public Map<String, Object> getAllUser(@RequestParam("rows") Integer pageSize,@RequestParam("page") Integer pageNumber,HttpServletResponse response,@ModelAttribute UserSearchVo searchVo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<User> pageList = new ArrayList<User>();
+		int intPageNum=pageNumber==null||pageNumber<=0?1:pageNumber;
+		int intPageSize=pageSize==null||pageSize<=0?10:pageSize;
+		int firstRow = (pageNumber - 1) * pageSize;
+		try {
+			pageList = messageService.getAllUser(firstRow, pageSize, searchVo);
+			int count = messageService.getUserCount(searchVo);
+			map.put("rows", pageList);
+			map.put("total", count);
+			return map;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			map.put("error", false);
+		}
+		return null;
+		
 	}
 
 }

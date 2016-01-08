@@ -17,6 +17,7 @@ import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
 import com.vos.User;
+import com.vos.UserSearchVo;
 
 public class MessageDaoImp implements MessageDao {
 
@@ -180,5 +181,32 @@ public class MessageDaoImp implements MessageDao {
 	@Override
 	public User validateUser(User user) throws SQLException {
 		return (User) sqlMapClient.queryForObject("validateUser",user);
+	}
+
+	@Override
+	public List<User> getAllUser(int firstRow, Integer pageSize,
+			UserSearchVo searchVo) throws SQLException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<User> list = new ArrayList<User>();
+		try {
+			map.put("empId", searchVo.getEmpId());
+			map.put("loginName", searchVo.getLoginName());
+			map.put("beginDate", searchVo.getBeginDate());
+			map.put("endDate", searchVo.getEndDate());
+			map.put("firstRow",firstRow);
+			map.put("pageSize",pageSize);
+			list = sqlMapClient.queryForList("getAllUser", map);
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public int getUserCount(UserSearchVo searchVo) throws SQLException {
+		// TODO Auto-generated method stub
+		return (Integer) sqlMapClient.queryForObject("getUserCount",searchVo);
+
 	}
 }

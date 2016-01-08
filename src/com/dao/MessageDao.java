@@ -7,6 +7,7 @@ import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
 import com.vos.User;
+import com.vos.UserSearchVo;
 
 public interface MessageDao {
 
@@ -28,4 +29,9 @@ public interface MessageDao {
 	public int getCompCount(MessageSearchVO messageSearchVO) throws SQLException;
 	
 	public User validateUser(User user)  throws SQLException;
+	
+	public List<User> getAllUser(int firstRow, Integer pageSize, UserSearchVo searchVo) throws SQLException;
+
+	public int getUserCount(UserSearchVo searchVo) throws SQLException;
+
 }

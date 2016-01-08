@@ -14,6 +14,7 @@ import com.vos.MessageResult;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
 import com.vos.User;
+import com.vos.UserSearchVo;
 @Service
 public class MessageServiceImp implements MessageService {
 
@@ -172,5 +173,17 @@ public class MessageServiceImp implements MessageService {
 	public User validateUser(User user) throws SQLException {
 		// TODO Auto-generated method stub
 		return messageDao.validateUser(user);
+	}
+
+	@Override
+	public List<User> getAllUser(int firstRow, Integer pageSize,
+			UserSearchVo searchVo) throws SQLException {
+		return messageDao.getAllUser(firstRow, pageSize, searchVo);
+	}
+
+	@Override
+	public int getUserCount(UserSearchVo searchVo) throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.getUserCount(searchVo);
 	}
 }

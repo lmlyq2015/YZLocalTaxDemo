@@ -46,9 +46,9 @@
 							"menus":[
 								]
 						},
-						{"menuid":"6","icon":"icon-sys","menuname":"设置",
-							"menus":[{"menuname":"权限设置","icon":"icon-nav","url":"#"},
-									{"menuname":"个人信息设置","icon":"icon-nav","url":"#"}
+						{"menuid":"6","icon":"icon-sys","menuname":"用户管理",
+							"menus":[{"menuname":"个人信息","icon":"icon-nav","url":"jsp/user/userinfo.jsp"},
+									{"menuname":"权限设置","icon":"icon-nav","url":"#"}
 								]
 						}]};
 	 
