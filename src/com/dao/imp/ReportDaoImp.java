@@ -162,5 +162,15 @@ public class ReportDaoImp implements ReportDao {
 		// TODO Auto-generated method stub
 		sqlMapClient.delete("deleteReport", taxId);
 	}
+
+	@Override
+	public String getContentByWebPage(Integer mesId, String taxId)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("mesId", mesId);
+		map.put("taxId", taxId);
+		return (String) sqlMapClient.queryForObject("getContentByWebPage",map);
+	}
 	
 }

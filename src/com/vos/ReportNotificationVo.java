@@ -8,6 +8,14 @@ public class ReportNotificationVo {
 	private String taxAgentName;
 	private String taxAgentMobile;
 	private String adminName;
+	private int mesId;
+	
+	public int getMesId() {
+		return mesId;
+	}
+	public void setMesId(int mesId) {
+		this.mesId = mesId;
+	}
 	public String getAdminName() {
 		return adminName;
 	}

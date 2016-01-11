@@ -65,4 +65,9 @@
 		]]>
 		
 	</delete>
+	<select id="getContentByWebPage" resultClass="java.lang.String" parameterClass="java.util.Map">
+	<![CDATA[
+	select a.Content  from tax_message a,tax_state b where a.MesId=b.MesId and a.MesId = #mesId# and b.TaxId = #taxId# 
+		]]>
+	</select>
 </sqlMap>

@@ -27,6 +27,8 @@ public interface ReportDao {
 
 	public void deleteReport(String taxId) throws SQLException;
 
+	public String getContentByWebPage(Integer mesId, String taxId) throws SQLException;
+
 	
 
 
