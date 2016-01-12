@@ -24,4 +24,8 @@
 		(#value[].taxId#,#value[].taxName#,#value[].address#,#value[].rep#,#value[].repMobile#,#value[].taxAdmin#,#value[].taxAgentName#,#value[].taxAgentMobile#,#value[].adminName#,#value[].adminMobile#,#value[].eid#,#value[].state#)
 		</iterate> 
 	</insert>
+	
+	<select id="compareTaxId" resultClass="java.lang.Integer" parameterClass="java.util.Map">
+		select count(*) from tax_entbasicinfor where TaxId = #compareTaxId#
+	</select>
 </sqlMap>

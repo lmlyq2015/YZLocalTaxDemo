@@ -15,4 +15,6 @@ public interface PoiDao {
 	public int[] insertReport(List<Report> list) throws SQLException;
 
 	public int[] insertComp(List<MessageSearchVO> list) throws SQLException;
+
+	public int compareTaxId(String compareTaxId) throws SQLException;
 }
