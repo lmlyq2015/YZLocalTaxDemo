@@ -77,6 +77,14 @@ public class ReportUtil {
 	public final static String MESSAGE_RECEVIER_LAWER = "3";
 	public static String getReportContent(ReportNotificationVo vo) {
 		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
+				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报,查看链接：http://192.168.10.101:8080/YZLocalTaxDemo/getContentByWebPage?mesId="+vo.getMesId()+"&taxId="+vo.getTaxId()+"，请尽快向鄞州地税局直属分局申报。联系电话：28862886。";
+		System.out.println(content);
+		return content;
+	}
+
+	public static String getReportSqlContent(ReportNotificationVo vo) {
+		// TODO Auto-generated method stub
+		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
 				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报：所属" + vo.getYear() + "年" + vo.getMonth() + "月的"
 				+ vo.getImposeType() + "请尽快向鄞州地税局直属分局申报。联系电话：28862886。";
 		System.out.println(content);
@@ -195,4 +203,5 @@ public class ReportUtil {
 		return mr;
 
 	}
+
 }

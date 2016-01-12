@@ -44,6 +44,14 @@ public class PoiDaoImp implements PoiDao{
 		// TODO Auto-generated method stub
 		return (int[]) sqlMapClient.insert("insertComp", list);
 	}
+
+	@Override
+	public int compareTaxId(String compareTaxId) throws SQLException {
+		// TODO Auto-generated method stub
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("compareTaxId",compareTaxId);
+		return (Integer) sqlMapClient.queryForObject("compareTaxId", map);
+	}
 	
 	
 }

@@ -275,7 +275,13 @@ public class PoiServiceImp implements PoiService {
 
 				}
 				// 将添加数据后的对象填充至list中
-				compList.add(addMessageSearchVO);
+				String compareTaxId = addMessageSearchVO.getTaxId();
+				System.out.println(compareTaxId);
+				int count = poiDao.compareTaxId(compareTaxId);
+				System.out.println(count);
+				if(count==0){
+					compList.add(addMessageSearchVO);
+				}
 			}
 
 		} catch (InvalidFormatException e) {

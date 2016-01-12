@@ -108,7 +108,7 @@ public class PoiController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				JsonResult jr = new JsonResult();
-				jr.setMsg("导入失败");
+				jr.setMsg("企业信息已在系统中");
 				JSONObject json = JSONObject.fromObject(jr);
 				pw.print(json.toString());
 			}    

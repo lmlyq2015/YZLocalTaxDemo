@@ -62,6 +62,9 @@ public class ReportServiceImp implements ReportService {
 					contents = contents + imposeTypes.get(i).getName() + "、";
 				}
 				vo.setImposeType(contents);
+				int key = reportDao.saveReportMsg(msg,ReportUtil.getReportSqlContent(vo));
+				 msg.setId(key);
+				 vo.setMesId(key);
 				
 				result = ReportUtil.sendReport(ReportUtil.getReportContent(vo), vo.getTaxAgentMobile(), sendDate);
 				 mr = ReportUtil.parseResult(result);
@@ -80,8 +83,6 @@ public class ReportServiceImp implements ReportService {
 				 vo.setReceiver(ReportUtil.MESSAGE_RECEVIER_TAXER);
 					
 				 
-				 int key = reportDao.saveReportMsg(msg,ReportUtil.getReportContent(vo));
-				 msg.setId(key);
 				 
 				 id = reportDao.saveReportMsgResult(key, vo, msg.getSendDate());
 			}
@@ -122,6 +123,13 @@ public class ReportServiceImp implements ReportService {
 	public void deleteReport(String taxId) throws SQLException {
 		// TODO Auto-generated method stub
 		reportDao.deleteReport(taxId);
+	}
+
+	@Override
+	public String getContentByWebPage(Integer mesId, String taxId)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		return reportDao.getContentByWebPage(mesId,taxId);
 	}
 	
 }

@@ -375,5 +375,22 @@ public class TaxMessageController {
 			throw e;
 		}
 	}
-	
+	@RequestMapping("/getContentByWebPage")
+	@ResponseBody
+	public String getContentByWebPage(@RequestParam("mesId") Integer mesId,@RequestParam("taxId") String taxId,HttpServletResponse response) throws SQLException {
+		
+		PrintWriter pw = null;
+		try {
+			pw = response.getWriter();
+			 response.setCharacterEncoding("utf-8");       
+			    response.setContentType("text/html; charset=utf-8");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		pw.print(reportService.getContentByWebPage(mesId,taxId));
+		
+		
+		return null;		
+	}
 }
