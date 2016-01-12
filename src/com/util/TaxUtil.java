@@ -72,6 +72,10 @@ public class TaxUtil {
 	
 	public final static String MESSAGE_STATUS_UNKNOW_MSG = "未知错误";
 	
+	public final static String OPERATE_SUCCESS_MSG = "操作成功";
+	
+	public final static String OPERATE_FAIL_MSG = "操作失败";
+	
 	public final static String MESSAGE_RECEVIER_TAXER = "1";
 	public final static String MESSAGE_RECEVIER_ADMIN = "2";
 	public final static String MESSAGE_RECEVIER_LAWER = "3";

@@ -186,4 +186,28 @@ public class MessageServiceImp implements MessageService {
 		// TODO Auto-generated method stub
 		return messageDao.getUserCount(searchVo);
 	}
+
+	@Override
+	public int isExistEmp(String empId) throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.isExistEmp(empId);
+	}
+
+	@Override
+	public int isExistLoginName(String loginName) throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.isExistLoginName(loginName);
+	}
+
+	@Override
+	public int addNewEmp(User user) throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.addNewEmp(user);
+	}
+
+	@Override
+	public void saveEmpChanges(List<User> list) throws SQLException {
+		
+		messageDao.saveEmpChanges(list);
+	}
 }

@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -296,5 +297,83 @@ public class TaxMessageController {
 		return null;
 		
 	}
-
+	@RequestMapping("/isExistEmp")
+	@ResponseBody
+	public void isExistEmp(HttpServletResponse response,@RequestParam("empId") String empId) {
+		PrintWriter pw = null;
+		try {
+			pw = response.getWriter();		
+			int count = messageService.isExistEmp(empId);
+			if (count > 0) {
+				pw.print("{\"result\":"+count+",\"msg\":\""+"该员工已存在"+"\"}");
+			} else {
+				pw.print("{\"result\":"+count+",\"msg\":\""+"该员工号可以使用"+"\"}");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@RequestMapping("/isExistLoginName")
+	@ResponseBody
+	public void isExistLoginName(HttpServletResponse response,@RequestParam("loginName") String loginName) {
+		PrintWriter pw = null;
+		try {
+			pw = response.getWriter();		
+			int count = messageService.isExistLoginName(loginName);
+			if (count > 0) {
+				pw.print("{\"result\":"+count+",\"msg\":\""+"用户名已注册"+"\"}");
+			} else {
+				pw.print("{\"result\":"+count+",\"msg\":\""+"用户名可用"+"\"}");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@RequestMapping("/addNewEmp")
+	@ResponseBody
+	public void addNewEmp(HttpServletResponse response,@RequestParam("data") String data) {
+		PrintWriter pw = null;
+		User user = new User();
+		int result = 0;
+		try{
+			pw = response.getWriter();
+			String str = URLDecoder.decode(data,"UTF-8");
+			JSONObject object = JSONObject.fromObject(str);
+			user.setEmpId(object.getString("empId2"));
+			user.setLoginName(object.getString("loginName2"));
+			user.setPassword(object.getString("password"));
+			user.setEmail(object.getString("email"));
+			user.setContact(object.getString("mobile"));
+			user.setSendToSelf(object.getString("sendToSelf"));
+			result = messageService.addNewEmp(user);
+			if (result > 0) {
+				pw.print("{\"result\":"+result+",\"msg\":\""+"用户添加成功"+"\"}");
+			} else {
+				pw.print("{\"result\":"+result+",\"msg\":\""+"用户添加失败"+"\"}");
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping("/saveEmpChanges")
+	@ResponseBody
+	public void saveEmpChanges(HttpServletResponse response,@RequestParam("data") String data) throws Exception {
+		PrintWriter pw = null;
+		JsonResult jr = new JsonResult();
+		try {
+			pw = response.getWriter();
+			String str = URLDecoder.decode(data,"UTF-8");
+			List<User> list = JSONArray.toList(JSONArray.fromObject(str),User.class);
+			System.out.println(list);
+			messageService.saveEmpChanges(list);
+			jr.setResult(TaxUtil.RESULT_INFO);
+			jr.setMsg(TaxUtil.OPERATE_SUCCESS_MSG);
+			pw.print(JSONObject.fromObject(jr).toString());
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
 }

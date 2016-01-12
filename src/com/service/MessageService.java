@@ -31,5 +31,13 @@ public interface MessageService {
 	public List<User> getAllUser(int firstRow, Integer pageSize, UserSearchVo searchVo) throws SQLException;
 	
 	public int getUserCount(UserSearchVo searchVo) throws SQLException;
+	
+	public int isExistEmp(String empId) throws SQLException;
+	
+	public int isExistLoginName(String loginName) throws SQLException;
+	
+	public int addNewEmp(User user) throws SQLException;
+	
+	public void saveEmpChanges(List<User> list) throws SQLException;
 
 }

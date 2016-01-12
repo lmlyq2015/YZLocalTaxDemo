@@ -209,4 +209,40 @@ public class MessageDaoImp implements MessageDao {
 		return (Integer) sqlMapClient.queryForObject("getUserCount",searchVo);
 
 	}
+
+	@Override
+	public int isExistEmp(String empId) throws SQLException {
+		// TODO Auto-generated method stub
+		return (Integer) sqlMapClient.queryForObject("isExistEmp",empId);
+	}
+
+	@Override
+	public int isExistLoginName(String loginName) throws SQLException {
+		// TODO Auto-generated method stub
+		return (Integer) sqlMapClient.queryForObject("isExistLoginName",loginName);
+	}
+
+	@Override
+	public int addNewEmp(User user) throws SQLException {
+		// TODO Auto-generated method stub
+		int result = 0;
+		result = (Integer) sqlMapClient.update("addNewEmp",user);
+		return result;
+	}
+
+	@Override
+	public void saveEmpChanges(List<User> list) throws SQLException {
+		try{
+			sqlMapClient.startBatch();
+			for(User user : list) {
+				
+				sqlMapClient.update("saveEmpChanges",user);
+			}
+			sqlMapClient.executeBatch(); 
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		
+	}
 }
