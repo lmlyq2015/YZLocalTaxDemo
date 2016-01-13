@@ -9,6 +9,7 @@ import com.dao.PoiDao;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
+import com.vos.Pay;
 import com.vos.Report;
 
 public class PoiDaoImp implements PoiDao{
@@ -51,6 +52,12 @@ public class PoiDaoImp implements PoiDao{
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("compareTaxId",compareTaxId);
 		return (Integer) sqlMapClient.queryForObject("compareTaxId", map);
+	}
+
+	@Override
+	public int[] insertPay(List<Pay> list) throws SQLException {
+		// TODO Auto-generated method stub
+		return (int[]) sqlMapClient.insert("insertPay", list);
 	}
 	
 	

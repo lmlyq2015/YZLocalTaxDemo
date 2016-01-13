@@ -26,11 +26,12 @@
 			//fit : true,
 			fitColumns : true,
 			pagination : true,
-			pageSize : 50,
+			pageSize : 10,
 			pageList : [ 10, 50, 100 ],
 			rownumbers : true,
 			showFooter: true,
 			remoteSort: false,
+			idField: 'id',
 			singleSelect : false,
 			iconCls : '',
 			columns : [ [ {

@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.service.PoiService;
 import com.vos.JsonResult;
 import com.vos.MessageSearchVO;
+import com.vos.Pay;
 import com.vos.Report;
 
 @Controller  
@@ -114,4 +115,31 @@ public class PoiController {
 			}    
 	    } 
 	    
+	    /** 
+	     * 读取excel报表（Pay） 
+	     * @throws SQLException 
+	     * @throws ParseException 
+	     */  
+	    @RequestMapping(value = "/readPay", method = RequestMethod.POST)      
+	    public void getReadPay(@RequestParam MultipartFile file,HttpServletResponse response)  
+	            throws IOException, SQLException, ParseException {  
+	    	
+	        List<Pay> list = poiService.readPay(file.getInputStream());  
+	         
+	        PrintWriter pw = null;
+			try {
+				pw = response.getWriter();
+				poiService.insertPay(list);
+				JsonResult jr = new JsonResult();
+				jr.setMsg("导入成功");
+				JSONObject json = JSONObject.fromObject(jr);
+				pw.print(json.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+				JsonResult jr = new JsonResult();
+				jr.setMsg("导入失败");
+				JSONObject json = JSONObject.fromObject(jr);
+				pw.print(json.toString());
+			}    
+	    } 
 }

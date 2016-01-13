@@ -29,12 +29,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.service.MessageService;
+import com.service.PayService;
 import com.service.ReportService;
 import com.util.TaxUtil;
 import com.vos.JsonResult;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
+import com.vos.Pay;
+import com.vos.PayNotificationVo;
+import com.vos.PaySearchVO;
+import com.vos.PayVO;
 import com.vos.Report;
 import com.vos.ReportNotificationVo;
 import com.vos.ReportSearchVO;
@@ -393,5 +398,68 @@ public class TaxMessageController {
 		
 		
 		return null;		
+	}
+	@Resource(name = "payService")
+	private PayService payService;
+
+	public PayService getPayService() {
+		return payService;
+	}
+	@RequestMapping("/getAllPay")
+	@ResponseBody
+	public Map<String, Object> getAllPay(@RequestParam("rows") Integer pageSize,@RequestParam("page") Integer pageNumber,HttpServletResponse response,@ModelAttribute PaySearchVO paySearchVO) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Pay> pageList = new ArrayList<Pay>();
+		int intPageNum=pageNumber==null||pageNumber<=0?1:pageNumber;
+		int intPageSize=pageSize==null||pageSize<=0?10:pageSize;
+		int firstRow = (pageNumber - 1) * pageSize;
+		try {
+			pageList = payService.getAllPay(firstRow, pageSize,paySearchVO);
+			int count = payService.getPayCount(paySearchVO);
+			map.put("rows", pageList);
+			map.put("total", count);
+			return map;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			map.put("error", false);
+		}
+		return null;		
+	}
+	
+	@RequestMapping("/sendPayMsg")
+	public void sendPayMsg(@RequestParam("data") String data,HttpServletResponse response) {
+		PrintWriter pw= null;
+		try {
+			pw = response.getWriter();
+			String str = URLDecoder.decode(data,"UTF-8");
+			String[]arrData = str.split("=");
+			String msgData = arrData[0];
+			String taxEntArr = arrData[1];
+			JSONObject object = JSONObject.fromObject(msgData);
+			PayVO msg = (PayVO) object.toBean(JSONObject.fromObject(msgData), PayVO.class);
+			JSONArray json = JSONArray.fromObject(taxEntArr);
+			List <PayNotificationVo> list  = json.toList(json, PayNotificationVo.class);
+			for(int i =  0 ;i < list.size()-1;i++){ 
+				    for(int j = list.size()-1;j > i;j--)   { 
+				      if(list.get(j).getTaxId().equals(list.get(i).getTaxId())){ 
+				        list.remove(j); 
+				      } 
+				    } 
+				  }
+			msg.setVoList(list);
+			int id = payService.sendPayMsg(msg);
+			if (id > 0) {
+				for(int i =  0 ;i < list.size();i++){ 
+				payService.deletePay(list.get(i).getTaxId());
+				}
+				pw.print(messageSuc());
+			} else {
+				pw.print(messageErr());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

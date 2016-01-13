@@ -3,10 +3,13 @@ package com.service.imp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,6 +31,7 @@ import com.poi.Writer;
 import com.service.PoiService;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
+import com.vos.Pay;
 import com.vos.Report;
 
 public class PoiServiceImp implements PoiService {
@@ -351,5 +355,121 @@ public class PoiServiceImp implements PoiService {
 		// TODO Auto-generated method stub
 		return poiDao.insertComp(list);
 	}
+
+	@Override
+	public List<Pay> readPay(InputStream inp) throws SQLException,
+			ParseException {
+		// TODO Auto-generated method stub
+		List<Pay> payList = new ArrayList<Pay>();
+
+		try {
+			String cellStr = null;
+
+			Workbook wb = WorkbookFactory.create(inp);
+
+			Sheet sheet = wb.getSheetAt(0);// 取得第一个sheets
+
+			// 从第二行开始读取数据
+			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+
+				Pay pay = new Pay();
+				Pay addPay = new Pay();
+
+				Row row = sheet.getRow(i); // 获取行(row)对象
+
+				if (row == null) {
+					// row为空的话,不处理
+					continue;
+				}
+
+				int[] cellInt = {0,3,16,5,6,7,8,9,17};
+				for (int j = 0; j < cellInt.length; j++) {
+
+					Cell cell = row.getCell(cellInt[j]); // 获得单元格(cell)对象
+					
+					// 转换接收的单元格
+					cellStr = ConvertCellStr(cell, cellStr);
+					
+					// 将单元格的数据添加至一个对象
+					addPay = addingPay(cellInt[j], pay, cellStr);
+
+				}
+				// 将添加数据后的对象填充至list中
+				payList.add(addPay);
+			}
+
+		} catch (InvalidFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (inp != null) {
+				try {
+					inp.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				logger.info("没有数据流!");
+			}
+		}
+		return payList;
+	}
+	
+	@Override
+	public Pay addingPay(int j, Pay pay, String cellStr)
+			throws SQLException, ParseException {
+		// TODO Auto-generated method stub
+		switch (j) {
+		case 0:
+			pay.setId(null);
+			break;
+		case 3:
+			pay.setTaxId(cellStr);
+			break;
+		case 16:
+			pay.setImposeType(cellStr);
+			break;
+		case 5:
+			DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+			Date date = df.parse(cellStr);
+			df = new SimpleDateFormat("yyyy-MM-dd");
+			String str = df.format(date);
+			pay.setPaymentDates(str);
+			break;
+		case 6:
+			DateFormat df2 = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+			Date date2 = df2.parse(cellStr);
+			df2 = new SimpleDateFormat("yyyy-MM-dd");
+			String str2 = df2.format(date2);
+			pay.setDeadline(str2);
+			break;
+		case 7:
+			pay.setTotaleTax(Float.parseFloat(cellStr));
+			break;
+		case 8:
+			pay.setPaidTax(Float.parseFloat(cellStr));
+			break;
+		case 9:
+			pay.setUnpaidTax(Float.parseFloat(cellStr));
+			break;
+		case 17:
+			DateFormat df1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+			Date date1 = df1.parse(cellStr);
+			df1 = new SimpleDateFormat("yyyy-MM-dd");
+			String str1 = df1.format(date1);
+			pay.setPushDate(str1);
+			break;
+		}
+
+		return pay;
+	}
+
+	@Override
+	public int[] insertPay(List<Pay> list) throws SQLException {
+		// TODO Auto-generated method stub
+		return poiDao.insertPay(list);
+	}
+
 	
 }

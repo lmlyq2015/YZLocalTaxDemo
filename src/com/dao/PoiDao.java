@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
+import com.vos.Pay;
 import com.vos.Report;
 
 public interface PoiDao {
@@ -17,4 +18,6 @@ public interface PoiDao {
 	public int[] insertComp(List<MessageSearchVO> list) throws SQLException;
 
 	public int compareTaxId(String compareTaxId) throws SQLException;
+
+	public int[] insertPay(List<Pay> list) throws SQLException;
 }

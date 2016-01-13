@@ -1,6 +1,6 @@
 package com.vos;
 
-public class ReportSearchVO {
+public class PaySearchVO {
 	private Long id;
 	private String taxId;
 	private String taxName;
@@ -10,8 +10,8 @@ public class ReportSearchVO {
 	private String adminMobile;
 	private String rep;
 	private String repMobile;
-	private String year;
-	private String month;
+	private String deadline;
+	private String unpaidTax;
 	private String imposeType;
 	
 	public Long getId() {
@@ -68,17 +68,17 @@ public class ReportSearchVO {
 	public void setRepMobile(String repMobile) {
 		this.repMobile = repMobile;
 	}
-	public String getYear() {
-		return year;
+	public String getDeadline() {
+		return deadline;
 	}
-	public void setYear(String year) {
-		this.year = year;
+	public void setDeadline(String deadline) {
+		this.deadline = deadline;
 	}
-	public String getMonth() {
-		return month;
+	public String getUnpaidTax() {
+		return unpaidTax;
 	}
-	public void setMonth(String month) {
-		this.month = month;
+	public void setUnpaidTax(String unpaidTax) {
+		this.unpaidTax = unpaidTax;
 	}
 	public String getImposeType() {
 		return imposeType;

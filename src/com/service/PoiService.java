@@ -29,6 +29,7 @@ import com.poi.FillReportManager;
 import com.poi.Layouter;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
+import com.vos.Pay;
 import com.vos.Report;
 import com.poi.Writer;
 
@@ -81,5 +82,12 @@ public interface PoiService {
 	
 	public MessageSearchVO addingComp(int j, MessageSearchVO messageSearchVO,
 			String cellStr) throws SQLException, ParseException;
+
+	public List<Pay> readPay(InputStream inputStream) throws SQLException, ParseException;
+
+	public Pay addingPay(int j, Pay pay, String cellStr) throws SQLException,
+			ParseException ;
+
+	public int[] insertPay(List<Pay> list) throws SQLException;
 
 }
