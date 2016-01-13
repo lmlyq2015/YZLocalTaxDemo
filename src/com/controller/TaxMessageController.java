@@ -13,12 +13,15 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,7 +56,7 @@ public class TaxMessageController {
 		this.messageService = messageService;
 	}
 	@RequestMapping("/sendNotificationMsg")
-	public void sendNotificationMsg(@RequestParam("data") String data,HttpServletResponse response) {
+	public void sendNotificationMsg(@RequestParam("data") String data,HttpServletResponse response,HttpSession session) {
 		PrintWriter pw= null;
 		try {
 			pw = response.getWriter();
@@ -66,6 +69,7 @@ public class TaxMessageController {
 			JSONArray json = JSONArray.fromObject(taxEntArr);
 			List <NotificationVo> list  = json.toList(json, NotificationVo.class);
 			msg.setVoList(list);
+			msg.setSendBy(((User)session.getAttribute("current_user")).getEmpId());
 			int id = messageService.sendNotificationMsg(msg);
 			if (id > 0) {
 				pw.print(messageSuc());
@@ -248,21 +252,18 @@ public class TaxMessageController {
 		
 	}
 	@RequestMapping("/login")
-	@ResponseBody
-	public void login(@RequestParam("loginName") String LoginName,@RequestParam("password") String password,HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void login(@RequestParam("loginName") String loginName,@RequestParam("password") String password,HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
 		User user = new User();
-		user.setLoginName(LoginName);
+		user.setLoginName(loginName);
 		user.setPassword(password);
 		PrintWriter pw = response.getWriter();
-		
 		String incode = (String)request.getParameter("code");   
 	    String rightcode = (String)request.getSession().getAttribute("rCode");  
-	    
 		try {
 			User u = messageService.validateUser(user);
 			if(u != null && (incode.equals(rightcode))){
-				request.getSession().setAttribute("current_user", u.getLoginName());
-				TaxUtil.CURRENT_USER = LoginName;
+				session.setAttribute("current_user", u);
+				TaxUtil.CURRENT_USER = loginName;
 				pw.print("{\"result\":" + true + ",\"msg\":\"" + "登录成功" + "\"}");
 			} else {
 				pw.print("{\"result\":" + false + ",\"msg\":\"" + "信息验证错误" + "\"}");

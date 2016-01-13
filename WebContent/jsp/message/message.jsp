@@ -29,13 +29,14 @@ $(function() {
 		pagination : true,
 		pageSize:10,
 		nowrap : false,
-		pageList:[10,30,40],
+		pageList:[5,30,40],
 		iconCls:'icon-reload',
 		rownumbers: true,
 		singleSelect:false,
 		fitColumns:true,
 		showFooter: true,
 		remoteSort: false,
+		idField: 'taxId',
 		columns:[[
 			{
 				//title:'<input id=\"detailcheckbox\" type=\"checkbox\"  >',
@@ -72,7 +73,7 @@ $(function() {
 			{
 				title:'税收管理员',
 				field:'taxAdmin',
-				width:15
+				width:8
 			},
 			{
 				title:'企业状态',
@@ -234,7 +235,7 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 					<table>
 					<tr>
 						<td>
-						<textarea id="content" style="width: 200px;height: 400px;" class="easyui-validatebox"  name="content" placeholder="请输入短信内容（根据运营商政策规定，建议每次提交小于等于225个字符  含签名、空格、字母、符号等） " maxlength="255"></textarea>
+						<textarea id="content" style="width: 200px;height: 320px;" class="easyui-validatebox"  name="content" placeholder="请输入短信内容（根据运营商政策规定，建议每次提交小于等于225个字符  含签名、空格、字母、符号等） " maxlength="255"></textarea>
 						</td>
 					</tr>
 					<tr height="30" align="center">
@@ -244,7 +245,7 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 					</tr>
 					<tr height="50" align="center">
 						<td>
-						发送时间：<input id="sendDate" class="easyui-datebox"  name="sendDate">
+						发送时间：<input id="sendDate" class="easyui-datetimebox"  name="sendDate">
 						</td>
 					</tr>
 					<tr align="center">

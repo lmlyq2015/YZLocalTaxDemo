@@ -94,7 +94,11 @@ $(function(){
 		success : function(data) {
 			var res = jQuery.parseJSON(data);
 			if (res.result) {
-				location.href = './tax.html';
+<%-- 				VAR USER = '<%=REQUEST.GETSESSION().GETATTRIBUTE("CURRENT_USER")%>'; --%>
+// 				CONSOLE.INFO(USER);
+				//location.reload(true);
+ 				location.href='./tax.html';	
+
 			} else {
 				$.messager.alert('提示', '信息填写错误', 'error');
 

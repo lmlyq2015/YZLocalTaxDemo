@@ -41,7 +41,7 @@ public class MessageServiceImp implements MessageService {
 			msg.setId(key);
 			for (NotificationVo vo : list) {
 				//1办税员
-				 result = TaxUtil.sendMessage(msgContent, vo.getTaxAgentMobile(), sendDate);
+				 result = TaxUtil.sendMessage(vo.getTaxName() + " : "+ msgContent, vo.getTaxAgentMobile(), sendDate);
 				 mr = TaxUtil.parseResult(result);
 //				 if (mr.getErrid() != TaxUtil.MESSAGE_STATUS_SUCCESS) {//发送失败则继续发送下一人
 //					 //2财务主管
@@ -75,7 +75,7 @@ public class MessageServiceImp implements MessageService {
 //				 }
 				 setResultMsg(vo, mr);
 				 vo.setReceiver(TaxUtil.MESSAGE_RECEVIER_TAXER);
-				 id = messageDao.saveMsgResult(key, vo, msg.getSendDate());				 
+				 id = messageDao.saveMsgResult(key, vo, msg.getSendDate(),msg.getSendBy());				 
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -172,7 +172,11 @@ public class MessageServiceImp implements MessageService {
 	@Override
 	public User validateUser(User user) throws SQLException {
 		// TODO Auto-generated method stub
-		return messageDao.validateUser(user);
+		user =  messageDao.validateUser(user);
+		if (user != null) {
+			messageDao.updateLoginDate(user);
+		}
+		return user;
 	}
 
 	@Override

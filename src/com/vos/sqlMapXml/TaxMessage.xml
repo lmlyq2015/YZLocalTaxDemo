@@ -11,14 +11,14 @@
 	</insert>
 	
 	<insert id="saveMsgResult" parameterClass="java.util.Map">
-		insert into tax_state(taxid,mesid,empid,senddate,state,resultmsg,RecId) values (#taxId#,#mesId#,#empId#,str_to_date(#sendDate#,'%Y-%m-%d %H:%i:%s'),#status#,#msg#,#receiver#)
+		insert into tax_state(taxid,mesid,empid,senddate,state,resultmsg,RecId) values (#taxId#,#mesId#,#empId#,str_to_date(#sendDate#,'%Y-%m-%d %H:%i'),#status#,#msg#,#receiver#)
 		<selectKey resultClass="java.lang.Integer"  keyProperty="Id" >    
              SELECT last_insert_id() as id
         </selectKey>  
 	</insert>
 	<select id="getMessageResultList" resultClass="com.vos.Message" parameterClass="java.util.Map">
 		<![CDATA[
-			select m.mesId as Id,m.content as content,m.Content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,s.SendDate as sendDate,e.loginname as sendBy 
+			select m.mesId as Id,m.content as content,m.Content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,DATE_FORMAT(s.SendDate, '%Y-%m-%d %H:%i') as sendDate,e.loginname as sendBy 
 							from tax_state s,tax_employees e,tax_message m 
 										where s.EmpId=e.EmpId and s.MesId = m.MesId  
 		]]>
@@ -100,7 +100,7 @@
 	</select>
 	<select id="getAllUser" resultClass="com.vos.User" parameterClass="java.util.Map">
 	<![CDATA[
-		select empId,loginName,mobile as contact,email,lastlogindate as lastLoginDate,sendtoself as sendToSelf from tax_employees
+		select empId,loginName,mobile as contact,email,DATE_FORMAT(lastlogindate, '%Y-%m-%d %H:%i') as lastLoginDate,sendtoself as sendToSelf from tax_employees
 	]]>
 		<dynamic prepend="WHERE">
 		    <isNotEmpty prepend="AND" property="beginDate">
@@ -160,5 +160,8 @@
        	 <![CDATA[
        	 	update tax_employees set sendtoself=#sendToSelf# where empid = #empId#
        	 ]]>
+	</update>
+	<update id="updateLoginDate" parameterClass="java.util.Map">
+		update tax_employees set LastLoginDate = #lastLoginDate# where empid = #empid#
 	</update>
 </sqlMap>

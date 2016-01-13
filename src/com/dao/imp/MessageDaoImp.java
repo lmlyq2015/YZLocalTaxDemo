@@ -12,6 +12,7 @@ import org.springframework.aop.ThrowsAdvice;
 
 import com.dao.MessageDao;
 import com.ibatis.sqlmap.client.SqlMapClient;
+import com.util.DateUtils;
 import com.util.TaxUtil;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
@@ -47,7 +48,7 @@ public class MessageDaoImp implements MessageDao {
 	}
 
 	@Override
-	public int saveMsgResult(int msgKey, NotificationVo vo,String sendDate)
+	public int saveMsgResult(int msgKey, NotificationVo vo,String sendDate,String sendBy)
 			throws SQLException {
 		int id = 0;
 		try{
@@ -56,10 +57,10 @@ public class MessageDaoImp implements MessageDao {
 			map.put("taxId", vo.getTaxId());
 			map.put("status", vo.getState());
 			map.put("msg", vo.getResultMsg());
-			map.put("empId", "admin");
+			map.put("empId", sendBy);
 			map.put("receiver", vo.getReceiver());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			if (sendDate == null || sendDate.equals("")) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				sendDate = sdf.format(new Date()).toString();
 			}
 			map.put("sendDate", sendDate);
@@ -243,6 +244,21 @@ public class MessageDaoImp implements MessageDao {
 			e.printStackTrace();
 		}
 
+		
+	}
+
+	@Override
+	public int updateLoginDate(User user) throws SQLException {
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("empid", user.getEmpId());
+			String loginDate = DateUtils.getNowTime();
+			map.put("lastLoginDate", loginDate);
+			return sqlMapClient.update("updateLoginDate", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 		
 	}
 }

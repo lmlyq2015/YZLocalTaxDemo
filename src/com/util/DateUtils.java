@@ -9,7 +9,7 @@ public class DateUtils {
 	 */
 	public static String getNowTime() {
 		Date date = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		return dateFormat.format(date);
 	}
 

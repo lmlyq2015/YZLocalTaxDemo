@@ -13,7 +13,7 @@ public interface MessageDao {
 
 	public int saveMessage(Message msg) throws SQLException;
 	
-	public int saveMsgResult(int msgKey,NotificationVo vo,String sendDate) throws SQLException;
+	public int saveMsgResult(int msgKey,NotificationVo vo,String sendDate,String sendBy) throws SQLException;
 	
 	public List<Message> getMessageResultList(int firstRow, int pageSize,Message message) throws SQLException;
 
@@ -41,5 +41,7 @@ public interface MessageDao {
 	public int addNewEmp(User user) throws SQLException;
 	
 	public void saveEmpChanges(List<User> list) throws SQLException;
+	
+	public int updateLoginDate(User user) throws SQLException;
 
 }
