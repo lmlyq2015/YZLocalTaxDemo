@@ -28,4 +28,13 @@
 	<select id="compareTaxId" resultClass="java.lang.Integer" parameterClass="java.util.Map">
 		select count(*) from tax_entbasicinfor where TaxId = #compareTaxId#
 	</select>
+	
+	<insert id="insertPay" parameterClass="java.util.ArrayList">
+		INSERT INTO
+		tax_pay(TAXID,IMPOSETYPE,PaymentDates,Deadline,TotaleTax,PaidTax,UnpaidTax,PushDate)
+		VALUES
+		<iterate conjunction=",">  
+		(#value[].taxId#,#value[].imposeType#,#value[].paymentDates#,#value[].deadline#,#value[].totaleTax#,#value[].paidTax#,#value[].unpaidTax#,#value[].pushDate#)
+		</iterate> 
+	</insert>
 </sqlMap>

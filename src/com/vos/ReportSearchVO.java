@@ -1,6 +1,7 @@
 package com.vos;
 
 public class ReportSearchVO {
+	private Long id;
 	private String taxId;
 	private String taxName;
 	private String taxAgentName;
@@ -12,6 +13,13 @@ public class ReportSearchVO {
 	private String year;
 	private String month;
 	private String imposeType;
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getTaxId() {
 		return taxId;
 	}

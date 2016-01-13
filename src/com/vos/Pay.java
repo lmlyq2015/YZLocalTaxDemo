@@ -3,19 +3,20 @@ package com.vos;
 import java.util.Date;
 
 public class Pay {
-	private int id;
+	private Long id;
 	private String taxId;
 	private String imposeType;
-	private Date paymentDates;
+	private String paymentDates;
 	private String deadline;
 	private Float totaleTax;
 	private Float paidTax;
 	private Float unpaidTax;
-	private Date pushDate;
-	public int getId() {
+	private String pushDate;
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getTaxId() {
@@ -30,12 +31,7 @@ public class Pay {
 	public void setImposeType(String imposeType) {
 		this.imposeType = imposeType;
 	}
-	public Date getPaymentDates() {
-		return paymentDates;
-	}
-	public void setPaymentDates(Date paymentDates) {
-		this.paymentDates = paymentDates;
-	}
+	
 	public String getDeadline() {
 		return deadline;
 	}
@@ -60,11 +56,18 @@ public class Pay {
 	public void setUnpaidTax(Float unpaidTax) {
 		this.unpaidTax = unpaidTax;
 	}
-	public Date getPushDate() {
+	public String getPaymentDates() {
+		return paymentDates;
+	}
+	public void setPaymentDates(String paymentDates) {
+		this.paymentDates = paymentDates;
+	}
+	public String getPushDate() {
 		return pushDate;
 	}
-	public void setPushDate(Date pushDate) {
+	public void setPushDate(String pushDate) {
 		this.pushDate = pushDate;
 	}
+
 	
 }

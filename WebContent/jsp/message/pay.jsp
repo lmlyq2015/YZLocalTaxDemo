@@ -32,6 +32,7 @@
 			showFooter: true,
 			remoteSort: false,
 			singleSelect : false,
+			idField: 'id',
 			iconCls : '',
 			columns : [ [ {
 				field:'check',
@@ -88,7 +89,7 @@
 		
 		
 		$('#readpayForm').form({
-			url : '<%=basePath%>pay/read',
+			url : '<%=basePath%>report/readPay',
 			onSubmit: function(){
 				return $('#readpayForm').form('validate');
 			},
