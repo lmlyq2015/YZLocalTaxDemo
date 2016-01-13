@@ -1,6 +1,7 @@
 package com.vos;
 
 public class ReportNotificationVo {
+	private Long id;
 	private String taxId;
 	private String taxName;
 	private String rep;
@@ -10,6 +11,12 @@ public class ReportNotificationVo {
 	private String adminName;
 	private int mesId;
 	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public int getMesId() {
 		return mesId;
 	}

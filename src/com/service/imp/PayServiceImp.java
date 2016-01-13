@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.dao.PayDao;
 import com.service.PayService;
+import com.util.DateUtils;
 import com.util.PayUtil;
 import com.vos.ImposeType;
 import com.vos.MessageResult;
@@ -45,13 +46,14 @@ public class PayServiceImp implements PayService {
 		try {
 			String result = null;
 			MessageResult mr = null;	
-			String sendDate = msg.getSendDate();
+//			String sendDate = msg.getSendDate();
+			String sendDate = DateUtils.getNowTime();
 			List<PayNotificationVo> list = msg.getVoList();
 			for (PayNotificationVo vo : list) {
 				List<ImposeType> imposeTypes = payDao.getImposeType(vo.getTaxId());
 				String contents = "";
 				for (int i = 0; i < imposeTypes.size(); i++) {
-					contents = contents + imposeTypes.get(i).getName() + "、";
+					contents = contents + imposeTypes.get(i).getName() + ",";
 				}
 				vo.setImposeType(contents);
 				int key = payDao.savePayMsg(msg,PayUtil.getPaySqlContent(vo));
@@ -62,7 +64,8 @@ public class PayServiceImp implements PayService {
 				vo.setStatus(mr.getErrid());
 				setResultMsg(vo, mr);
 				vo.setReceiver(PayUtil.MESSAGE_RECEVIER_TAXER); 
-				id = payDao.savePayMsgResult(key, vo, msg.getSendDate());
+//				id = payDao.savePayMsgResult(key, vo, msg.getSendDate());
+				id = payDao.savePayMsgResult(key, vo, sendDate);
 			}		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

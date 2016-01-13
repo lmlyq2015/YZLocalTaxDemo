@@ -83,7 +83,8 @@ public class PayDaoImp implements PayDao {
 		int key = 0;
 		try{
 			//msg.setContent(msg.getContent() + " " + msg.getSign());
-			msg.setContent(paySqlContent + " " + msg.getSign());
+//			msg.setContent(paySqlContent + " " + msg.getSign());
+			msg.setContent(paySqlContent);
 			msg.setMsgType(TaxUtil.MESSAGE_NOTIFICATION_MESSAGE_TYPE);		
 			key = (Integer) sqlMapClient.insert("savePayMsg",msg);
 		}catch(SQLException e) {

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.dao.ReportDao;
 import com.service.ReportService;
+import com.util.DateUtils;
 import com.util.ReportUtil;
 import com.vos.ImposeType;
 import com.vos.MessageResult;
@@ -48,7 +49,8 @@ public class ReportServiceImp implements ReportService {
 			MessageResult mr = null;
 			
 			//int key = reportDao.saveReportMsg(msg);
-			String sendDate = msg.getSendDate();
+//			String sendDate = msg.getSendDate();
+			String sendDate = DateUtils.getNowTime();
 			List<ReportNotificationVo> list = msg.getVoList();
 			//msg.setId(key);
 			for (ReportNotificationVo vo : list) {
@@ -84,7 +86,8 @@ public class ReportServiceImp implements ReportService {
 					
 				 
 				 
-				 id = reportDao.saveReportMsgResult(key, vo, msg.getSendDate());
+//				 id = reportDao.saveReportMsgResult(key, vo, msg.getSendDate());
+				 id = reportDao.saveReportMsgResult(key, vo, sendDate);
 			}
 			
 		} catch (SQLException e) {

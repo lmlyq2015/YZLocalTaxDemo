@@ -160,12 +160,13 @@ public class TaxMessageController {
 		try {
 			pw = response.getWriter();
 			String str = URLDecoder.decode(data,"UTF-8");
-			String[]arrData = str.split("=");
-			String msgData = arrData[0];
-			String taxEntArr = arrData[1];
-			JSONObject object = JSONObject.fromObject(msgData);
-			ReportVO msg = (ReportVO) object.toBean(JSONObject.fromObject(msgData), ReportVO.class);
-			JSONArray json = JSONArray.fromObject(taxEntArr);
+//			String[]arrData = str.split("=");
+//			String msgData = arrData[0];
+//			String taxEntArr = arrData[1];
+//			JSONObject object = JSONObject.fromObject(msgData);
+//			ReportVO msg = (ReportVO) object.toBean(JSONObject.fromObject(msgData), ReportVO.class);
+			ReportVO msg = new ReportVO();
+			JSONArray json = JSONArray.fromObject(str);
 			List <ReportNotificationVo> list  = json.toList(json, ReportNotificationVo.class);
 			for(int i =  0 ;i < list.size()-1;i++){ 
 				    for(int j = list.size()-1;j > i;j--)   { 
@@ -433,12 +434,13 @@ public class TaxMessageController {
 		try {
 			pw = response.getWriter();
 			String str = URLDecoder.decode(data,"UTF-8");
-			String[]arrData = str.split("=");
-			String msgData = arrData[0];
-			String taxEntArr = arrData[1];
-			JSONObject object = JSONObject.fromObject(msgData);
-			PayVO msg = (PayVO) object.toBean(JSONObject.fromObject(msgData), PayVO.class);
-			JSONArray json = JSONArray.fromObject(taxEntArr);
+//			String[]arrData = str.split("=");
+//			String msgData = arrData[0];
+//			String taxEntArr = arrData[1];
+//			JSONObject object = JSONObject.fromObject(msgData);
+//			PayVO msg = (PayVO) object.toBean(JSONObject.fromObject(msgData), PayVO.class);
+			PayVO msg = new PayVO();
+			JSONArray json = JSONArray.fromObject(str);
 			List <PayNotificationVo> list  = json.toList(json, PayNotificationVo.class);
 			for(int i =  0 ;i < list.size()-1;i++){ 
 				    for(int j = list.size()-1;j > i;j--)   { 

@@ -125,24 +125,25 @@
 			
 			
 			$('#ReportMsgSend').click(function(){
-				var sign = $('#sign').val();
-				if (sign == null || sign == "") {
-					$.messager.alert('操作提示', "请输入消息签名","info");
-					return;
-				}
+// 				var sign = $('#sign').val();
+// 				if (sign == null || sign == "") {
+// 					$.messager.alert('操作提示', "请输入消息签名","info");
+// 					return;
+// 				}
 				var rows = $('#dg').datagrid('getSelections');
 				if (rows.length == 0) {
 					$.messager.alert('操作提示', "请选择发送对象","info");
 					return;
 				} else {
-					var formObj = sy.serializeObject($("#msgForm").form());
-					var formStr = encodeURI(JSON.stringify(formObj),"UTF-8");
+// 					var formObj = sy.serializeObject($("#msgForm").form());
+// 					var formStr = encodeURI(JSON.stringify(formObj),"UTF-8");
 					var data = encodeURI(JSON.stringify(rows),"UTF-8");
 					$.ajax({
 						url : '<%=basePath%>sendReportMsg',
 						type : "POST",
 						dataType : "json",
-						data : 'data=' + formStr + "=" + data,
+// 						data : 'data=' + formStr + "=" + data,
+						data : 'data=' + data,
 						success : function(r) {
 							$('#dg').datagrid("loading", "短信发送中……");
 							$.messager.alert('操作提示', r.msg,r.result);
@@ -224,7 +225,7 @@
 	<div region="center" title="企业列表"
 		 fit="true">
 		<table id="dg" fit="true"></table>
-		<div id="reportSearch" style="height: 90px;">
+		<div id="reportSearch" style="height: 60px;">
 			<form name="readReportForm" method="post"
 				enctype="multipart/form-data" id="readReportForm">
 				<table id="reportTable" >
@@ -253,25 +254,27 @@
 							onclick="searchReport();">查找</a> <a id="clearBtn"
 							class="easyui-linkbutton" icon="icon-cancel"
 							href="javascript:void(0);" onclick="clearSearch();">重置</a></td>
+							<td><a id="ReportMsgSend" icon="icon-ok" class="easyui-linkbutton" 
+ 							href="javascript:void(0);">发送</a></td>
 					</tr>
 
 				</table>
 			</form>
 			
-			<form id="msgForm">
-			<table>
-				<tr>
-					<th>签名:</th><td><input id="sign" class="easyui-validatebox"
-						value="鄞州地税直属分局" name="sign">
-					</td>
-					<th>发送时间：</th><td><input id="sendDate" class="easyui-datebox"
-						name="sendDate">
-					</td>
-					<td><a id="ReportMsgSend" icon="icon-ok" class="easyui-linkbutton"
-						href="javascript:void(0);">发送</a></td>
-				</tr>
-			</table>
-		</form>
+<!-- 			<form id="msgForm"> -->
+<!-- 			<table> -->
+<!-- 				<tr> -->
+<!-- 					<th>签名:</th><td><input id="sign" class="easyui-validatebox" -->
+<!-- 						value="鄞州地税直属分局" name="sign"> -->
+<!-- 					</td> -->
+<!-- 					<th>发送时间：</th><td><input id="sendDate" class="easyui-datebox" -->
+<!-- 						name="sendDate"> -->
+<!-- 					</td> -->
+<!-- 					<td><a id="ReportMsgSend" icon="icon-ok" class="easyui-linkbutton" -->
+<!-- 						href="javascript:void(0);">发送</a></td> -->
+<!-- 				</tr> -->
+<!-- 			</table> -->
+<!-- 		</form> -->
 
 
 		</div>
