@@ -89,15 +89,20 @@ public class PoiController {
 	    
 	    /** 
 	     * 读取excel报表（Message） 
-	     * @throws SQLException 
-	     * @throws ParseException 
+	     * @throws Exception 
 	     */  
 	    @RequestMapping(value = "/readComp", method = RequestMethod.POST)  
 	    
 	    public void getReadComp(@RequestParam MultipartFile file,HttpServletResponse response)  
-	            throws IOException, SQLException, ParseException {  
-	    	
-	        List<MessageSearchVO> list = poiService.readComp(file.getInputStream());  
+	            throws Exception {  
+	    	List<MessageSearchVO> list = null;
+	    	try{
+	    		list = poiService.readComp(file.getInputStream());  
+	    	} catch (Exception e) {
+	    		e.printStackTrace();
+	    		throw e;
+	    	}
+	        
 	         
 	        PrintWriter pw = null;
 			try {
