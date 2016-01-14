@@ -462,4 +462,23 @@ public class TaxMessageController {
 			e.printStackTrace();
 		}
 	}
+	@RequestMapping("/changePwd")
+	public void changePassword(@RequestParam("newpwd") String newPwd,HttpServletResponse response,HttpSession session) {
+		PrintWriter pw = null;
+		JsonResult jr = new JsonResult();
+		try{
+			pw = response.getWriter();
+			User user  = (User) session.getAttribute("current_user");
+			if (user != null) {
+				int count = messageService.updatePassword(user.getEmpId(), newPwd);
+				if (count > 0) {
+					jr.setResult(TaxUtil.RESULT_INFO);
+					jr.setMsg(TaxUtil.OPERATE_SUCCESS_MSG);
+					pw.print(JSONObject.fromObject(jr).toString());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -164,4 +164,7 @@
 	<update id="updateLoginDate" parameterClass="java.util.Map">
 		update tax_employees set LastLoginDate = #lastLoginDate# where empid = #empid#
 	</update>
+	<update id="updatePassword">
+		update tax_employees set password = #newPwd# where empid = #empId#
+	</update>
 </sqlMap>

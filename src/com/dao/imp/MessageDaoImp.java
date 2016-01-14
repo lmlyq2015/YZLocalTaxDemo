@@ -261,4 +261,18 @@ public class MessageDaoImp implements MessageDao {
 		}
 		
 	}
+
+	@Override
+	public int updatePassword(String empId, String newPwd) throws SQLException {
+		// TODO Auto-generated method stub
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("empId", empId);
+			map.put("newPwd", newPwd);
+			return sqlMapClient.update("updatePassword", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 }

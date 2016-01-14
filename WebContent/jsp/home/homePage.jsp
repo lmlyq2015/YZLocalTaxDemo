@@ -92,11 +92,12 @@
                 return false;
             }
 
-            $.post('/ajax/editpassword.ashx?newpass=' + $newpass.val(), function(msg) {
-                msgShow('系统提示', '恭喜，密码修改成功！<br>您的新密码为：' + msg, 'info');
-                $newpass.val('');
-                $rePass.val('');
-                close();
+            $.post('<%=basePath%>changePwd?newpwd=' + $newpass.val(), 
+            	function(msg) {
+                	msgShow('系统提示', '恭喜，密码修改成功！', 'info');
+                	$newpass.val('');
+               		$rePass.val('');
+               	 	close();
             });
             
         }
@@ -129,7 +130,7 @@
                 $.messager.confirm('系统提示', '您确定要退出本次登录吗?', function(r) {
 
                     if (r) {
-                        location.href = 'login.jsp';
+                        location.href = '<%=basePath%>';
                     }
                 });
 

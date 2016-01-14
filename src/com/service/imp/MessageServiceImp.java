@@ -214,4 +214,10 @@ public class MessageServiceImp implements MessageService {
 		
 		messageDao.saveEmpChanges(list);
 	}
+
+	@Override
+	public int updatePassword(String empId, String newPwd) throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.updatePassword(empId, newPwd);
+	}
 }

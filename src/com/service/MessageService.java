@@ -39,5 +39,7 @@ public interface MessageService {
 	public int addNewEmp(User user) throws SQLException;
 	
 	public void saveEmpChanges(List<User> list) throws SQLException;
+	
+	public int updatePassword(String empId,String newPwd) throws SQLException;
 
 }

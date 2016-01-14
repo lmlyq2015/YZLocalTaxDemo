@@ -43,5 +43,7 @@ public interface MessageDao {
 	public void saveEmpChanges(List<User> list) throws SQLException;
 	
 	public int updateLoginDate(User user) throws SQLException;
+	
+	public int updatePassword(String empId, String newPwd) throws SQLException;
 
 }
