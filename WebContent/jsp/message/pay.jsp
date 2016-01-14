@@ -111,11 +111,11 @@
 				var file = $('#file').val();
 				if (file == null || file == "") {
 					$.messager.alert('操作提示', "请选择导入文件","info");
-					return;
+					return false;
 				} else if (file.replace(/.+\./,"") != "xls" && file.replace(/.+\./,"") != "xlsx") {
 					$.messager.alert('操作提示', "导入文件类型错误","info");
 					$('#file').val('');
-					return;
+					return false;
 				} else {
 					$('#readpayForm').form('submit');
 				};	
@@ -202,7 +202,7 @@
 					<tr>
 						<th>选择文件:</th>
 						<td><input id="file" type="file" name="file" />
-							<button id="formBtn" type="button">导入</button></td>
+							<button id="formBtn" type="submit">导入</button></td>
 					</tr>
 				</table>
 			</form>
