@@ -110,7 +110,8 @@ public class ReportDaoImp implements ReportDao {
 		int key = 0;
 		try{
 			//msg.setContent(msg.getContent() + " " + msg.getSign());
-			msg.setContent(content + " " + msg.getSign());
+//			msg.setContent(content + " " + msg.getSign());
+			msg.setContent(content);
 			msg.setMsgType(TaxUtil.MESSAGE_NOTIFICATION_MESSAGE_TYPE);		
 			key = (Integer) sqlMapClient.insert("saveReportMsg",msg);
 		}catch(SQLException e) {

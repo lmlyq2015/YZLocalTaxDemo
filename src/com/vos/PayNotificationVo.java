@@ -1,6 +1,7 @@
 package com.vos;
 
 public class PayNotificationVo {
+	private Long id;
 	private String taxId;
 	private String taxName;
 	private String rep;
@@ -17,6 +18,13 @@ public class PayNotificationVo {
 	private String resultMsg;
 	private String address;
 	private String receiver;
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getTaxId() {
 		return taxId;
 	}
