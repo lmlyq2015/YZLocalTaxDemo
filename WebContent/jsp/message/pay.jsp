@@ -88,7 +88,7 @@
 
 		
 		
-		$('#readpayForm').form({
+		$('#readpayForm').form({		
 			url : '<%=basePath%>report/readPay',
 			onSubmit: function(){
 				return $('#readpayForm').form('validate');
@@ -108,7 +108,16 @@
 			
 		});
 			$('#formBtn').click(function(){	
-				$('#readpayForm').form('submit');
+				var file = $('#file').val();
+				if (file == null || file == "") {
+					$.messager.alert('操作提示', "请选择导入文件","info");
+					return;
+				} else if (file.replace(/.+\./,"") != "xls" && file.replace(/.+\./,"") != "xlsx") {
+					$.messager.alert('操作提示', "导入文件类型错误","info");
+					return;
+				} else {
+					$('#readpayForm').form('submit');
+				};	
 		});
 			
 			

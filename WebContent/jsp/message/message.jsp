@@ -137,6 +137,11 @@ $(function() {
 		
 	});
 		$('#formBtn').click(function(){	
+			var file = $('#file').val();
+			if (file == null || file == "") {
+				$.messager.alert('操作提示', "请选择导入文件","info");
+				return;
+			}
 			$('#readCompForm').form('submit');
 	});
 	

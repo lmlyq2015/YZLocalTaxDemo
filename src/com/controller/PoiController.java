@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
@@ -101,7 +102,9 @@ public class PoiController {
 	        PrintWriter pw = null;
 			try {
 				pw = response.getWriter();
+				if(list.size()!=0){
 				poiService.insertComp(list);
+				}
 				JsonResult jr = new JsonResult();
 				jr.setMsg("导入成功");
 				JSONObject json = JSONObject.fromObject(jr);
@@ -109,7 +112,7 @@ public class PoiController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				JsonResult jr = new JsonResult();
-				jr.setMsg("企业信息已在系统中");
+				jr.setMsg("导入失败");
 				JSONObject json = JSONObject.fromObject(jr);
 				pw.print(json.toString());
 			}    
@@ -122,8 +125,7 @@ public class PoiController {
 	     */  
 	    @RequestMapping(value = "/readPay", method = RequestMethod.POST)      
 	    public void getReadPay(@RequestParam MultipartFile file,HttpServletResponse response)  
-	            throws IOException, SQLException, ParseException {  
-	    	
+	            throws IOException, SQLException, ParseException {    	
 	        List<Pay> list = poiService.readPay(file.getInputStream());  
 	         
 	        PrintWriter pw = null;
