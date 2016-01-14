@@ -141,8 +141,12 @@ $(function() {
 			if (file == null || file == "") {
 				$.messager.alert('操作提示', "请选择导入文件","info");
 				return;
-			}
-			//$('#readCompForm').form('submit');
+			} else if (file.replace(/.+\./,"") != "xls" && file.replace(/.+\./,"") != "xlsx") {
+				$.messager.alert('操作提示', "导入文件类型错误","info");
+				$('#file').val('');
+				return;
+			} else {
+			$('#readCompForm').form('submit');}
 	});
 	
 	$('#msgSend').click(function(){
