@@ -125,7 +125,7 @@ public class MessageServiceImp implements MessageService {
 			mr = TaxUtil.parseResult(result);
 			vo.setState(mr.getErrid());	
 			setResultMsg(vo, mr);
-			id = messageDao.updateMsgResult(msg.getId(), vo, DateUtils.getNowTime(),oldErrCode);
+			id = messageDao.updateMsgResult(msg.getId(), vo, DateUtils.getNowTime(),oldErrCode,msg.getSendBy());
 			return id;
 		} catch (SQLException e) {
 			e.printStackTrace();

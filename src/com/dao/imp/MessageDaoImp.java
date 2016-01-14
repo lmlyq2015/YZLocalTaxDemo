@@ -120,7 +120,7 @@ public class MessageDaoImp implements MessageDao {
 	}
 
 	@Override
-	public int updateMsgResult(int msgKey, NotificationVo vo, String sendDate,String oldErrCode)
+	public int updateMsgResult(int msgKey, NotificationVo vo, String sendDate,String oldErrCode,String sendBy)
 			throws SQLException {
 		int id = 0;
 		try{
@@ -129,7 +129,7 @@ public class MessageDaoImp implements MessageDao {
 			map.put("errCode", oldErrCode);
 			map.put("status", vo.getState());
 			map.put("msg", vo.getResultMsg());
-			map.put("empId", "admin");
+			map.put("empId", sendBy);
 			map.put("receiver", vo.getReceiver());
 			map.put("sendDate", sendDate);
 			id = sqlMapClient.update("updateMsgResult",map);

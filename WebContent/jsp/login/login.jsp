@@ -85,6 +85,10 @@ a:hover {
 }
 </style>
 <script type="text/javascript">
+if (window != top)
+	top.location.href = location.href; 
+</script>
+<script type="text/javascript">
 $(function(){
 	 $('#loginForm').form({
 		url : '<%=basePath%>login',

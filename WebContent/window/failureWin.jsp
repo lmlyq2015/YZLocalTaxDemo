@@ -32,7 +32,7 @@ $(function(){
 		columns:[[
 			{
 				title:'纳税人识别号',
-				field:'taxNo',
+				field:'taxId',
 				width:100					
 			},
 			{
@@ -42,7 +42,7 @@ $(function(){
 			},
 			{
 				title:'状态码',
-				field:'status',
+				field:'state',
 				width:100
 			},
 			{

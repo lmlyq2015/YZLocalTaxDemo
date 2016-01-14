@@ -212,7 +212,7 @@ public class TaxMessageController {
 		return null;
 	}
 	@RequestMapping("/reSendMsg")
-	public void reSendMsg(@RequestParam("data") String data,HttpServletResponse response) {
+	public void reSendMsg(@RequestParam("data") String data,HttpServletResponse response,HttpSession session) {
 		String str;
 		PrintWriter pw= null;
 		try {
@@ -224,12 +224,14 @@ public class TaxMessageController {
 			JSONObject object = JSONObject.fromObject(msgData);
 			Message msg = (Message) object.toBean(JSONObject.fromObject(msgData), Message.class);
 			NotificationVo rec = (NotificationVo)object.toBean(JSONObject.fromObject(recData), NotificationVo.class);
+			msg.setSendBy(((User)session.getAttribute("current_user")).getEmpId());
 			messageService.reSendMsg(msg, rec);
 			pw.print(messageSuc());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			pw.print(messageErr());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -59,5 +59,10 @@
 			</list>
 		</property>
 	</bean>
-
+<!-- 	<mvc:interceptors> -->
+<!-- 		<mvc:interceptor> -->
+<!-- 			<mvc:mapping path="/**"/> -->
+<!-- 			<bean id="systenInterceptor" class="com.interceptor.SystemInterceptor"></bean> -->
+<!-- 		</mvc:interceptor> -->
+<!-- 	</mvc:interceptors> -->
 </beans>

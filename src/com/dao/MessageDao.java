@@ -21,7 +21,7 @@ public interface MessageDao {
 	
 	public List<NotificationVo> getFailMsgStateList(int firstRow, int pageSize, int msgId) throws SQLException;
 	
-	public int updateMsgResult(int msgKey,NotificationVo vo,String sendDate,String oldErrCode) throws SQLException;
+	public int updateMsgResult(int msgKey,NotificationVo vo,String sendDate,String oldErrCode,String sendBy) throws SQLException;
 
 	public List<MessageSearchVO> getAllComp(int firstRow, Integer pageSize,
 			MessageSearchVO messageSearchVO) throws SQLException;

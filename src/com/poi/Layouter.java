@@ -77,7 +77,7 @@ public class Layouter {
         HSSFCellStyle headerCellStyle = worksheet.getWorkbook()  
                 .createCellStyle();  
         headerCellStyle.setFillBackgroundColor(HSSFColor.GREY_25_PERCENT.index);  
-        headerCellStyle.setFillPattern(CellStyle.FINE_DOTS);  
+        //headerCellStyle.setFillPattern(CellStyle.FINE_DOTS);  
         headerCellStyle.setAlignment(CellStyle.ALIGN_CENTER);  
         headerCellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);  
         headerCellStyle.setWrapText(true);  
