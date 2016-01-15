@@ -12,7 +12,7 @@ public class PayNotificationVo {
 	private String adminMobile;
 	private int mesId;
 	private String deadline;
-	private Float unpaidTax;
+	private String unpaidTax;
 	private String imposeType;
 	private String status;
 	private String resultMsg;
@@ -86,10 +86,10 @@ public class PayNotificationVo {
 		this.deadline = deadline;
 	}
 	
-	public Float getUnpaidTax() {
+	public String getUnpaidTax() {
 		return unpaidTax;
 	}
-	public void setUnpaidTax(Float unpaidTax) {
+	public void setUnpaidTax(String unpaidTax) {
 		this.unpaidTax = unpaidTax;
 	}
 	public String getImposeType() {

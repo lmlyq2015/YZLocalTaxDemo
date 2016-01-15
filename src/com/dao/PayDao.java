@@ -8,6 +8,7 @@ import com.vos.Pay;
 import com.vos.PayNotificationVo;
 import com.vos.PaySearchVO;
 import com.vos.PayVO;
+import com.vos.UnpaidTax;
 
 
 public interface PayDao {
@@ -23,5 +24,7 @@ public interface PayDao {
 	public int savePayMsgResult(int key, PayNotificationVo vo, String sendDate) throws SQLException;
 
 	public void deletePay(String taxId) throws SQLException;
+
+	public List<UnpaidTax> getUnpaidTax(String taxId) throws SQLException;
 	
 }

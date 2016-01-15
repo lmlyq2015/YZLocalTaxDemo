@@ -7,7 +7,8 @@ import java.util.List;
 import com.dao.ReportDao;
 import com.service.ReportService;
 import com.util.DateUtils;
-import com.util.ReportUtil;
+import com.util.TaxUtil;
+import com.util.TaxUtil;
 import com.vos.ImposeType;
 import com.vos.MessageResult;
 import com.vos.Report;
@@ -55,7 +56,7 @@ public class ReportServiceImp implements ReportService {
 			//msg.setId(key);
 			for (ReportNotificationVo vo : list) {
 				//1办税员
-				 //result = ReportUtil.sendReport(msgContent, vo.getTaxAgentMobile(), sendDate);
+				 //result = TaxUtil.sendReport(msgContent, vo.getTaxAgentMobile(), sendDate);
 				
 
 				List<ImposeType> imposeTypes = reportDao.getImposeTypes(vo.getTaxId());
@@ -64,25 +65,25 @@ public class ReportServiceImp implements ReportService {
 					contents = contents + imposeTypes.get(i).getName() + "、";
 				}
 				vo.setImposeType(contents);
-				int key = reportDao.saveReportMsg(msg,ReportUtil.getReportSqlContent(vo));
+				int key = reportDao.saveReportMsg(msg,TaxUtil.getReportSqlContent(vo));
 				 msg.setId(key);
 				 vo.setMesId(key);
 				
-				result = ReportUtil.sendReport(ReportUtil.getReportContent(vo), vo.getTaxAgentMobile(), sendDate);
-				 mr = ReportUtil.parseResult(result);
-//				 if (mr.getErrid() != ReportUtil.MESSAGE_STATUS_SUCCESS) {//发送失败则继续发送下一人
+				result = TaxUtil.sendMessage(TaxUtil.getReportContent(vo), vo.getTaxAgentMobile(), sendDate);
+				 mr = TaxUtil.parseResult(result);
+//				 if (mr.getErrid() != TaxUtil.MESSAGE_STATUS_SUCCESS) {//发送失败则继续发送下一人
 //					 //2财务主管
-//					 result = ReportUtil.sendMessage(msgContent, vo.getAdminMob(), sendDate);
-//					 mr = ReportUtil.parseResult(result);
-//					 if (mr.getErrid() != ReportUtil.MESSAGE_STATUS_SUCCESS) {
+//					 result = TaxUtil.sendMessage(msgContent, vo.getAdminMob(), sendDate);
+//					 mr = TaxUtil.parseResult(result);
+//					 if (mr.getErrid() != TaxUtil.MESSAGE_STATUS_SUCCESS) {
 //						 //3法人
-//						 result = ReportUtil.sendMessage(msgContent, vo.getLawRepMob(), sendDate);
-//						 mr = ReportUtil.parseResult(result);
+//						 result = TaxUtil.sendMessage(msgContent, vo.getLawRepMob(), sendDate);
+//						 mr = TaxUtil.parseResult(result);
 //					 }
 //				 }
 				 vo.setStatus(mr.getErrid());
 				 setResultMsg(vo, mr);
-				 vo.setReceiver(ReportUtil.MESSAGE_RECEVIER_TAXER);
+				 vo.setReceiver(TaxUtil.MESSAGE_RECEVIER_TAXER);
 					
 				 
 				 
@@ -100,24 +101,24 @@ public class ReportServiceImp implements ReportService {
 
 	private ReportNotificationVo setResultMsg(ReportNotificationVo vo, MessageResult mr) {	
 		// TODO Auto-generated method stub
-		if (mr.getErrid().equals(ReportUtil.MESSAGE_STATUS_SUCCESS)) {
-			vo.setResultMsg(ReportUtil.MESSAGE_STATUS_SUCCESS_MSG);
-		 } else if (mr.getErrid().equals(ReportUtil.MESSAGE_STATUS_SYSTEM_ISSUE)) {
-			 vo.setResultMsg(ReportUtil.MESSAGE_STATUS_SYSTEM_ISSUE_MSG);
-		 } else if (mr.getErrid().equals(ReportUtil.MESSAGE_STATUS_PASSWORD_ISSUE)) {
-			 vo.setResultMsg(ReportUtil.MESSAGE_STATUS_PASSWORD_ISSUE_MSG);
-		 } else if (mr.getErrid().equals(ReportUtil.MESSAGE_STATUS_MOBILE_ISSUE)) {
-			 vo.setResultMsg(ReportUtil.MESSAGE_STATUS_MOBILE_ISSUE_MSG);
-		 } else if (mr.getErrid().equals(ReportUtil.MESSAGE_STATUS_CONTENT_TOOLONG_ISSUE)) {
-			 vo.setResultMsg(ReportUtil.MESSAGE_STATUS_CONTENT_TOOLONG_ISSUE_MSG);
-		 } else if (mr.getErrid().equals(ReportUtil.MESSAGE_STATUS_CONTENT_CHAR_ISSUE_MSG)) {
-			 vo.setResultMsg(ReportUtil.MESSAGE_STATUS_CONTENT_CHAR_ISSUE_MSG);
-		 } else if (mr.getErrid().equals(ReportUtil.MESSAGE_STATUS_BALANCE_ISSUE)) {
-			 vo.setResultMsg(ReportUtil.MESSAGE_STATUS_BALANCE_ISSUE_MSG);
-		 } else if (mr.getErrid().equals(ReportUtil.MESSAGE_STATUS_ACCOUNT_ISSUE)){
-			 vo.setResultMsg(ReportUtil.MESSAGE_STATUS_ACCOUNT_ISSUE_MSG);
+		if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_SUCCESS)) {
+			vo.setResultMsg(TaxUtil.MESSAGE_STATUS_SUCCESS_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_SYSTEM_ISSUE)) {
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_SYSTEM_ISSUE_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_PASSWORD_ISSUE)) {
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_PASSWORD_ISSUE_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_MOBILE_ISSUE)) {
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_MOBILE_ISSUE_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_CONTENT_TOOLONG_ISSUE)) {
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_CONTENT_TOOLONG_ISSUE_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_CONTENT_CHAR_ISSUE_MSG)) {
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_CONTENT_CHAR_ISSUE_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_BALANCE_ISSUE)) {
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_BALANCE_ISSUE_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_ACCOUNT_ISSUE)){
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_ACCOUNT_ISSUE_MSG);
 		 } else {
-			 vo.setResultMsg(ReportUtil.MESSAGE_STATUS_UNKNOW_MSG);
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_UNKNOW_MSG);
 		 }
 		 return vo;
 	}

@@ -59,4 +59,8 @@
 	<select id="getImposeType" resultClass="com.vos.ImposeType" parameterClass="java.util.Map">
 	select a.imposeType as name from tax_pay a,tax_entbasicinfor b where a.taxId=b.taxId and a.TaxId = #taxId#
 	</select>
+	
+	<select id="getUnpaidTax" resultClass="com.vos.UnpaidTax" parameterClass="java.util.Map">
+	select a.UnpaidTax from tax_pay a,tax_entbasicinfor b where a.taxId=b.taxId and a.TaxId = #taxId#
+	</select>
 </sqlMap>

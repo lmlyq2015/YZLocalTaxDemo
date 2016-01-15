@@ -6,13 +6,14 @@ import java.util.List;
 import com.dao.PayDao;
 import com.service.PayService;
 import com.util.DateUtils;
-import com.util.PayUtil;
+import com.util.TaxUtil;
 import com.vos.ImposeType;
 import com.vos.MessageResult;
 import com.vos.Pay;
 import com.vos.PayNotificationVo;
 import com.vos.PaySearchVO;
 import com.vos.PayVO;
+import com.vos.UnpaidTax;
 
 public class PayServiceImp implements PayService {
 
@@ -56,14 +57,22 @@ public class PayServiceImp implements PayService {
 					contents = contents + imposeTypes.get(i).getName() + ",";
 				}
 				vo.setImposeType(contents);
-				int key = payDao.savePayMsg(msg,PayUtil.getPaySqlContent(vo));
+				
+				List<UnpaidTax> unpaidTaxs = payDao.getUnpaidTax(vo.getTaxId());
+				String contents1 = "";
+				for (int i = 0; i < unpaidTaxs.size(); i++) {
+					contents1 = contents1 + unpaidTaxs.get(i).getUnpaidTax()+"元,";
+				}
+				vo.setUnpaidTax(contents1);
+				
+				int key = payDao.savePayMsg(msg,TaxUtil.getPaySqlContent(vo));
 				msg.setId(key);
 				vo.setMesId(key);	
-				result = PayUtil.sendPay(PayUtil.getPayContent(vo), vo.getTaxAgentMobile(), sendDate);
-				mr = PayUtil.parseResult(result);
+				result = TaxUtil.sendMessage(TaxUtil.getPayContent(vo), vo.getTaxAgentMobile(), sendDate);
+				mr = TaxUtil.parseResult(result);
 				vo.setStatus(mr.getErrid());
 				setResultMsg(vo, mr);
-				vo.setReceiver(PayUtil.MESSAGE_RECEVIER_TAXER); 
+				vo.setReceiver(TaxUtil.MESSAGE_RECEVIER_TAXER); 
 //				id = payDao.savePayMsgResult(key, vo, msg.getSendDate());
 				id = payDao.savePayMsgResult(key, vo, sendDate);
 			}		
@@ -77,24 +86,24 @@ public class PayServiceImp implements PayService {
 	
 	private PayNotificationVo setResultMsg(PayNotificationVo vo, MessageResult mr) {	
 		// TODO Auto-generated method stub
-		if (mr.getErrid().equals(PayUtil.MESSAGE_STATUS_SUCCESS)) {
-			vo.setResultMsg(PayUtil.MESSAGE_STATUS_SUCCESS_MSG);
-		 } else if (mr.getErrid().equals(PayUtil.MESSAGE_STATUS_SYSTEM_ISSUE)) {
-			 vo.setResultMsg(PayUtil.MESSAGE_STATUS_SYSTEM_ISSUE_MSG);
-		 } else if (mr.getErrid().equals(PayUtil.MESSAGE_STATUS_PASSWORD_ISSUE)) {
-			 vo.setResultMsg(PayUtil.MESSAGE_STATUS_PASSWORD_ISSUE_MSG);
-		 } else if (mr.getErrid().equals(PayUtil.MESSAGE_STATUS_MOBILE_ISSUE)) {
-			 vo.setResultMsg(PayUtil.MESSAGE_STATUS_MOBILE_ISSUE_MSG);
-		 } else if (mr.getErrid().equals(PayUtil.MESSAGE_STATUS_CONTENT_TOOLONG_ISSUE)) {
-			 vo.setResultMsg(PayUtil.MESSAGE_STATUS_CONTENT_TOOLONG_ISSUE_MSG);
-		 } else if (mr.getErrid().equals(PayUtil.MESSAGE_STATUS_CONTENT_CHAR_ISSUE_MSG)) {
-			 vo.setResultMsg(PayUtil.MESSAGE_STATUS_CONTENT_CHAR_ISSUE_MSG);
-		 } else if (mr.getErrid().equals(PayUtil.MESSAGE_STATUS_BALANCE_ISSUE)) {
-			 vo.setResultMsg(PayUtil.MESSAGE_STATUS_BALANCE_ISSUE_MSG);
-		 } else if (mr.getErrid().equals(PayUtil.MESSAGE_STATUS_ACCOUNT_ISSUE)){
-			 vo.setResultMsg(PayUtil.MESSAGE_STATUS_ACCOUNT_ISSUE_MSG);
+		if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_SUCCESS)) {
+			vo.setResultMsg(TaxUtil.MESSAGE_STATUS_SUCCESS_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_SYSTEM_ISSUE)) {
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_SYSTEM_ISSUE_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_PASSWORD_ISSUE)) {
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_PASSWORD_ISSUE_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_MOBILE_ISSUE)) {
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_MOBILE_ISSUE_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_CONTENT_TOOLONG_ISSUE)) {
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_CONTENT_TOOLONG_ISSUE_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_CONTENT_CHAR_ISSUE_MSG)) {
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_CONTENT_CHAR_ISSUE_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_BALANCE_ISSUE)) {
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_BALANCE_ISSUE_MSG);
+		 } else if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_ACCOUNT_ISSUE)){
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_ACCOUNT_ISSUE_MSG);
 		 } else {
-			 vo.setResultMsg(PayUtil.MESSAGE_STATUS_UNKNOW_MSG);
+			 vo.setResultMsg(TaxUtil.MESSAGE_STATUS_UNKNOW_MSG);
 		 }
 		 return vo;
 	}

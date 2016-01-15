@@ -16,6 +16,7 @@ import com.vos.Pay;
 import com.vos.PayNotificationVo;
 import com.vos.PaySearchVO;
 import com.vos.PayVO;
+import com.vos.UnpaidTax;
 
 
 public class PayDaoImp implements PayDao {
@@ -126,6 +127,15 @@ public class PayDaoImp implements PayDao {
 	public void deletePay(String taxId) throws SQLException {
 		// TODO Auto-generated method stub
 		sqlMapClient.delete("deletePay", taxId);
+	}
+
+	@Override
+	public List<UnpaidTax> getUnpaidTax(String taxId) throws SQLException {
+		// TODO Auto-generated method stub
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("taxId", taxId);
+		map.put("type", null);
+		return sqlMapClient.queryForList("getUnpaidTax",map);
 	}
 		
 }
