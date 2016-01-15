@@ -73,7 +73,9 @@ public class PoiController {
 	        PrintWriter pw = null;
 			try {
 				pw = response.getWriter();
+				if(list.size()!=0){
 				poiService.insertReport(list);
+				}
 				JsonResult jr = new JsonResult();
 				jr.setMsg("导入成功");
 				JSONObject json = JSONObject.fromObject(jr);
@@ -136,7 +138,9 @@ public class PoiController {
 	        PrintWriter pw = null;
 			try {
 				pw = response.getWriter();
+				if(list.size()!=0){
 				poiService.insertPay(list);
+				}
 				JsonResult jr = new JsonResult();
 				jr.setMsg("导入成功");
 				JSONObject json = JSONObject.fromObject(jr);

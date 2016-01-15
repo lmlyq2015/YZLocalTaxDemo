@@ -131,7 +131,7 @@ $(function(){
 	}
 </script>
 </head>
-<body style="padding: 0px; margin: 0px; overflow: auto;" >
+<body style="padding: 0px; margin: 0px; overflow: auto;"  onkeydown="onKeydown();">
 	<input type="hidden" value='' id="key" />
 	<form id="loginForm">
 		<div
@@ -173,7 +173,7 @@ $(function(){
 									</tr>
 									<tr>
 										<td height="36">&nbsp;&nbsp;验证码：</td>
-										<td align="left"><input id="code" type="text" name="code"  onkeydown="onKeydown();"/></td>
+										<td align="left"><input id="code" type="text" name="code"  /></td>
 										<td><img id="number" src="<%=basePath %>jsp/util/number.jsp"
 											border=0 /> <a
 											href="javascript:reloadImage('<%=basePath %>jsp/util/number.jsp')">看不清</a>
