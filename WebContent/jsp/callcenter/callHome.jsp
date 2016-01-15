@@ -26,7 +26,7 @@ textarea {
 
       <div region="west" title="通话" style="width: 250px;height: 500px;" spilt="true">  
       
-      	<iframe name="phone" scrolling="auto" frameborder="0"  src="<%=basePath%>edb_bar/phoneBar/phonebar.html?loginName=8000@hmxx&password=8000&loginType=sip" style="width:100%;height:100%;"></iframe>
+<%--       	<iframe name="phone" scrolling="auto" frameborder="0"  src="<%=basePath%>edb_bar/phoneBar/phonebar.html?loginName=8000@hmxx&password=8000&loginType=sip" style="width:100%;height:100%;"></iframe> --%>
       
    	  </div>
              

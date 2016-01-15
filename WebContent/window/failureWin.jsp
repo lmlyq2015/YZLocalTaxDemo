@@ -80,7 +80,7 @@ $(function(){
 				field : 'operate',
 				width:100,
 				formatter:  function(value,row,index) {
-					return '<a href="javascript:void(0);" class="easyui-linkbutton" onclick="reSendFailMsg()"><u>发送</u></a>';
+					return '<a href="javascript:void(0);" class="easyui-linkbutton" onclick="reSendFailMsg('+index+')"><u>发送</u></a>';
 				}
 			}
 		]],
@@ -179,7 +179,9 @@ function onClickCell(index, field){
 		editIndex = index;
 	}
 }
-function reSendFailMsg() {
+function reSendFailMsg(index) {
+	$('#failMsgDg').datagrid('selectRow',index);
+	$('#failMsgDg').datagrid('refreshRow',index);
 	var message = $('#resultDg').datagrid('getSelected');
 	var receiver = $('#failMsgDg').datagrid('getSelected');
 	var messageJson = encodeURI(JSON.stringify(message),"UTF-8");

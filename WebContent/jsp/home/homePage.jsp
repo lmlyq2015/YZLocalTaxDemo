@@ -24,8 +24,8 @@
 									{"menuname":"公告通知","icon":"icon-edit","url":"jsp/message/message.jsp"},			
 									{"menuname":"催缴通知","icon":"icon-print","url":"jsp/message/pay.jsp"},
 									{"menuname":"催报通知","icon":"icon-print","url":"jsp/message/report.jsp"},
-									{"menuname":"消息状态","icon":"icon-nav","url":"jsp/message/status.jsp"},
-									{"menuname":"草稿箱","icon":"icon-nav","url":""}
+									{"menuname":"消息状态","icon":"icon-nav","url":"jsp/message/status.jsp"}
+// 									{"menuname":"草稿箱","icon":"icon-nav","url":""}
 								]
 						},
 						{"menuid":"2","icon":"icon-sys","menuname":"知识库",
@@ -47,8 +47,8 @@
 								]
 						},
 						{"menuid":"6","icon":"icon-sys","menuname":"用户管理",
-							"menus":[{"menuname":"个人信息","icon":"icon-nav","url":"jsp/user/userinfo.jsp"},
-									{"menuname":"权限设置","icon":"icon-nav","url":"#"}
+							"menus":[{"menuname":"个人信息","icon":"icon-nav","url":"jsp/user/userinfo.jsp"}
+// 									{"menuname":"权限设置","icon":"icon-nav","url":"#"}
 								]
 						}]};
 	 
