@@ -111,6 +111,11 @@ public class TaxMessageController {
 		int intPageNum=pageNumber==null||pageNumber<=0?1:pageNumber;
 		int intPageSize=pageSize==null||pageSize<=0?2:pageSize;
 		int firstRow = (pageNumber - 1) * pageSize;
+		
+//		String statusValue = request.getParameter("statusValue"); 
+//		System.out.println(statusValue);
+//		message.setStatus(statusValue);
+		
 		try{
 			pageList = messageService.getMessageResultList(firstRow, pageSize,message);
 			

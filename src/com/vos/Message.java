@@ -12,6 +12,21 @@ public class Message {
 	private String sendBy;
 	private String msgType;
 	private int successCount;
+	private String sendDateEnd;
+	private String status;
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getSendDateEnd() {
+		return sendDateEnd;
+	}
+	public void setSendDateEnd(String sendDateEnd) {
+		this.sendDateEnd = sendDateEnd;
+	}
 	public int getSuccessCount() {
 		return successCount;
 	}

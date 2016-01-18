@@ -206,6 +206,9 @@ public class PoiServiceImp implements PoiService {
 	@Override
 	public String ConvertCellStr(Cell cell, String cellStr) throws SQLException {
 		// TODO Auto-generated method stub
+		if(cell==null){
+			return null;
+		}
 		switch (cell.getCellType()) {
 
 		case Cell.CELL_TYPE_STRING:
@@ -283,7 +286,7 @@ public class PoiServiceImp implements PoiService {
 				System.out.println(compareTaxId);
 				int count = poiDao.compareTaxId(compareTaxId);
 				System.out.println(count);
-				if(count==0){
+				if(compareTaxId!=null&&count==0){
 					compList.add(addMessageSearchVO);
 				}
 			}

@@ -68,7 +68,13 @@ public class PoiController {
 	    public void getReadReport(@RequestParam MultipartFile file,HttpServletResponse response)  
 	            throws IOException, SQLException, ParseException {  
 	    	
-	        List<Report> list = poiService.readReport(file.getInputStream());  
+	        List<Report> list = null;
+			try {
+				list = poiService.readReport(file.getInputStream());
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}  
 	         
 	        PrintWriter pw = null;
 			try {
@@ -133,7 +139,13 @@ public class PoiController {
 	    @RequestMapping(value = "/readPay", method = RequestMethod.POST)      
 	    public void getReadPay(@RequestParam MultipartFile file,HttpServletResponse response)  
 	            throws IOException, SQLException, ParseException {    	
-	        List<Pay> list = poiService.readPay(file.getInputStream());  
+	        List<Pay> list = null;
+			try {
+				list = poiService.readPay(file.getInputStream());
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}  
 	         
 	        PrintWriter pw = null;
 			try {

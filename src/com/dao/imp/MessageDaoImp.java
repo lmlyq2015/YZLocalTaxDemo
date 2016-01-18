@@ -84,6 +84,8 @@ public class MessageDaoImp implements MessageDao {
 		map.put("id", message.getId());
 		map.put("content", message.getContent());
 		map.put("sendDate", message.getSendDate());
+		map.put("sendDateEnd", message.getSendDateEnd());
+		map.put("status", message.getStatus());
 		map.put("successCount", message.getSuccessCount());
 		map.put("failCount", message.getFailCount());
 		map.put("sendBy", message.getSendBy());
@@ -100,10 +102,8 @@ public class MessageDaoImp implements MessageDao {
 }
 
 	@Override
-	public int getMessageResultCount(Message message) throws SQLException {
-		int count = 0;
-		count = (Integer) sqlMapClient.queryForObject("getMessageResultCount");
-		return count;
+	public int getMessageResultCount(Message message) throws SQLException {	
+		return (Integer) sqlMapClient.queryForObject("getMessageResultCount",message);
 	}
 
 	@Override

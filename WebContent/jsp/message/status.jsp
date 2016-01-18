@@ -17,7 +17,7 @@ $(function(){
 		url:'<%=basePath%>getMessageResultList',
 		title:'搜索',
 		pagination : true,
-		pageSize:10,
+		pageSize: 20,
 		nowrap : false,
 		pageList:[10,20,30],
 		iconCls:'icon-reload',
@@ -26,6 +26,8 @@ $(function(){
 		fitColumns:true,
 		showFooter: true,
 		remoteSort: false,
+		sortName: 'sendDate',
+		sortOrder: 'desc',
 		columns:[[
 // 			{
 // 				//title:'<input id=\"detailcheckbox\" type=\"checkbox\"  >',
@@ -39,6 +41,7 @@ $(function(){
 			{
 				title:'消息编号',
 				field:'id',
+				hidden:'true',
 				width:100	
 				
 			},
@@ -167,6 +170,8 @@ sy.serializeObject = function(form) { /*将form表单内的元素序列化为对
 
 function searchStatus() {
 	var data1 = sy.serializeObject($('#searchForm').form());
+// 	var st = $('#status').combobox('getText');
+// 	var statusValue = encodeURI(st);
 	var data = encodeURI(JSON.stringify(data1), "UTF-8");
 	$('#resultDg').datagrid('load', data1);
 }
@@ -212,8 +217,8 @@ function clearSearch() {
 		  			<th>发送结果:</th>
 		  			<td><select id="status" class="easyui-combobox"  name="status" editable="false">
 		  				<option value="none">--请选择--</option>
-		  				<option value="failure">失败</option>
-		  				<option value="success">成功</option>
+		  				<option value="发送失败">失败</option>
+		  				<option value="发送成功">成功</option>
 		  			</select></td>
 		  			<th>发送人:</th>
 		  			<td><input id="sendBy" class="easyui-validatebox"  name="sendBy"></td>

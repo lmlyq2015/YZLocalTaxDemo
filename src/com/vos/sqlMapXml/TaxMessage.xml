@@ -23,22 +23,25 @@
 										where s.EmpId=e.EmpId and s.MesId = m.MesId  
 		]]>
 			<dynamic>
-			 <isNotNull prepend="AND" property="content">       
+			 <isNotEmpty prepend="AND" property="content">       
                   (content like '%$content$%')       
-            </isNotNull>
-            <isNotNull prepend="AND" property="sendDate">
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="sendDate">
             <![CDATA[       
                   (sendDate >=  #sendDate#)  
                    ]]>      
-            </isNotNull>
-            <isNotNull prepend="AND" property="sendDateEnd">  
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="sendDateEnd">  
             <![CDATA[     
                   (sendDate <=  #sendDateEnd#) 
                   ]]>       
-            </isNotNull>
-<!--              <isNotNull prepend="AND" property="status">     -->
-<!--                   (failCount > 0)     -->
-<!--             </isNotNull>  -->
+            </isNotEmpty>
+  			<isNotEmpty prepend="AND" property="status">    
+                  (ResultMsg = #status#)
+            </isNotEmpty> 
+			 <isNotEmpty prepend="AND" property="sendBy">       
+                  (e.LoginName like '%$sendBy$%')       
+            </isNotEmpty>
 		</dynamic>
 		group by m.MesId limit #beginRow#,#pageSize#
 	</select>
@@ -46,8 +49,30 @@
 		<![CDATA[
 					select count(*) from (select m.mesId as Id,m.Content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,s.SendDate as sendDate,e.loginname as sendBy 
 										from tax_state s,tax_employees e,tax_message m 
-												where s.EmpId=e.EmpId and s.MesId = m.MesId  group by m.MesId) a
+												where s.EmpId=e.EmpId and s.MesId = m.MesId  											
 		]]>
+			<dynamic>
+			 <isNotEmpty prepend="AND" property="content">       
+                  (content like '%$content$%')       
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="sendDate">
+            <![CDATA[       
+                  (sendDate >=  #sendDate#)  
+                   ]]>      
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="sendDateEnd">  
+            <![CDATA[     
+                  (sendDate <=  #sendDateEnd#) 
+                  ]]>       
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="status">    
+                  (ResultMsg = #status#)
+            </isNotEmpty> 
+			 <isNotEmpty prepend="AND" property="sendBy">       
+                  (e.LoginName like '%$sendBy$%')       
+            </isNotEmpty>
+		</dynamic>
+		group by m.MesId) a
 	</select>
 	<select id="getFailMsgStateList" resultClass="com.vos.NotificationVo" parameterClass="java.util.Map">
 		<![CDATA[
@@ -64,12 +89,12 @@
 		select * from tax_entbasicinfor
 	]]>
 		<dynamic prepend="WHERE">
-			 <isNotNull prepend="AND" property="taxId">       
-                  (taxId = #taxId#)       
-            </isNotNull>
-            <isNotNull prepend="AND" property="taxName">       
+			 <isNotEmpty prepend="AND" property="taxId">       
+                  (taxId like '%$taxId$%')       
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="taxName">       
                   (taxName like '%$taxName$%')       
-            </isNotNull>
+            </isNotEmpty>
 		</dynamic>
 		limit #firstRow#,#pageSize#		
 	</select>
@@ -79,12 +104,12 @@
 		select count(*) from tax_entbasicinfor
 		]]>
 		<dynamic prepend="WHERE"> 
-			 <isNotNull prepend="AND" property="taxId">       
-                  (taxId = #taxId#)       
-            </isNotNull>
-            <isNotNull prepend="AND" property="taxName">       
+			 <isNotEmpty prepend="AND" property="taxId">       
+                  (taxId like '%$taxId$%')       
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="taxName">       
                   (taxName like '%$taxName$%')       
-            </isNotNull> 
+            </isNotEmpty> 
 		</dynamic>		
 		
 	</select>
@@ -128,12 +153,12 @@
 		select count(*) from tax_employees
 		]]>
 		<dynamic prepend="WHERE">
-			 <isNotNull prepend="AND" property="empId">       
+			 <isNotEmpty prepend="AND" property="empId">       
                   (empId like '%$empId$%')       
-            </isNotNull>
-            <isNotNull prepend="AND" property="loginName">       
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="loginName">       
                   (loginName like '%$loginName$%')       
-            </isNotNull>
+            </isNotEmpty>
             <isNotEmpty  prepend="AND" property="beginDate">
             <![CDATA[       
                   (LastLoginDate >=  #beginDate#)  
