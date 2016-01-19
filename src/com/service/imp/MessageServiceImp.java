@@ -77,6 +77,9 @@ public class MessageServiceImp implements MessageService {
 				 vo.setReceiver(TaxUtil.MESSAGE_RECEVIER_TAXER);
 				 id = messageDao.saveMsgResult(key, vo, msg.getSendDate(),msg.getSendBy());				 
 			}
+			if(msg.getSendToSelf().equals("是")){
+				TaxUtil.sendMessage("通知于" + sendDate + "发送成功！", msg.getMobile(), sendDate);
+				}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

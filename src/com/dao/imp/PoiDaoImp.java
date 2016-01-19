@@ -11,6 +11,7 @@ import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
 import com.vos.Pay;
 import com.vos.Report;
+import com.vos.TaxId;
 
 public class PoiDaoImp implements PoiDao{
 	private SqlMapClient sqlMapClient;
@@ -58,6 +59,30 @@ public class PoiDaoImp implements PoiDao{
 	public int[] insertPay(List<Pay> list) throws SQLException {
 		// TODO Auto-generated method stub
 		return (int[]) sqlMapClient.insert("insertPay", list);
+	}
+
+	@Override
+	public int selectUnequalNum() throws SQLException {
+		// TODO Auto-generated method stub
+		return (Integer) sqlMapClient.queryForObject("selectUnequalNum");
+	}
+
+	@Override
+	public List<TaxId> selectUnequalTaxId() throws SQLException {
+		// TODO Auto-generated method stub
+		return sqlMapClient.queryForList("selectUnequalTaxId");
+	}
+
+	@Override
+	public int selectUnequalNumForpay() throws SQLException {
+		// TODO Auto-generated method stub
+		return (Integer) sqlMapClient.queryForObject("selectUnequalNumForpay");
+	}
+
+	@Override
+	public List<TaxId> selectUnequalTaxIdForpay() throws SQLException {
+		// TODO Auto-generated method stub
+		return sqlMapClient.queryForList("selectUnequalTaxIdForpay");
 	}
 	
 	

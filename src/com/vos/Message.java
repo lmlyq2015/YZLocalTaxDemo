@@ -14,7 +14,21 @@ public class Message {
 	private int successCount;
 	private String sendDateEnd;
 	private String status;
+	private String mobile;
+	private String sendToSelf;
 	
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	public String getSendToSelf() {
+		return sendToSelf;
+	}
+	public void setSendToSelf(String sendToSelf) {
+		this.sendToSelf = sendToSelf;
+	}
 	public String getStatus() {
 		return status;
 	}

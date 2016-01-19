@@ -8,6 +8,14 @@ public class User {
 	private String password;
 	private String lastLoginDate;
 	private String email;
+	private String mobile;
+	
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 	public String getSendToSelf() {
 		return sendToSelf;
 	}

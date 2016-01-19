@@ -26,8 +26,8 @@ $(function(){
 		fitColumns:true,
 		showFooter: true,
 		remoteSort: false,
-		sortName: 'sendDate',
-		sortOrder: 'desc',
+// 		sortName: 'sendDate',
+// 		sortOrder: 'desc',
 		columns:[[
 // 			{
 // 				//title:'<input id=\"detailcheckbox\" type=\"checkbox\"  >',

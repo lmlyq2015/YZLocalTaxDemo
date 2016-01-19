@@ -24,6 +24,7 @@ import com.vos.JsonResult;
 import com.vos.MessageSearchVO;
 import com.vos.Pay;
 import com.vos.Report;
+import com.vos.TaxId;
 
 @Controller  
 @RequestMapping("/report")  
@@ -82,8 +83,20 @@ public class PoiController {
 				if(list.size()!=0){
 				poiService.insertReport(list);
 				}
+				
+				int unequal = poiService.selectUnequalNum();
+				List<TaxId> taxIds = poiService.selectUnequalTaxId();
+				String str = "";
 				JsonResult jr = new JsonResult();
-				jr.setMsg("导入成功");
+				String msg = "导入成功";
+				if(unequal!=0){
+					for(int i = 0;i < taxIds.size();i++){
+					    str += taxIds.get(i).getTaxId() + "、";
+					   }
+					str = str.substring(0,str.length()-1);
+					msg += "，其中有" + unequal + "家企业未录入企业信息，税号为" + str + " 。";
+				}
+				jr.setMsg(msg);
 				JSONObject json = JSONObject.fromObject(jr);
 				pw.print(json.toString());
 			} catch (Exception e) {
@@ -153,8 +166,20 @@ public class PoiController {
 				if(list.size()!=0){
 				poiService.insertPay(list);
 				}
+				
+				int unequal = poiService.selectUnequalNumForpay();
+				List<TaxId> taxIds = poiService.selectUnequalTaxIdForpay();
+				String str = "";
 				JsonResult jr = new JsonResult();
-				jr.setMsg("导入成功");
+				String msg = "导入成功";
+				if(unequal!=0){
+					for(int i = 0;i < taxIds.size();i++){
+					    str += taxIds.get(i).getTaxId() + "、";
+					   }
+					str = str.substring(0,str.length()-1);
+					msg += "，其中有" + unequal + "家企业未录入企业信息，税号为" + str + " 。";
+				}
+				jr.setMsg(msg);
 				JSONObject json = JSONObject.fromObject(jr);
 				pw.print(json.toString());
 			} catch (Exception e) {

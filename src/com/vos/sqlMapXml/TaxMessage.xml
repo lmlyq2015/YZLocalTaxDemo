@@ -43,7 +43,7 @@
                   (e.LoginName like '%$sendBy$%')       
             </isNotEmpty>
 		</dynamic>
-		group by m.MesId limit #beginRow#,#pageSize#
+		group by m.MesId order by SendDate desc limit #beginRow#,#pageSize#
 	</select>
 		<select id="getMessageResultCount" resultClass="java.lang.Integer">
 		<![CDATA[
@@ -72,7 +72,7 @@
                   (e.LoginName like '%$sendBy$%')       
             </isNotEmpty>
 		</dynamic>
-		group by m.MesId) a
+		group by m.MesId) a order by SendDate desc
 	</select>
 	<select id="getFailMsgStateList" resultClass="com.vos.NotificationVo" parameterClass="java.util.Map">
 		<![CDATA[

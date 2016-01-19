@@ -132,7 +132,7 @@ public class ReportDaoImp implements ReportDao {
 			map.put("taxId", vo.getTaxId());
 			map.put("status", vo.getStatus());
 			map.put("msg", vo.getResultMsg());
-			map.put("empId", "1");
+			map.put("empId", vo.getEmpId());
 			map.put("receiver", vo.getReceiver());
 			if (sendDate == null || sendDate.equals("")) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

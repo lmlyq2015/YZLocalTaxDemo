@@ -33,6 +33,7 @@ import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
 import com.vos.Pay;
 import com.vos.Report;
+import com.vos.TaxId;
 
 public class PoiServiceImp implements PoiService {
 
@@ -472,6 +473,30 @@ public class PoiServiceImp implements PoiService {
 	public int[] insertPay(List<Pay> list) throws SQLException {
 		// TODO Auto-generated method stub
 		return poiDao.insertPay(list);
+	}
+
+	@Override
+	public int selectUnequalNum() throws SQLException {
+		// TODO Auto-generated method stub
+		return poiDao.selectUnequalNum();
+	}
+
+	@Override
+	public List<TaxId> selectUnequalTaxId() throws SQLException {
+		// TODO Auto-generated method stub
+		return poiDao.selectUnequalTaxId();
+	}
+
+	@Override
+	public int selectUnequalNumForpay() throws SQLException {
+		// TODO Auto-generated method stub
+		return poiDao.selectUnequalNumForpay();
+	}
+
+	@Override
+	public List<TaxId> selectUnequalTaxIdForpay() throws SQLException {
+		// TODO Auto-generated method stub
+		return poiDao.selectUnequalTaxIdForpay();
 	}
 
 	
