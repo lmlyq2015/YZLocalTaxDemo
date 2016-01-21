@@ -12,7 +12,14 @@ public class NotificationVo {
 	private String adminMobile;
 	private String state;
 	private String eid;
+	private int mesId;
 	
+	public int getMesId() {
+		return mesId;
+	}
+	public void setMesId(int mesId) {
+		this.mesId = mesId;
+	}
 	public String getEid() {
 		return eid;
 	}

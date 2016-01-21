@@ -7,7 +7,7 @@ public class Message {
 	private int id;
 	private String content;
 	private String sign;
-	private String sendDate;
+//	private String sendDate;
 	private List<NotificationVo> voList;
 	private String sendBy;
 	private String msgType;
@@ -16,7 +16,14 @@ public class Message {
 	private String status;
 	private String mobile;
 	private String sendToSelf;
+	private String taxName;
 	
+	public String getTaxName() {
+		return taxName;
+	}
+	public void setTaxName(String taxName) {
+		this.taxName = taxName;
+	}
 	public String getMobile() {
 		return mobile;
 	}
@@ -78,12 +85,12 @@ public class Message {
 	public void setSign(String sign) {
 		this.sign = sign;
 	}
-	public String getSendDate() {
-		return sendDate;
-	}
-	public void setSendDate(String sendDate) {
-		this.sendDate = sendDate;
-	}
+//	public String getSendDate() {
+//		return sendDate;
+//	}
+//	public void setSendDate(String sendDate) {
+//		this.sendDate = sendDate;
+//	}
 	public List<NotificationVo> getVoList() {
 		return voList;
 	}

@@ -151,15 +151,15 @@ $(function() {
 	
 	$('#msgSend').click(function(){
 		var content = $('#content').val();
-		var sign = $('#sign').val();
-		if (content == null || content == "") {
-			$.messager.alert('操作提示', "请输入消息内容","info");
-			return;
-		}
-		if (sign == null || sign == "") {
-			$.messager.alert('操作提示', "请输入消息签名","info");
-			return;
-		}
+// 		var sign = $('#sign').val();
+// 		if (content == null || content == "") {
+// 			$.messager.alert('操作提示', "请输入消息内容","info");
+// 			return;
+// 		}
+// 		if (sign == null || sign == "") {
+// 			$.messager.alert('操作提示', "请输入消息签名","info");
+// 			return;
+// 		}
 		var rows = $('#enterpriceDg').datagrid('getSelections');
 		if (rows.length == 0) {
 			$.messager.alert('操作提示', "请选择发送对象","info");
@@ -185,8 +185,36 @@ $(function() {
 		}
 		
 	});
-	$('#sendDate').datebox('setValue', formatterDate(new Date()));
+	//$('#sendDate').datebox('setValue', formatterDate(new Date()));
 
+	$('#msgSendWithURL').click(function(){
+		var content = $('#content').val();
+		var rows = $('#enterpriceDg').datagrid('getSelections');
+		if (rows.length == 0) {
+			$.messager.alert('操作提示', "请选择发送对象","info");
+			return;
+		} else {
+			var formObj = sy.serializeObject($("#msgForm").form());
+			var formStr = encodeURI(JSON.stringify(formObj),"UTF-8");
+			var data = encodeURI(JSON.stringify(rows),"UTF-8");
+			$.ajax({
+				url : '<%=basePath%>sendNotificationMsgWithURL',
+				type : "POST",
+				dataType : "json",
+				data : 'data=' + formStr + "=" + data,
+				success : function(r) {
+					$.messager.alert('操作提示', r.msg,r.result);
+					$('#content').val('');
+					$('#enterpriceDg').datagrid('unselectAll');
+				},
+				error : function() {
+					$.messager.alert('操作提示', "服务器出错","error");
+				}
+			});
+		}
+		
+	});
+	
 });
 var sy = $.extend({}, sy);
 sy.serializeObject = function (form) { /*将form表单内的元素序列化为对象，扩展Jquery的一个方法*/
@@ -217,11 +245,25 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 		$('#enterpriceDg').datagrid("load", {});
 		$('#CompSearch').form("clear");
 	}
-
+	
+	function clearContent(){
+		$('#content').val('');
+		$("#msgSend").linkbutton("enable");
+	}
+	
+	function textup() {
+	    var s = document.getElementById('content').value;
+	    if (s.length > 254) {
+	    	alert("字数超过短信发送限制，请选择微网页发送");
+	    	$("#msgSend").linkbutton("disable");
+	    }else{
+	    	$("#msgSend").linkbutton("enable");
+	    };    
+	}
 </script>
 <body class="easyui-layout">
 
-      <div region="west" title="消息内容" style="width: 215px;height: 500px;">          
+      <div region="west" title="消息内容" style="width: 233px;height: 500px;">          
 			<form id="msgForm">					
 	
 <!-- 				
@@ -244,25 +286,25 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 					<table>
 					<tr>
 						<td>
-						<textarea id="content" style="width: 200px;height: 320px;" class="easyui-validatebox"  name="content" placeholder="请输入短信内容（根据运营商政策规定，建议每次提交小于等于225个字符  含签名、空格、字母、符号等） " maxlength="255"></textarea>
+						<textarea id="content" style="width: 218px;height: 400px;" class="easyui-validatebox"  name="content" onKeyUp="textup()"></textarea>
 						</td>
 					</tr>
-					<tr height="30" align="center">
-						<td>
-						签名:<input id="sign" class="easyui-validatebox" value="鄞州地税直属分局" name="sign">
-						</td>
-					</tr>
-					<tr height="50" align="center">
-						<td>
-						发送时间：<input id="sendDate" class="easyui-datetimebox"  name="sendDate">
-						</td>
-					</tr>
-					<tr align="center">
-						<td>
-						<a id="msgSend" icon="icon-ok" class="easyui-linkbutton" href="javascript:void(0);">发送</a><a icon="icon-cancel" class="easyui-linkbutton" href="javascript:void(0);">清空</a>
-						</td>
-					</tr>
-				
+<!-- 					<tr height="30" align="center"> -->
+<!-- 						<td> -->
+<!-- 						签名:<input id="sign" class="easyui-validatebox" value="鄞州地税直属分局" name="sign"> -->
+<!-- 						</td> -->
+<!-- 					</tr> -->
+<!-- 					<tr height="50" align="center"> -->
+<!-- 						<td> -->
+<!-- 						发送时间：<input id="sendDate" class="easyui-datetimebox"  name="sendDate"> -->
+<!-- 						</td> -->
+<!-- 					</tr> -->
+					
+						<tr><td>
+						<a id="msgSend" icon="icon-ok" class="easyui-linkbutton" href="javascript:void(0);">短信发送</a>
+						<a id="msgSendWithURL" icon="icon-ok" class="easyui-linkbutton" href="javascript:void(0);">微网页发送</a>
+						</td></tr>					
+						<tr align="center"><td><a icon="icon-cancel" class="easyui-linkbutton" href="javascript:void(0);" onclick="clearContent();">清空</a></td></tr>				
 <!-- 					<td> -->
 <!-- 						<a icon="icon-save" class="easyui-linkbutton" href="javascript:void(0);">保存草稿</a>					 -->
 <!-- 					</td> -->

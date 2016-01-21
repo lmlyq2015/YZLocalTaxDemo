@@ -124,6 +124,9 @@ public class PoiServiceImp implements PoiService {
 				}
 				// 将添加数据后的对象填充至list中
 				reportList.add(addReport);
+				if(addReport.getTaxId()==null){
+					reportList.remove(reportList.size()-1);
+				}
 			}
 
 		} catch (InvalidFormatException e) {
@@ -396,10 +399,12 @@ public class PoiServiceImp implements PoiService {
 					
 					// 将单元格的数据添加至一个对象
 					addPay = addingPay(cellInt[j], pay, cellStr);
-
 				}
-				// 将添加数据后的对象填充至list中
+				// 将添加数据后的对象填充至list中			
 				payList.add(addPay);
+				if(addPay.getTaxId()==null){
+					payList.remove(payList.size()-1);
+				}
 			}
 
 		} catch (InvalidFormatException e) {

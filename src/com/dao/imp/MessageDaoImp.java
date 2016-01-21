@@ -36,7 +36,6 @@ public class MessageDaoImp implements MessageDao {
 	public int saveMessage(Message msg) throws SQLException {
 		int key = 0;
 		try{
-			msg.setContent(msg.getContent() + " " + msg.getSign());
 			msg.setMsgType(TaxUtil.MESSAGE_NOTIFICATION_MESSAGE_TYPE);		
 			key = (Integer) sqlMapClient.insert("saveMsg",msg);
 		}catch(SQLException e) {
@@ -59,10 +58,10 @@ public class MessageDaoImp implements MessageDao {
 			map.put("msg", vo.getResultMsg());
 			map.put("empId", sendBy);
 			map.put("receiver", vo.getReceiver());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-			if (sendDate == null || sendDate.equals("")) {
-				sendDate = sdf.format(new Date()).toString();
-			}
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//			if (sendDate == null || sendDate.equals("")) {
+//				sendDate = sdf.format(new Date()).toString();
+//			}
 			map.put("sendDate", sendDate);
 			map.put("Id", 0);
 			sqlMapClient.insert("saveMsgResult",map);
@@ -83,7 +82,7 @@ public class MessageDaoImp implements MessageDao {
 		List<Message> list = new ArrayList<Message>();
 		map.put("id", message.getId());
 		map.put("content", message.getContent());
-		map.put("sendDate", message.getSendDate());
+		map.put("sendDate", DateUtils.getNowTime());
 		map.put("sendDateEnd", message.getSendDateEnd());
 		map.put("status", message.getStatus());
 		map.put("successCount", message.getSuccessCount());

@@ -501,4 +501,33 @@ public class TaxMessageController {
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping("/sendNotificationMsgWithURL")
+	public void sendNotificationMsgWithURL(@RequestParam("data") String data,HttpServletResponse response,HttpSession session) {
+		PrintWriter pw= null;
+		try {
+			pw = response.getWriter();
+			String str = URLDecoder.decode(data,"UTF-8");
+			String[]arrData = str.split("=");
+			String msgData = arrData[0];
+			String taxEntArr = arrData[1];
+			JSONObject object = JSONObject.fromObject(msgData);
+			Message msg = (Message) object.toBean(JSONObject.fromObject(msgData), Message.class);
+			JSONArray json = JSONArray.fromObject(taxEntArr);
+			List <NotificationVo> list  = json.toList(json, NotificationVo.class);
+			msg.setVoList(list);
+			msg.setSendBy(((User)session.getAttribute("current_user")).getEmpId());
+			msg.setMobile(((User)session.getAttribute("current_user")).getMobile());
+			msg.setSendToSelf(((User)session.getAttribute("current_user")).getSendToSelf());
+			int id = messageService.sendNotificationMsgWithURL(msg);
+			if (id > 0) {
+				pw.print(messageSuc());
+			} else {
+				pw.print(messageErr());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

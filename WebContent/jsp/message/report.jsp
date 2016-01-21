@@ -166,7 +166,7 @@
 				}
 				
 			});
-			$('#sendDate').datebox('setValue', formatterDate(new Date()));
+			//$('#sendDate').datebox('setValue', formatterDate(new Date()));
 			
 			
 // 			$('#sendReport').click(function()){

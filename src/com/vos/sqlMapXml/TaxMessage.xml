@@ -11,7 +11,7 @@
 	</insert>
 	
 	<insert id="saveMsgResult" parameterClass="java.util.Map">
-		insert into tax_state(taxid,mesid,empid,senddate,state,resultmsg,RecId) values (#taxId#,#mesId#,#empId#,str_to_date(#sendDate#,'%Y-%m-%d %H:%i'),#status#,#msg#,#receiver#)
+		insert into tax_state(taxid,mesid,empid,senddate,state,resultmsg,RecId) values (#taxId#,#mesId#,#empId#,#sendDate#,#status#,#msg#,#receiver#)
 		<selectKey resultClass="java.lang.Integer"  keyProperty="Id" >    
              SELECT last_insert_id() as id
         </selectKey>  

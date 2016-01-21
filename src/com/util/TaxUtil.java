@@ -15,6 +15,7 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 
 import com.vos.MessageResult;
+import com.vos.NotificationVo;
 import com.vos.PayNotificationVo;
 import com.vos.ReportNotificationVo;
 
@@ -139,6 +140,13 @@ public class TaxUtil {
 		System.out.println(content);
 		return content;
 	}
+	
+	public static String getMessageContent(NotificationVo vo) {
+		String content = "鄞州地税发布一条新通知，查看链接："+SEND_URL+"/YZLocalTaxDemo/getContentByWebPage?mesId="+vo.getMesId()+"&taxId="+vo.getTaxId();
+		System.out.println(content);
+		return content;
+	}
+	
 	
 	public static String sendMessage(String content,String mobile,String plantime) {
 		String result = null;
