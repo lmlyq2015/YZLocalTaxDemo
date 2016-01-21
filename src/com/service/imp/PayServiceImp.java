@@ -57,7 +57,7 @@ public class PayServiceImp implements PayService {
 				List<ImposeType> imposeTypes = payDao.getImposeType(vo.getTaxId());
 				String contents = "";
 				for (int i = 0; i < imposeTypes.size(); i++) {
-					contents = contents + imposeTypes.get(i).getName() + ",";
+					contents = contents + imposeTypes.get(i).getName() + "、";
 				}
 				contents = contents.substring(0,contents.length()-1);
 				vo.setImposeType(contents);

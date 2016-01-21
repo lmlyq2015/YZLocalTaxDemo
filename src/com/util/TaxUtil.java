@@ -110,8 +110,12 @@ public class TaxUtil {
 	}
 	
 	public static String getPayContent(PayNotificationVo vo) {
+//		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
+//				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳,查看链接："+ SEND_URL +"/YZLocalTaxDemo/getContentByWebPage?mesId="+vo.getMesId()+"&taxId="+vo.getTaxId()+"，请尽快缴纳。联系电话：28862886。";
+//		System.out.println(content);
+//		return content;
 		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
-				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳,查看链接："+ SEND_URL +"/YZLocalTaxDemo/getContentByWebPage?mesId="+vo.getMesId()+"&taxId="+vo.getTaxId()+"，请尽快缴纳。联系电话：28862886。";
+				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳,查看链接："+ SEND_URL +"/YZLocalTaxDemo/YZ/"+vo.getMesId()+"/"+vo.getTaxId()+"，请尽快缴纳。联系电话：28862886。";
 		System.out.println(content);
 		return content;
 	}
@@ -127,7 +131,7 @@ public class TaxUtil {
 	
 	public static String getReportContent(ReportNotificationVo vo) {
 		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
-				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报,查看链接："+SEND_URL+"/YZLocalTaxDemo/getContentByWebPage?mesId="+vo.getMesId()+"&taxId="+vo.getTaxId()+"，请尽快向鄞州地税局直属分局申报。联系电话：28862886。";
+				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报,查看链接："+SEND_URL+"/YZLocalTaxDemo/YZ/"+vo.getMesId()+"/"+vo.getTaxId()+"，请尽快向鄞州地税局直属分局申报。联系电话：28862886。";
 		System.out.println(content);
 		return content;
 	}
@@ -142,7 +146,7 @@ public class TaxUtil {
 	}
 	
 	public static String getMessageContent(NotificationVo vo) {
-		String content = "鄞州地税发布一条新通知，查看链接："+SEND_URL+"/YZLocalTaxDemo/getContentByWebPage?mesId="+vo.getMesId()+"&taxId="+vo.getTaxId();
+		String content = "鄞州地税发布一条新通知，查看链接："+SEND_URL+"/YZLocalTaxDemo/YZ/"+vo.getMesId()+"/"+vo.getTaxId();
 		System.out.println(content);
 		return content;
 	}

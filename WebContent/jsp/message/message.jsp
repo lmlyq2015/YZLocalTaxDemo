@@ -254,7 +254,7 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 	function textup() {
 	    var s = document.getElementById('content').value;
 	    if (s.length > 254) {
-	    	alert("字数超过短信发送限制，请选择微网页发送");
+	    	$.messager.alert('操作提示', "字数超过短信发送限制，请选择微网页发送！","info");
 	    	$("#msgSend").linkbutton("disable");
 	    }else{
 	    	$("#msgSend").linkbutton("enable");
