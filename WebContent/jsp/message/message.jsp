@@ -160,6 +160,10 @@ $(function() {
 // 			$.messager.alert('操作提示', "请输入消息签名","info");
 // 			return;
 // 		}
+		var dis = $("#msgSend").linkbutton("options").disabled;
+		if(dis == true){
+			return null;
+		}else{
 		var rows = $('#enterpriceDg').datagrid('getSelections');
 		if (rows.length == 0) {
 			$.messager.alert('操作提示', "请选择发送对象","info");
@@ -182,8 +186,8 @@ $(function() {
 					$.messager.alert('操作提示', "服务器出错","error");
 				}
 			});
-		}
-		
+		};
+		};
 	});
 	//$('#sendDate').datebox('setValue', formatterDate(new Date()));
 
@@ -253,7 +257,7 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 	
 	function textup() {
 	    var s = document.getElementById('content').value;
-	    if (s.length > 254) {
+	    if (s.length > 240) {
 	    	$.messager.alert('操作提示', "字数超过短信发送限制，请选择微网页发送！","info");
 	    	$("#msgSend").linkbutton("disable");
 	    }else{
