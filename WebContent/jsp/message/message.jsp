@@ -29,7 +29,7 @@ $(function() {
 		pagination : true,
 		pageSize:10,
 		nowrap : false,
-		pageList:[5,30,40],
+		pageList:[10,30,40],
 		iconCls:'icon-reload',
 		rownumbers: true,
 		singleSelect:false,

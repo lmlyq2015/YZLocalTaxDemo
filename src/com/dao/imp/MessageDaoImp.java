@@ -82,7 +82,7 @@ public class MessageDaoImp implements MessageDao {
 		List<Message> list = new ArrayList<Message>();
 		map.put("id", message.getId());
 		map.put("content", message.getContent());
-		map.put("sendDate", DateUtils.getNowTime());
+		map.put("sendDate", message.getSendDate());
 		map.put("sendDateEnd", message.getSendDateEnd());
 		map.put("status", message.getStatus());
 		map.put("successCount", message.getSuccessCount());
