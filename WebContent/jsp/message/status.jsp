@@ -216,7 +216,7 @@ function clearSearch() {
 		  			</td>
 		  			<th>发送结果:</th>
 		  			<td><select id="status" class="easyui-combobox"  name="status" editable="false">
-		  				<option value="none">--请选择--</option>
+		  				<option value="请选择">--请选择--</option>
 		  				<option value="发送失败">失败</option>
 		  				<option value="发送成功">成功</option>
 		  			</select></td>
