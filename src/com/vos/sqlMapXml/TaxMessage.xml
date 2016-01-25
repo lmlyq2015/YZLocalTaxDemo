@@ -11,18 +11,18 @@
 	</insert>
 	
 	<insert id="saveMsgResult" parameterClass="java.util.Map">
-		insert into tax_state(taxid,mesid,empid,senddate,state,resultmsg,RecId) values (#taxId#,#mesId#,#empId#,str_to_date(#sendDate#,'%Y-%m-%d %H:%i'),#status#,#msg#,#receiver#)
+		insert into tax_state(taxid,mesid,empid,senddate,state,resultmsg,RecId) values (#taxId#,#mesId#,#empId#,#sendDate#,#status#,#msg#,#receiver#)
 		<selectKey resultClass="java.lang.Integer"  keyProperty="Id" >    
              SELECT last_insert_id() as id
         </selectKey>  
 	</insert>
 	<select id="getMessageResultList" resultClass="com.vos.Message" parameterClass="java.util.Map">
 		<![CDATA[
-			select m.mesId as Id,m.content as content,m.Content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,DATE_FORMAT(s.SendDate, '%Y-%m-%d %H:%i') as sendDate,e.loginname as sendBy 
+		select * from(	select m.mesId as Id,m.content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,DATE_FORMAT(s.SendDate, '%Y-%m-%d %H:%i') as sendDate,e.loginname as sendBy 
 							from tax_state s,tax_employees e,tax_message m 
-										where s.EmpId=e.EmpId and s.MesId = m.MesId  
+										where s.EmpId=e.EmpId and s.MesId = m.MesId group by m.MesId order by SendDate desc) a  
 		]]>
-			<dynamic>
+			<dynamic prepend="where">
 			 <isNotEmpty prepend="AND" property="content">       
                   (content like '%$content$%')       
             </isNotEmpty>
@@ -36,22 +36,33 @@
                   (sendDate <=  #sendDateEnd#) 
                   ]]>       
             </isNotEmpty>
-  			<isNotEmpty prepend="AND" property="status">    
-                  (ResultMsg = #status#)
-            </isNotEmpty> 
+<!--   			<isNotEmpty prepend="AND" property="status">     -->
+<!--                   (ResultMsg = #status#) -->
+<!--             </isNotEmpty> -->
+			<isNotEmpty property="status">
+            <isEqual prepend="AND" property="status" compareValue="发送成功">
+            		(successCount > 0)
+			</isEqual> 
+			
+			<isEqual prepend="AND" property="status" compareValue="发送失败">
+			<![CDATA[  
+            		(failCount > 0)
+            		  ]]> 
+			</isEqual>		 
+			</isNotEmpty>
 			 <isNotEmpty prepend="AND" property="sendBy">       
-                  (e.LoginName like '%$sendBy$%')       
+                  (sendBy like '%$sendBy$%')       
             </isNotEmpty>
 		</dynamic>
-		group by m.MesId limit #beginRow#,#pageSize#
+		 limit #beginRow#,#pageSize#
 	</select>
 		<select id="getMessageResultCount" resultClass="java.lang.Integer">
 		<![CDATA[
-					select count(*) from (select m.mesId as Id,m.Content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,s.SendDate as sendDate,e.loginname as sendBy 
-										from tax_state s,tax_employees e,tax_message m 
-												where s.EmpId=e.EmpId and s.MesId = m.MesId  											
+		select count(*) from (	select * from(	select m.mesId as Id,m.content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,DATE_FORMAT(s.SendDate, '%Y-%m-%d %H:%i') as sendDate,e.loginname as sendBy 
+							from tax_state s,tax_employees e,tax_message m 
+										where s.EmpId=e.EmpId and s.MesId = m.MesId group by m.MesId order by SendDate desc) a  ) b  											
 		]]>
-			<dynamic>
+			<dynamic prepend="where">
 			 <isNotEmpty prepend="AND" property="content">       
                   (content like '%$content$%')       
             </isNotEmpty>
@@ -65,14 +76,21 @@
                   (sendDate <=  #sendDateEnd#) 
                   ]]>       
             </isNotEmpty>
-            <isNotEmpty prepend="AND" property="status">    
-                  (ResultMsg = #status#)
-            </isNotEmpty> 
+			<isNotEmpty property="status">
+            <isEqual prepend="AND" property="status" compareValue="发送成功">
+            		(successCount > 0)
+			</isEqual> 
+			
+			<isEqual prepend="AND" property="status" compareValue="发送失败">
+			<![CDATA[  
+            		(failCount > 0)
+            		  ]]> 
+			</isEqual>		 
+			</isNotEmpty>
 			 <isNotEmpty prepend="AND" property="sendBy">       
-                  (e.LoginName like '%$sendBy$%')       
+                  (sendBy like '%$sendBy$%')       
             </isNotEmpty>
 		</dynamic>
-		group by m.MesId) a
 	</select>
 	<select id="getFailMsgStateList" resultClass="com.vos.NotificationVo" parameterClass="java.util.Map">
 		<![CDATA[

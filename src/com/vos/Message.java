@@ -14,7 +14,28 @@ public class Message {
 	private int successCount;
 	private String sendDateEnd;
 	private String status;
+	private String mobile;
+	private String sendToSelf;
+	private String taxName;
 	
+	public String getTaxName() {
+		return taxName;
+	}
+	public void setTaxName(String taxName) {
+		this.taxName = taxName;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	public String getSendToSelf() {
+		return sendToSelf;
+	}
+	public void setSendToSelf(String sendToSelf) {
+		this.sendToSelf = sendToSelf;
+	}
 	public String getStatus() {
 		return status;
 	}

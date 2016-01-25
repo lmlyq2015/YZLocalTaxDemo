@@ -11,6 +11,21 @@ public class PayVO {
 	private String sendBy;
 	private String msgType;
 	private int successCount;
+	private String mobile;
+	private String sendToSelf;
+	
+	public String getSendToSelf() {
+		return sendToSelf;
+	}
+	public void setSendToSelf(String sendToSelf) {
+		this.sendToSelf = sendToSelf;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 	public int getId() {
 		return id;
 	}

@@ -18,7 +18,14 @@ public class PayNotificationVo {
 	private String resultMsg;
 	private String address;
 	private String receiver;
+	private String empId;
 	
+	public String getEmpId() {
+		return empId;
+	}
+	public void setEmpId(String empId) {
+		this.empId = empId;
+	}
 	public Long getId() {
 		return id;
 	}

@@ -53,17 +53,18 @@ public class ReportServiceImp implements ReportService {
 //			String sendDate = msg.getSendDate();
 			String sendDate = DateUtils.getNowTime();
 			List<ReportNotificationVo> list = msg.getVoList();
+			String empId = msg.getSendBy();
 			//msg.setId(key);
 			for (ReportNotificationVo vo : list) {
 				//1办税员
 				 //result = TaxUtil.sendReport(msgContent, vo.getTaxAgentMobile(), sendDate);
-				
-
+				vo.setEmpId(empId);
 				List<ImposeType> imposeTypes = reportDao.getImposeTypes(vo.getTaxId());
 				String contents = "";
 				for (int i = 0; i < imposeTypes.size(); i++) {
 					contents = contents + imposeTypes.get(i).getName() + "、";
 				}
+				contents = contents.substring(0,contents.length()-1);
 				vo.setImposeType(contents);
 				int key = reportDao.saveReportMsg(msg,TaxUtil.getReportSqlContent(vo));
 				 msg.setId(key);
@@ -84,13 +85,13 @@ public class ReportServiceImp implements ReportService {
 				 vo.setStatus(mr.getErrid());
 				 setResultMsg(vo, mr);
 				 vo.setReceiver(TaxUtil.MESSAGE_RECEVIER_TAXER);
-					
-				 
 				 
 //				 id = reportDao.saveReportMsgResult(key, vo, msg.getSendDate());
 				 id = reportDao.saveReportMsgResult(key, vo, sendDate);
 			}
-			
+			if(msg.getSendToSelf().equals("是")){
+			TaxUtil.sendMessage("通知于" + sendDate + "发送成功！", msg.getMobile(), sendDate);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

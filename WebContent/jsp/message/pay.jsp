@@ -155,7 +155,7 @@
 				}
 				
 			});
-			$('#sendDate').datebox('setValue', formatterDate(new Date()));
+			//$('#sendDate').datebox('setValue', formatterDate(new Date()));
 	});
 
 	var sy = $.extend({}, sy);

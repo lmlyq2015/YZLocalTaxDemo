@@ -15,6 +15,7 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 
 import com.vos.MessageResult;
+import com.vos.NotificationVo;
 import com.vos.PayNotificationVo;
 import com.vos.ReportNotificationVo;
 
@@ -109,8 +110,12 @@ public class TaxUtil {
 	}
 	
 	public static String getPayContent(PayNotificationVo vo) {
+//		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
+//				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳,查看链接："+ SEND_URL +"/YZLocalTaxDemo/getContentByWebPage?mesId="+vo.getMesId()+"&taxId="+vo.getTaxId()+"，请尽快缴纳。联系电话：28862886。";
+//		System.out.println(content);
+//		return content;
 		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
-				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳,查看链接："+ SEND_URL +"/YZLocalTaxDemo/getContentByWebPage?mesId="+vo.getMesId()+"&taxId="+vo.getTaxId()+"，请尽快缴纳。联系电话：28862886。";
+				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳,查看链接："+ SEND_URL +"/YZLocalTaxDemo/YZ/"+vo.getMesId()+"/"+vo.getTaxId()+"，请尽快缴纳。联系电话：28862886。";
 		System.out.println(content);
 		return content;
 	}
@@ -118,15 +123,15 @@ public class TaxUtil {
 	public static String getPaySqlContent(PayNotificationVo vo) {
 		// TODO Auto-generated method stub
 		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
-				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳：缴款期限为" + vo.getDeadline() + "的" +  vo.getImposeType() + "未缴税款为"
-				+ vo.getUnpaidTax() + "请尽快缴纳。联系电话：28862886。";
+				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳：缴款期限为" + vo.getDeadline() + "的" +  vo.getImposeType() + "，未缴税款为"
+				+ vo.getUnpaidTax() + "，请尽快缴纳。联系电话：28862886。";
 		System.out.println(content);
 		return content;
 	}
 	
 	public static String getReportContent(ReportNotificationVo vo) {
 		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
-				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报,查看链接："+SEND_URL+"/YZLocalTaxDemo/getContentByWebPage?mesId="+vo.getMesId()+"&taxId="+vo.getTaxId()+"，请尽快向鄞州地税局直属分局申报。联系电话：28862886。";
+				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报,查看链接："+SEND_URL+"/YZLocalTaxDemo/YZ/"+vo.getMesId()+"/"+vo.getTaxId()+"，请尽快向鄞州地税局直属分局申报。联系电话：28862886。";
 		System.out.println(content);
 		return content;
 	}
@@ -135,10 +140,17 @@ public class TaxUtil {
 		// TODO Auto-generated method stub
 		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
 				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报：所属" + vo.getYear() + "年" + vo.getMonth() + "月的"
-				+ vo.getImposeType() + "请尽快向鄞州地税局直属分局申报。联系电话：28862886。";
+				+ vo.getImposeType() + "，请尽快向鄞州地税局直属分局申报。联系电话：28862886。";
 		System.out.println(content);
 		return content;
 	}
+	
+	public static String getMessageContent(NotificationVo vo) {
+		String content = "鄞州地税发布一条新通知，查看链接："+SEND_URL+"/YZLocalTaxDemo/YZ/"+vo.getMesId()+"/"+vo.getTaxId();
+		System.out.println(content);
+		return content;
+	}
+	
 	
 	public static String sendMessage(String content,String mobile,String plantime) {
 		String result = null;
@@ -215,9 +227,6 @@ public class TaxUtil {
 		
 	}
 	public static void main(String[] args) {
-		String result = sendMessage("尊敬的纳税人:您在直属分局编码为a127369的企业（鄞州XX外贸有限公司）已开通了CA认证，请在7月30日-8月1日，前往鄞州区春园路125号免费领取U盾与光盘。随带单位公章或财务章、税务登记副本。为保证领取有序，请按时前往，并在协议书右上角务必填上领取序列号:2210a127369h45春园路125号正源税务师事务所北楼一楼大厅具体位置，东湖花园二期东门往东方向1.1公里，或者102路168路公交车东城水岸站往东860米处。电话：88211641。","15258117490","2015-12-02");
-		MessageResult mr = parseResult(result);
-		System.out.println(mr);
 	}
 	public static MessageResult parseResult(String result) {
 		try {

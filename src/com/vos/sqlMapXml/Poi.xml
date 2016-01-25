@@ -37,4 +37,20 @@
 		(#value[].taxId#,#value[].imposeType#,#value[].paymentDates#,#value[].deadline#,#value[].totaleTax#,#value[].paidTax#,#value[].unpaidTax#,#value[].pushDate#)
 		</iterate> 
 	</insert>
+	
+	<select id="selectUnequalNum" resultClass="java.lang.Integer">
+		select count(distinct(TaxId)) from tax_report where TaxId not in (select TaxId from tax_entbasicinfor)
+	</select>
+	
+	<select id="selectUnequalTaxId" resultClass="com.vos.TaxId">
+		select distinct(TaxId) from tax_report where TaxId not in (select TaxId from tax_entbasicinfor)
+	</select>
+	
+	<select id="selectUnequalNumForpay" resultClass="java.lang.Integer">
+		select count(distinct(TaxId)) from tax_pay where TaxId not in (select TaxId from tax_entbasicinfor)
+	</select>
+	
+	<select id="selectUnequalTaxIdForpay" resultClass="com.vos.TaxId">
+		select distinct(TaxId) from tax_pay where TaxId not in (select TaxId from tax_entbasicinfor)
+	</select>
 </sqlMap>

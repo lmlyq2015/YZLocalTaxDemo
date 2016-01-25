@@ -50,19 +50,24 @@ public class PayServiceImp implements PayService {
 //			String sendDate = msg.getSendDate();
 			String sendDate = DateUtils.getNowTime();
 			List<PayNotificationVo> list = msg.getVoList();
+			String empId = msg.getSendBy();
+			
 			for (PayNotificationVo vo : list) {
+				vo.setEmpId(empId);
 				List<ImposeType> imposeTypes = payDao.getImposeType(vo.getTaxId());
 				String contents = "";
 				for (int i = 0; i < imposeTypes.size(); i++) {
-					contents = contents + imposeTypes.get(i).getName() + ",";
+					contents = contents + imposeTypes.get(i).getName() + "、";
 				}
+				contents = contents.substring(0,contents.length()-1);
 				vo.setImposeType(contents);
 				
 				List<UnpaidTax> unpaidTaxs = payDao.getUnpaidTax(vo.getTaxId());
 				String contents1 = "";
 				for (int i = 0; i < unpaidTaxs.size(); i++) {
-					contents1 = contents1 + unpaidTaxs.get(i).getUnpaidTax()+"元,";
+					contents1 = contents1 + unpaidTaxs.get(i).getUnpaidTax()+"元、";
 				}
+				contents1 = contents1.substring(0,contents1.length()-1);
 				vo.setUnpaidTax(contents1);
 				
 				int key = payDao.savePayMsg(msg,TaxUtil.getPaySqlContent(vo));
@@ -76,6 +81,9 @@ public class PayServiceImp implements PayService {
 //				id = payDao.savePayMsgResult(key, vo, msg.getSendDate());
 				id = payDao.savePayMsgResult(key, vo, sendDate);
 			}		
+			if(msg.getSendToSelf().equals("是")){
+			TaxUtil.sendMessage("通知于" + sendDate + "发送成功！", msg.getMobile(), sendDate);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -26,7 +26,7 @@
 			//fit : true,
 			fitColumns : true,
 			pagination : true,
-			pageSize : 10,
+			pageSize : 50,
 			pageList : [ 10, 50, 100 ],
 			rownumbers : true,
 			showFooter: true,
@@ -166,7 +166,7 @@
 				}
 				
 			});
-			$('#sendDate').datebox('setValue', formatterDate(new Date()));
+			//$('#sendDate').datebox('setValue', formatterDate(new Date()));
 			
 			
 // 			$('#sendReport').click(function()){

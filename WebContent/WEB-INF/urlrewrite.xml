@@ -13,5 +13,9 @@
               <to>/jsp/home/homePage.jsp</to>
 
        </rule>
-
+		
+	   <rule>
+    		  <from>^/YZ/(\w+)/(\w+)</from>
+              <to type="forward">/getContentByWebPage?mesId=$1&amp;taxId=$2</to>
+       </rule>
 </urlrewrite>

@@ -10,7 +10,14 @@ public class ReportNotificationVo {
 	private String taxAgentMobile;
 	private String adminName;
 	private int mesId;
+	private String empId;
 	
+	public String getEmpId() {
+		return empId;
+	}
+	public void setEmpId(String empId) {
+		this.empId = empId;
+	}
 	public Long getId() {
 		return id;
 	}

@@ -36,7 +36,7 @@ public class MessageServiceImp implements MessageService {
 			MessageResult mr = null;
 			int key = messageDao.saveMessage(msg);
 			String msgContent = msg.getContent();
-			String sendDate = msg.getSendDate();
+			String sendDate = DateUtils.getNowTime();
 			List<NotificationVo> list = msg.getVoList();
 			msg.setId(key);
 			for (NotificationVo vo : list) {
@@ -75,8 +75,11 @@ public class MessageServiceImp implements MessageService {
 //				 }
 				 setResultMsg(vo, mr);
 				 vo.setReceiver(TaxUtil.MESSAGE_RECEVIER_TAXER);
-				 id = messageDao.saveMsgResult(key, vo, msg.getSendDate(),msg.getSendBy());				 
+				 id = messageDao.saveMsgResult(key, vo, sendDate, msg.getSendBy());				 
 			}
+			if(msg.getSendToSelf().equals("是")){
+				TaxUtil.sendMessage("通知于" + sendDate + "发送成功！", msg.getMobile(), sendDate);
+				}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -219,5 +222,38 @@ public class MessageServiceImp implements MessageService {
 	public int updatePassword(String empId, String newPwd) throws SQLException {
 		// TODO Auto-generated method stub
 		return messageDao.updatePassword(empId, newPwd);
+	}
+
+	@Override
+	public int sendNotificationMsgWithURL(Message msg) throws SQLException {
+		// TODO Auto-generated method stub
+		int id = 0;
+		try {
+			String result = null;
+			MessageResult mr = null;
+			//String msgContent = msg.getContent();
+			String sendDate = DateUtils.getNowTime();
+			List<NotificationVo> list = msg.getVoList();
+			
+			for (NotificationVo vo : list) {
+				 msg.setTaxName(vo.getTaxName());
+				 int key = messageDao.saveMessage(msg);
+				 vo.setMesId(key);
+				 msg.setId(key);		 
+				 result = TaxUtil.sendMessage(vo.getTaxName() + " : "+ TaxUtil.getMessageContent(vo), vo.getTaxAgentMobile(), sendDate);
+				 mr = TaxUtil.parseResult(result);
+				 vo.setState(mr.getErrid());
+				 setResultMsg(vo, mr);
+				 vo.setReceiver(TaxUtil.MESSAGE_RECEVIER_TAXER);
+				 id = messageDao.saveMsgResult(key, vo, sendDate, msg.getSendBy());				 
+			}
+			if(msg.getSendToSelf().equals("是")){
+				TaxUtil.sendMessage("通知于" + sendDate + "发送成功！", msg.getMobile(), sendDate);
+				}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return id;
 	}
 }

@@ -42,4 +42,6 @@ public interface MessageService {
 	
 	public int updatePassword(String empId,String newPwd) throws SQLException;
 
+	public int sendNotificationMsgWithURL(Message msg) throws SQLException;
+
 }

@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.service.MessageService;
 import com.service.PayService;
 import com.service.ReportService;
+import com.util.DateUtils;
 import com.util.TaxUtil;
 import com.vos.JsonResult;
 import com.vos.Message;
@@ -75,6 +76,8 @@ public class TaxMessageController {
 			List <NotificationVo> list  = json.toList(json, NotificationVo.class);
 			msg.setVoList(list);
 			msg.setSendBy(((User)session.getAttribute("current_user")).getEmpId());
+			msg.setMobile(((User)session.getAttribute("current_user")).getMobile());
+			msg.setSendToSelf(((User)session.getAttribute("current_user")).getSendToSelf());
 			int id = messageService.sendNotificationMsg(msg);
 			if (id > 0) {
 				pw.print(messageSuc());
@@ -160,11 +163,12 @@ public class TaxMessageController {
 	}
 
 	@RequestMapping("/sendReportMsg")
-	public void sendReportMsg(@RequestParam("data") String data,HttpServletResponse response) {
+	public void sendReportMsg(@RequestParam("data") String data,HttpServletResponse response,HttpSession httpSession) {
 		PrintWriter pw= null;
 		try {
 			pw = response.getWriter();
 			String str = URLDecoder.decode(data,"UTF-8");
+			User u = (User) httpSession.getAttribute("current_user");
 //			String[]arrData = str.split("=");
 //			String msgData = arrData[0];
 //			String taxEntArr = arrData[1];
@@ -181,6 +185,9 @@ public class TaxMessageController {
 				    } 
 				  }
 			msg.setVoList(list);
+			msg.setSendBy(u.getEmpId());
+			msg.setMobile(u.getMobile());
+			msg.setSendToSelf(u.getSendToSelf());
 			int id = reportService.sendReportMsg(msg);
 			if (id > 0) {
 				for(int i =  0 ;i < list.size();i++){ 
@@ -436,11 +443,12 @@ public class TaxMessageController {
 	}
 	
 	@RequestMapping("/sendPayMsg")
-	public void sendPayMsg(@RequestParam("data") String data,HttpServletResponse response) {
+	public void sendPayMsg(@RequestParam("data") String data,HttpServletResponse response,HttpSession httpSession) {
 		PrintWriter pw= null;
 		try {
 			pw = response.getWriter();
 			String str = URLDecoder.decode(data,"UTF-8");
+			User u = (User) httpSession.getAttribute("current_user");
 //			String[]arrData = str.split("=");
 //			String msgData = arrData[0];
 //			String taxEntArr = arrData[1];
@@ -457,6 +465,9 @@ public class TaxMessageController {
 				    } 
 				  }
 			msg.setVoList(list);
+			msg.setSendBy(u.getEmpId());
+			msg.setMobile(u.getMobile());
+			msg.setSendToSelf(u.getSendToSelf());
 			int id = payService.sendPayMsg(msg);
 			if (id > 0) {
 				for(int i =  0 ;i < list.size();i++){ 
@@ -487,6 +498,35 @@ public class TaxMessageController {
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("/sendNotificationMsgWithURL")
+	public void sendNotificationMsgWithURL(@RequestParam("data") String data,HttpServletResponse response,HttpSession session) {
+		PrintWriter pw= null;
+		try {
+			pw = response.getWriter();
+			String str = URLDecoder.decode(data,"UTF-8");
+			String[]arrData = str.split("=");
+			String msgData = arrData[0];
+			String taxEntArr = arrData[1];
+			JSONObject object = JSONObject.fromObject(msgData);
+			Message msg = (Message) object.toBean(JSONObject.fromObject(msgData), Message.class);
+			JSONArray json = JSONArray.fromObject(taxEntArr);
+			List <NotificationVo> list  = json.toList(json, NotificationVo.class);
+			msg.setVoList(list);
+			msg.setSendBy(((User)session.getAttribute("current_user")).getEmpId());
+			msg.setMobile(((User)session.getAttribute("current_user")).getMobile());
+			msg.setSendToSelf(((User)session.getAttribute("current_user")).getSendToSelf());
+			int id = messageService.sendNotificationMsgWithURL(msg);
+			if (id > 0) {
+				pw.print(messageSuc());
+			} else {
+				pw.print(messageErr());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
