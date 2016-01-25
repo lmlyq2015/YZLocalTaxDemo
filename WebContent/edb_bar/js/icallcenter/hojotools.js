@@ -11,8 +11,8 @@ icallcenter.hojotools.input = function(connectType) {
 		   keyEvent = "onKeyDown=\"if(event.keyCode == 13){softphoneBar.exConsult(hojo.byId('softphone.input').value)}\"";
 	   }
 	   var msgw,msgh,bordercolor;
-	   msgw=247;
-	   msgh=52;
+	   msgw=280;
+	   msgh=32;
 	   bordercolor="#c6c6c6";
 	   
 	   var sWidth,sHeight;
@@ -26,8 +26,8 @@ icallcenter.hojotools.input = function(connectType) {
 	   bgObj.style.filter="progid:DXImageTransform.Microsoft.Alpha(style=3,opacity=25,finishOpacity=75";
 	   bgObj.style.opacity="0.6";
 	   bgObj.style.left="0";
-	   bgObj.style.width=sWidth + "px";
-	   bgObj.style.height=sHeight + "px";
+	   bgObj.style.width=sWidth*1.6 + "px";
+	   bgObj.style.height=50 + "%";
 	   bgObj.style.zIndex = "10000";
 	   document.getElementById("softphonebar").appendChild(bgObj);
 
@@ -45,20 +45,30 @@ icallcenter.hojotools.input = function(connectType) {
        msgObj.style.width = msgw + "px";
        msgObj.style.height =msgh + "px";
        msgObj.style.textAlign = "left";
-       msgObj.style.lineHeight ="25px";
+       msgObj.style.lineHeight ="35px";
        msgObj.style.zIndex = "10001";
        msgObj.style.paddingTop = "2px";
        msgObj.style.paddingLeft = "18px";
        msgObj.style.paddingRight = "4px";
-       msgObj.innerHTML = "<div style='text-align:right'>" +
-       							"<a href=javascript:icallcenter.hojotools.close();>" +
-       								"<img src='../imgs/tinybox/close_1.gif' onmouseover=\"this.src='../imgs/tinybox/close_2.gif'\" onmouseout=\"this.src='../imgs/tinybox/close_1.gif'\" />" +
-       							"</a>" +
-       						"</div>" +
-       						"<div style='height:35px;overflow:hidden;text-align:center'>" +
+       msgObj.innerHTML = "<div style='height:35px;overflow:hidden;text-align:left' align='center'>" +
        							"<div id='hollyc5.loading.message' style='float:left;color:#666666;padding-left:5px;'>" +
-       								"<input id='softphone.input' value='请输入手机号码或工号'   onfocus='if(value==\"请输入手机号码或工号\") {value=\"\"}'  onblur='if(value==\"\"){value=\"请输入手机号码或工号\"}' type='text' size='20' class='fl' "+keyEvent+" />" + clickBtn + "</div>" +
+       								"<input id='softphone.input' value='请输入手机号码或工号'   onfocus='if(value==\"请输入手机号码或工号\") {value=\"\"}'  onblur='if(value==\"\"){value=\"请输入手机号码或工号\"}' type='text' size='20' class='fl' "+keyEvent+" />" + clickBtn + 
+       							
+       								"<a href=javascript:icallcenter.hojotools.close(); style='float: right;'>" +
+       									"<img src='../imgs/tinybox/close_1.gif' onmouseover=\"this.src='../imgs/tinybox/close_2.gif'\" onmouseout=\"this.src='../imgs/tinybox/close_1.gif'\" />" +
+       								"</a>" +
+       								
+       								"</div>" +
        						"</div>";
+//       msgObj.innerHTML = "<div style='text-align:right'>" +
+//       							"<a href=javascript:icallcenter.hojotools.close();>" +
+//       								"<img src='../imgs/tinybox/close_1.gif' onmouseover=\"this.src='../imgs/tinybox/close_2.gif'\" onmouseout=\"this.src='../imgs/tinybox/close_1.gif'\" />" +
+//       							"</a>" +
+//       						"</div>" +
+//       						"<div style='height:35px;overflow:hidden;text-align:left'>" +
+//       							"<div id='hollyc5.loading.message' style='float:left;color:#666666;padding-left:5px;'>" +
+//       								"<input id='softphone.input' value='请输入手机号码或工号'   onfocus='if(value==\"请输入手机号码或工号\") {value=\"\"}'  onblur='if(value==\"\"){value=\"请输入手机号码或工号\"}' type='text' size='20' class='fl' "+keyEvent+" />" + clickBtn + "</div>" +
+//       						"</div>";
        document.getElementById("softphonebar").appendChild(msgObj);
 };
 
@@ -94,16 +104,16 @@ icallcenter.hojotools.index = 1;
 icallcenter.hojotools.showLoading = function(destExten) {
 	icallcenter.hojotools.notifyDialogStayRemain = 40000;
 	icallcenter.hojotools.index = 1;
-	icallcenter.hojotools.loading("", "softphonebar");
+	icallcenter.hojotools.loading("正在处理您的请求,请稍后", "softphonebar");
 	icallcenter.hojotools.notifyDialogInterval = setInterval(function(){
 		icallcenter.hojotools.checkLoadingHide(destExten);
 	}, 1000);
 };
 
 icallcenter.hojotools.checkLoadingHide = function(destExten) {
-	var index = icallcenter.hojotools.index ++;
-	var html = ("正在等待<span style='color:#3fb23f;font-weight:bold'>"+destExten+ "</span>接听，" + "请稍后<span style='font-weight:bold'>(00:" + (index<10?("0"+index):index) +")</span>");
-	document.getElementById("hollyc5.loading.message").innerHTML = html;
+	//var index = icallcenter.hojotools.index ++;
+	//var html = ("正在等待<span style='color:#3fb23f;font-weight:bold'>"+destExten+ "</span>接听，" + "请稍后<span style='font-weight:bold'>(00:" + (index<10?("0"+index):index) +")</span>");
+	//document.getElementById("hollyc5.loading.message").innerHTML = html;
 	if(icallcenter.hojotools.notifyDialogStayRemain <= 0){
 		icallcenter.hojotools.hideNotify();
 	}
@@ -132,40 +142,42 @@ icallcenter.hojotools.loading = function(message, parentId) {
 	   bgObj.style.filter="progid:DXImageTransform.Microsoft.Alpha(style=3,opacity=25,finishOpacity=75";
 	   bgObj.style.opacity="0.6";
 	   bgObj.style.left="0";
-	   bgObj.style.width=sWidth + "px";
+	   bgObj.style.width=sWidth*1.6 + "px";
 	   bgObj.style.height=sHeight + "px";
 	   bgObj.style.zIndex = "10000";
+	   bgObj.style.textAlign = 'center';
+	   bgObj.innerHTML = "<div style='height:20px;overflow:hidden;text-align:center;margin:0 auto;'><img src='../imgs/loading.gif' style='float:left;margin-top:5px;' /><div id='hollyc5.loading.message' style='float:left;padding-left:5px;'>" + message + "</div><div style='clear:both;height:1px;overflow:hidden'>&nbsp;</div></div>";
 	   document.getElementById(parentId).appendChild(bgObj);
 
-	   var msgObj=document.createElement("div");
-	   msgObj.setAttribute("id","hollyc5.msgDiv");
-	   msgObj.setAttribute("align","center");
-	   msgObj.style.background="white";
-	   msgObj.style.border="1px solid " + bordercolor;
-	   msgObj.style.position = "absolute";
-	   msgObj.style.left = "50%";
-	   msgObj.style.top = "50%";
-	   msgObj.style.font="12px/1.6em Verdana, Geneva, Arial, Helvetica, sans-serif";
-	   msgObj.style.marginLeft = "-135px" ;
-	   msgObj.style.marginTop = -75+document.documentElement.scrollTop+"px";
-	   msgObj.style.width = msgw + "px";
-	   msgObj.style.height =msgh + "px";
-	   msgObj.style.textAlign = "left";
-	   msgObj.style.lineHeight ="25px";
-	   msgObj.style.zIndex = "10001";
-	   msgObj.style.paddingTop = "11px";
-	   msgObj.style.paddingLeft = "12px";
-	   msgObj.style.paddingRight = "10px";
-	   msgObj.innerHTML = "<div style='height:20px;overflow:hidden;text-align:center'><img src='../imgs/loading.gif' style='float:left;margin-top:5px;' /><div id='hollyc5.loading.message' style='float:left;color:#666666;padding-left:5px;'>" + message + "</div><div style='clear:both;height:1px;overflow:hidden'>&nbsp;</div></div>";
-
-	   document.getElementById(parentId).appendChild(msgObj);
+//	   var msgObj=document.createElement("div");
+//	   msgObj.setAttribute("id","hollyc5.msgDiv");
+//	   msgObj.setAttribute("align","center");
+//	   msgObj.style.background="white";
+//	   msgObj.style.border="1px solid " + bordercolor;
+//	   msgObj.style.position = "absolute";
+//	   msgObj.style.left = "50%";
+//	   msgObj.style.top = "50%";
+//	   msgObj.style.font="12px/1.6em Verdana, Geneva, Arial, Helvetica, sans-serif";
+//	   msgObj.style.marginLeft = "-135px" ;
+//	   msgObj.style.marginTop = -75+document.documentElement.scrollTop+"px";
+//	   msgObj.style.width = msgw + "px";
+//	   msgObj.style.height =msgh + "px";
+//	   msgObj.style.textAlign = "left";
+//	   msgObj.style.lineHeight ="25px";
+//	   msgObj.style.zIndex = "10001";
+//	   msgObj.style.paddingTop = "11px";
+//	   msgObj.style.paddingLeft = "12px";
+//	   msgObj.style.paddingRight = "10px";
+//	   msgObj.innerHTML = "<div style='height:20px;overflow:hidden;text-align:center'><img src='../imgs/loading.gif' style='float:left;margin-top:5px;' /><div id='hollyc5.loading.message' style='float:left;color:#666666;padding-left:5px;'>" + message + "</div><div style='clear:both;height:1px;overflow:hidden'>&nbsp;</div></div>";
+//
+//	   document.getElementById(parentId).appendChild(msgObj);
 };
 
 
 icallcenter.hojotools.error = function(message) {
 	var msgw,msgh,bordercolor;
 	msgw=249;
-    msgh=152;
+    msgh=44;
     bordercolor="#c6c6c6";
    
     var sWidth,sHeight;
@@ -180,7 +192,7 @@ icallcenter.hojotools.error = function(message) {
     bgObj.style.opacity="0.6";
     bgObj.style.left="0";
     bgObj.style.width=sWidth + "px";
-    bgObj.style.height=sHeight + "px";
+    bgObj.style.height=sHeight + 400 + "px";
     bgObj.style.zIndex = "10000";
     document.getElementById("softphonebar").appendChild(bgObj);
 

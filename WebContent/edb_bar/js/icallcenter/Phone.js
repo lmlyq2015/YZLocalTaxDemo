@@ -154,7 +154,7 @@ hojo.declare("icallcenter.Phone", null, {
     
     playSound: function(){ 
         try {
-       	 document.soundPlayer.play();
+       	 //document.soundPlayer.play();
         } catch (e) {
           console.debug(e);
         }
@@ -634,7 +634,8 @@ hojo.declare("icallcenter.Phone", null, {
     		icallcenter.hojotools.close();
             var json = response;
             if (json.Succeed) {
-            	icallcenter.hojotools.showSucc("转接成功");
+            	window.parent.message("转接成功");
+            	//icallcenter.hojotools.showSucc("转接成功");
                 console.debug("转接成功");
             } else{
                 console.debug("转接失败-"+json.Message);
@@ -658,9 +659,13 @@ hojo.declare("icallcenter.Phone", null, {
                 }
                 
                 if(message == "") {
-                	icallcenter.hojotools.error("转接失败");	
+                	window.parent.message("转接成功");
+                	//window.parent.ringAlert("转接成功");
+                	//icallcenter.hojotools.error("转接失败");	
                 } else {
-                	icallcenter.hojotools.error("转接失败：" + message);
+                	window.parent.message("转接失败");
+                	//window.parent.ringAlert("转接失败:" + message);
+                	//icallcenter.hojotools.error("转接失败：" + message);
                 }
                 if(json.Expired){
               		self._relogin();
@@ -865,7 +870,8 @@ hojo.declare("icallcenter.Phone", null, {
                      if(json.Expired){
                    		 self._relogin();
                    	 }
-                     icallcenter.hojotools.error("三方通话失败");
+                     alert("三方通话失败");
+                     //icallcenter.hojotools.error("三方通话失败");
                 } 
         });      
     },
@@ -905,10 +911,16 @@ hojo.declare("icallcenter.Phone", null, {
               var json = response;
               if (json.Succeed) {
                   console.debug("咨询[%s]成功", phoneNum);
-                  icallcenter.hojotools.showSucc("咨询成功");
+                  window.parent.message("咨询成功");
+                  //window.parent.ringAlert("咨询成功");
+                  //alert("咨询成功");
+                  //icallcenter.hojotools.showSucc("咨询成功");
                   self._changeState("stConcultTalking"); 
                } else {
-            	   icallcenter.hojotools.error("咨询失败");
+            	   window.parent.message("咨询失败");
+            	   //window.parent.ringAlert("咨询失败");
+            	   //alert("咨询失败");
+            	   //icallcenter.hojotools.error("咨询失败");
                    console.debug("咨询失败");
                    if(json.Expired) {
                 	   self._relogin();
@@ -916,7 +928,10 @@ hojo.declare("icallcenter.Phone", null, {
                 } 
           },function(response, ioArgs) {
         	  icallcenter.hojotools.close();
-        	  icallcenter.hojotools.error("咨询失败");
+        	  window.parent.message("咨询失败");
+        	  //window.parent.ringAlert("咨询失败");
+        	  //alert("咨询失败");
+        	  //icallcenter.hojotools.error("咨询失败");
               console.debug("ACTION返回错误");
           });
     },
@@ -945,7 +960,9 @@ hojo.declare("icallcenter.Phone", null, {
                 if(json.Expired){
                    	self._relogin();
                 }
-                icallcenter.hojotools.error("结束咨询通话失败");
+                window.parent.ringAlert("结束咨询通话失败");
+                //alert("结束咨询通话失败");
+                //icallcenter.hojotools.error("结束咨询通话失败");
             } 
         });      
     },

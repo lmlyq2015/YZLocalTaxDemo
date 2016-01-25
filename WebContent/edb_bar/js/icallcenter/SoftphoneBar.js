@@ -1,7 +1,6 @@
 hojo.provide("icallcenter.SoftphoneBar");
 hojo.require("icallcenter.Phone");
 hojo.require("icallcenter.hojotools");
-
 hojo.declare("icallcenter.SoftphoneBar", null, {
 	constructor: function(phone,srcNodeName) {
 		this._phone = phone;
@@ -267,7 +266,9 @@ hojo.declare("icallcenter.SoftphoneBar", null, {
             this._phone.dialout(phoneNum);
             return true;
         } else {
-        	icallcenter.hojotools.error("请输入正确的电话号码");
+        	//alert("请输入正确的电话号码");
+        	window.parent.ringAlert("请输入正确的电话号码");
+        	//icallcenter.hojotools.error("请输入正确的电话号码");
             return false;
         }
     },
@@ -285,7 +286,8 @@ hojo.declare("icallcenter.SoftphoneBar", null, {
      		icallcenter.hojotools.close('softphonebar'); 
             phone.transfer("9" + phoneNum, "external", {});
      	 } else {
-     		icallcenter.hojotools.error("请输入正确的电话号码");
+     		 window.parent.ringAlert("请输入正确的电话号码");
+     		 //icallcenter.hojotools.error("请输入正确的电话号码");
      	 }       
     },
     
@@ -294,7 +296,8 @@ hojo.declare("icallcenter.SoftphoneBar", null, {
     		icallcenter.hojotools.close('softphonebar'); 
     		phone.consult("9" + phoneNum, "external");
     	 } else {
-    		 icallcenter.hojotools.error("请输入正确的电话号码");
+    		  window.parent.ringAlert("请输入正确的电话号码");
+    		 //icallcenter.hojotools.error("请输入正确的电话号码");
     	 }       
     }
 

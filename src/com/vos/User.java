@@ -8,6 +8,20 @@ public class User {
 	private String password;
 	private String lastLoginDate;
 	private String email;
+	private String callCenterAccount;
+	private String callCenterPwd;
+	public String getCallCenterAccount() {
+		return callCenterAccount;
+	}
+	public void setCallCenterAccount(String callCenterAccount) {
+		this.callCenterAccount = callCenterAccount;
+	}
+	public String getCallCenterPwd() {
+		return callCenterPwd;
+	}
+	public void setCallCenterPwd(String callCenterPwd) {
+		this.callCenterPwd = callCenterPwd;
+	}
 	public String getSendToSelf() {
 		return sendToSelf;
 	}

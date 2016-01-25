@@ -14,8 +14,18 @@
 <script type="text/javascript" src="jquery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src='jquery/outlook2.js'> </script>
 <script type="text/javascript" src="jquery/jquery.easyui.min.js"></script>
-
-
+<script type="text/javascript">
+function closes(){
+	$("#Loading").fadeOut("normal",function(){
+		$(this).remove();
+	});
+}
+var pc;
+$.parser.onComplete = function(){
+	if(pc) clearTimeout(pc);
+	pc = setTimeout(closes, 1000);
+}
+</script>
 
 <script type="text/javascript">
 	 var _menus = {"menus":[
@@ -167,26 +177,43 @@
             
         });
 		
-		
+	function ringAlert(msg) {
+		$.messager.alert('提示', msg, 'info');
 
+	}
+	
+	function message(msg) {
+        $.messager.show({  
+            title: "操作提示",  
+            msg: msg,  
+            showType: 'slide',  
+            timeout: 1000  
+        });  
+	}
     </script>
 
 </head>
 <body class="easyui-layout" style="overflow-y: hidden" scroll="no">
+<div id='Loading' style="position:absolute;z-index:1000;top:0px;left:0px;width:100%;height:100%;background:#DDDDDB url('style/images/bodybg.jpg');text-align:center;padding-top: 20%;"><h1>
+<font color="#15428B">加载中···</font></h1></div>
 	<noscript>
 		<div
 			style="position: absolute; z-index: 100000; height: 2046px; top: 0px; left: 0px; width: 100%; background: white; text-align: center;">
 			<img src="images/noscript.gif" alt='抱歉，请开启脚本支持！' />
 		</div>
 	</noscript>
-	<div region="north" split="true" border="false"
-		style="overflow: hidden; height: 30px; background: url(images/layout-browser-hd-bg.gif) #7f99be repeat-x center 50%; line-height: 20px; color: #fff; font-family: Verdana, 微软雅黑, 黑体">
+	<div region="north" split="true" border="false" id="north"
+		style="overflow: hidden; height: 50%; background: url(images/layout-north-hd-bg.gif) #7f99be repeat-x center 100%; line-height: 35px; color: #fff; font-family: Verdana, 微软雅黑, 黑体;">
 		<span style="float: right; padding-right: 20px;" class="head">你好，${current_user.loginName }
 			<a href="javascript:void(0)" id="editpass">修改密码</a> <a
 			href="javascript:void(0)" id="loginOut">安全退出</a></span> <span
-			style="padding-left: 10px; font-size: 16px;"><img
+			style="padding-left: 10px; font-size: 18px;"><img
 			src="images/blocks.gif" width="20" height="20" align="absmiddle" />
-			鄞州地方税务局信息发布系统</span>
+			鄞州地方税务局纳税服务系统</span>
+			
+			<div style="float: right;line-height: 50px" fit="true">
+				<iframe align="middle" name="phone" scrolling="no" frameborder="0"  src="<%=basePath%>edb_bar/phoneBar/phonebar.html?loginName=${current_user.callCenterAccount }&password=${current_user.callCenterPwd }&loginType=sip" width="500px" height="60px"></iframe>
+			</div>
 	</div>
 	<div region="south" split="true"
 		style="height: 30px; background: #D2E0F2;">

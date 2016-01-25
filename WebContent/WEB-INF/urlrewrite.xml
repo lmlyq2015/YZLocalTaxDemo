@@ -8,7 +8,7 @@
 
        <rule>
 
-              <from>/(.*).html</from>
+              <from>/(.*).xxxx</from>
 
               <to>/jsp/home/homePage.jsp</to>
 

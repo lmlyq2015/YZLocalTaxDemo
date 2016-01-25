@@ -1,5 +1,6 @@
 hojo.provide("icallcenter.callProcessor");
 hojo.require("hojo.io.script");
+hojo.require("icallcenter.hojotools");
 
 hojo.declare("icallcenter.callProcessor", null, {
     _phone: null,
@@ -38,7 +39,8 @@ hojo.declare("icallcenter.callProcessor", null, {
 		var endTime= "";
 		var monitorFilename= "";
 		hojo.byId("icallcenter.dialout.input").value = callNo;
-		alert("Province:" + callPro + ";city:" +callCity+ ";agent:" + agent +";callNo:" + callNo+";calledNo:"+calledNo+";callType:"+callType+";status:"+status+";ringTime:"+ringTime+";beginTime:"+beginTime+";endTime:"+endTime+";monitorFilename:"+monitorFilename);
+		//alert("Province:" + callPro + ";city:" +callCity+ ";agent:" + agent +";callNo:" + callNo+";calledNo:"+calledNo+";callType:"+callType+";status:"+status+";ringTime:"+ringTime+";beginTime:"+beginTime+";endTime:"+endTime+";monitorFilename:"+monitorFilename);
+		parent.ringAlert("Province:" + callPro + ";city:" +callCity+ ";agent:" + agent +";callNo:" + callNo+";calledNo:"+calledNo+";callType:"+callType+";status:"+status+";ringTime:"+ringTime+""); 
 		var phoneJson = {
 	    		Command: "Action",
 	    		Action: "Ring",
@@ -67,7 +69,8 @@ hojo.declare("icallcenter.callProcessor", null, {
 		var endTime= data.endTime;
 		var monitorFilename= data.data.MonitorFilename;
 		//alert("agent:" + agent +";callNo:" + callNo+";calledNo:"+calledNo+";callType:"+callType+";status:"+status+";ringTime:"+ringTime+";beginTime:"+beginTime+";endTime:"+endTime+";monitorFilename:"+monitorFilename);
-	   	var phoneJson = {
+		icallcenter.hojotools.close();
+		var phoneJson = {
 	    		Command: "Action",
 	    		Action: "Hangup",
 	    		ActionID: "Hangup"+Math.random(),

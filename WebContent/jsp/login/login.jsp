@@ -101,7 +101,7 @@ $(function(){
 <%-- 				VAR USER = '<%=REQUEST.GETSESSION().GETATTRIBUTE("CURRENT_USER")%>'; --%>
 // 				CONSOLE.INFO(USER);
 				//location.reload(true);
- 				location.href='./tax.html';	
+ 				location.href='./tax.xxxx';	
 
 			} else {
 				$.messager.alert('提示', '信息填写错误', 'error');
