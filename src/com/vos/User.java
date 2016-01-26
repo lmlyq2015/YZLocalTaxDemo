@@ -21,6 +21,7 @@ public class User {
 	}
 	public void setCallCenterPwd(String callCenterPwd) {
 		this.callCenterPwd = callCenterPwd;
+		}
 	private String mobile;
 	
 	public String getMobile() {
