@@ -233,8 +233,8 @@
 </script>
 
 <body class="easyui-layout">
-	<div region="center" title="企业列表">
-		<table id="dg" ></table>
+	<div region="center" title="企业列表" fit="true">
+		<table id="dg" fit="true"></table>
 		<div id="reportSearch" style="height: 60px;">
 			<form name="readReportForm" method="post"
 				enctype="multipart/form-data" id="readReportForm">
