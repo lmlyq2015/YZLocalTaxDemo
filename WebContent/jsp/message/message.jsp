@@ -125,6 +125,7 @@ $(function() {
 		success : function(data) {
 			 var res = jQuery.parseJSON(data);
 				if (res) {
+
 				$.messager.alert('操作提示', res.msg);
 				$('#enterpriceDg').datagrid('load');
 				$('#file').val('');
@@ -146,6 +147,7 @@ $(function() {
 				$('#file').val('');
 				return false;
 			} else {
+			$('#enterpriceDg').datagrid("loading");
 			$('#readCompForm').form('submit');}
 	});
 	

@@ -44,7 +44,13 @@ public class PoiDaoImp implements PoiDao{
 	@Override
 	public int[] insertComp(List<MessageSearchVO> list) throws SQLException {
 		// TODO Auto-generated method stub
-		return (int[]) sqlMapClient.insert("insertComp", list);
+		int[] a = null;
+		try {
+			a = (int[]) sqlMapClient.insert("insertComp", list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return a;
 	}
 
 	@Override

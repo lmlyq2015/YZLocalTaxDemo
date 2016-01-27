@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,7 +51,8 @@ public class PoiServiceImp implements PoiService {
 	private static Logger logger = Logger.getLogger("service");
 
 	@Override
-	public void exportXLS(int msgId,HttpServletResponse response) throws SQLException {
+	public void exportXLS(int msgId, HttpServletResponse response)
+			throws SQLException {
 		// TODO Auto-generated method stub
 		// 1.创建一个 workbook
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -86,7 +88,8 @@ public class PoiServiceImp implements PoiService {
 	}
 
 	@Override
-	public List<Report> readReport(InputStream inp) throws SQLException, ParseException {
+	public List<Report> readReport(InputStream inp) throws SQLException,
+			ParseException {
 		// TODO Auto-generated method stub
 		List<Report> reportList = new ArrayList<Report>();
 
@@ -110,22 +113,22 @@ public class PoiServiceImp implements PoiService {
 					continue;
 				}
 
-				int[] cellInt = {0,1,20,17,18,21,22,23,24,25,26,27};
+				int[] cellInt = { 0, 1, 20, 17, 18, 21, 22, 23, 24, 25, 26, 27 };
 				for (int j = 0; j < cellInt.length; j++) {
 
 					Cell cell = row.getCell(cellInt[j]); // 获得单元格(cell)对象
-					
+
 					// 转换接收的单元格
 					cellStr = ConvertCellStr(cell, cellStr);
-					
+
 					// 将单元格的数据添加至一个对象
 					addReport = addingReport(cellInt[j], report, cellStr);
 
 				}
 				// 将添加数据后的对象填充至list中
 				reportList.add(addReport);
-				if(addReport.getTaxId()==null){
-					reportList.remove(reportList.size()-1);
+				if (addReport.getTaxId() == null) {
+					reportList.remove(reportList.size() - 1);
 				}
 			}
 
@@ -163,7 +166,7 @@ public class PoiServiceImp implements PoiService {
 	public Report addingReport(int j, Report report, String cellStr)
 			throws SQLException, ParseException {
 		// TODO Auto-generated method stub
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		switch (j) {
 		case 0:
 			report.setId(null);
@@ -201,7 +204,7 @@ public class PoiServiceImp implements PoiService {
 		case 27:
 			report.setEntryDate(sdf.parse(cellStr));
 			break;
-		
+
 		}
 
 		return report;
@@ -210,7 +213,7 @@ public class PoiServiceImp implements PoiService {
 	@Override
 	public String ConvertCellStr(Cell cell, String cellStr) throws SQLException {
 		// TODO Auto-generated method stub
-		if(cell==null){
+		if (cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK) {
 			return null;
 		}
 		switch (cell.getCellType()) {
@@ -277,24 +280,23 @@ public class PoiServiceImp implements PoiService {
 				for (int j = 1; j < row.getLastCellNum(); j++) {
 
 					Cell cell = row.getCell(j); // 获得单元格(cell)对象
-					
+
 					// 转换接收的单元格
 					cellStr = ConvertCellStr(cell, cellStr);
-					
+
 					// 将单元格的数据添加至一个对象
 					addMessageSearchVO = addingComp(j, messageSearchVO, cellStr);
 
 				}
 				// 将添加数据后的对象填充至list中
 				String compareTaxId = addMessageSearchVO.getTaxId();
-				System.out.println(compareTaxId);
+				// System.out.println(compareTaxId);
 				int count = poiDao.compareTaxId(compareTaxId);
-				System.out.println(count);
-				if(compareTaxId!=null&&count==0){
+				// System.out.println(count);
+				if (compareTaxId != null && count == 0) {
 					compList.add(addMessageSearchVO);
 				}
 			}
-
 		} catch (InvalidFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -310,11 +312,19 @@ public class PoiServiceImp implements PoiService {
 				logger.info("没有数据流!");
 			}
 		}
+		for (int i = 0; i < compList.size() - 1; i++) {
+			for (int j = compList.size() - 1; j > i; j--) {
+				if (compList.get(i).getTaxId()
+						.equalsIgnoreCase(compList.get(j).getTaxId())) {
+					compList.remove(i);
+				}
+			}
+		}
 		return compList;
 	}
 
 	public MessageSearchVO addingComp(int j, MessageSearchVO messageSearchVO,
-			String cellStr) throws SQLException, ParseException{
+			String cellStr) throws SQLException, ParseException {
 		// TODO Auto-generated method stub
 		switch (j) {
 		case 1:
@@ -389,21 +399,21 @@ public class PoiServiceImp implements PoiService {
 					continue;
 				}
 
-				int[] cellInt = {0,3,16,5,6,7,8,9,17};
+				int[] cellInt = { 0, 3, 16, 5, 6, 7, 8, 9, 17 };
 				for (int j = 0; j < cellInt.length; j++) {
 
 					Cell cell = row.getCell(cellInt[j]); // 获得单元格(cell)对象
-					
+
 					// 转换接收的单元格
 					cellStr = ConvertCellStr(cell, cellStr);
-					
+
 					// 将单元格的数据添加至一个对象
 					addPay = addingPay(cellInt[j], pay, cellStr);
 				}
-				// 将添加数据后的对象填充至list中			
+				// 将添加数据后的对象填充至list中
 				payList.add(addPay);
-				if(addPay.getTaxId()==null){
-					payList.remove(payList.size()-1);
+				if (addPay.getTaxId() == null) {
+					payList.remove(payList.size() - 1);
 				}
 			}
 
@@ -424,10 +434,10 @@ public class PoiServiceImp implements PoiService {
 		}
 		return payList;
 	}
-	
+
 	@Override
-	public Pay addingPay(int j, Pay pay, String cellStr)
-			throws SQLException, ParseException {
+	public Pay addingPay(int j, Pay pay, String cellStr) throws SQLException,
+			ParseException {
 		// TODO Auto-generated method stub
 		switch (j) {
 		case 0:
@@ -440,14 +450,16 @@ public class PoiServiceImp implements PoiService {
 			pay.setImposeType(cellStr);
 			break;
 		case 5:
-			DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+			DateFormat df = new SimpleDateFormat(
+					"EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
 			Date date = df.parse(cellStr);
 			df = new SimpleDateFormat("yyyy-MM-dd");
 			String str = df.format(date);
 			pay.setPaymentDates(str);
 			break;
 		case 6:
-			DateFormat df2 = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+			DateFormat df2 = new SimpleDateFormat(
+					"EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
 			Date date2 = df2.parse(cellStr);
 			df2 = new SimpleDateFormat("yyyy-MM-dd");
 			String str2 = df2.format(date2);
@@ -463,7 +475,8 @@ public class PoiServiceImp implements PoiService {
 			pay.setUnpaidTax(Float.parseFloat(cellStr));
 			break;
 		case 17:
-			DateFormat df1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+			DateFormat df1 = new SimpleDateFormat(
+					"EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
 			Date date1 = df1.parse(cellStr);
 			df1 = new SimpleDateFormat("yyyy-MM-dd");
 			String str1 = df1.format(date1);
@@ -504,5 +517,4 @@ public class PoiServiceImp implements PoiService {
 		return poiDao.selectUnequalTaxIdForpay();
 	}
 
-	
 }

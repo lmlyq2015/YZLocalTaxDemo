@@ -23,10 +23,11 @@
 							url : '<%=basePath%>getAllReport', //请求方法的地址
 			//title : '导入搜索',
 			nowrap : false,
-			//fit : true,
+// 			fit : true,
 			fitColumns : true,
 			pagination : true,
-			pageSize : 50,
+			border : false,
+			pageSize : 10,
 			pageList : [ 10, 50, 100 ],
 			rownumbers : true,
 			showFooter: true,
@@ -40,43 +41,43 @@
 			},{
 				title : '纳税人识别号',
 				field : 'taxId',
-				width : 50
+				width : 100
 			}, {
 				title : '纳税人名称',
 				field : 'taxName',
-				width : 100
+				width : 150
 			}, {
 				title : '办税员名称',
 				field : 'taxAgentName',
-				width : 30
+				width : 50
 			}, {
 				title : '办税员号码',
 				field : 'taxAgentMobile',
-				width : 50
+				width : 70
 			}, {
 				title : '财务负责人名称',
 				field : 'adminName',
-				width : 30
+				width : 70
 			}, {
 				title : '财务负责人号码',
 				field : 'adminMobile',
-				width : 50
+				width : 70
 			}, {
 				title : '法人名称',
 				field : 'rep',
-				width : 30
+				width : 50
 			}, {
 				title : '法人号码',
 				field : 'repMobile',
-				width : 50
+				width : 70
 			}, {
 				title : '申报年',
 				field : 'year',
-				width : 20
+				width : 40
 			}, {
 				title : '申报月',
 				field : 'month',
-				width : 20
+				width : 40
 			}, {
 				title : '征收项目',
 				field : 'imposeType',
@@ -129,6 +130,7 @@
 					$('#file').val('');
 					return false;
 				} else {
+				$('#dg').datagrid("loading");
 				$('#readReportForm').form('submit');}
 		});
 			
@@ -231,9 +233,8 @@
 </script>
 
 <body class="easyui-layout">
-	<div region="center" title="企业列表"
-		 fit="true">
-		<table id="dg" fit="true"></table>
+	<div region="center" title="企业列表">
+		<table id="dg" ></table>
 		<div id="reportSearch" style="height: 60px;">
 			<form name="readReportForm" method="post"
 				enctype="multipart/form-data" id="readReportForm">

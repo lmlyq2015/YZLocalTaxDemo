@@ -117,6 +117,7 @@
 					$('#file').val('');
 					return false;
 				} else {
+					$('#dg').datagrid("loading");
 					$('#readpayForm').form('submit');
 				};	
 		});
