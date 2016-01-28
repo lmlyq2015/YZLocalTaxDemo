@@ -77,7 +77,8 @@ public class MessageServiceImp implements MessageService {
 				 vo.setReceiver(TaxUtil.MESSAGE_RECEVIER_TAXER);
 				 id = messageDao.saveMsgResult(key, vo, sendDate, msg.getSendBy());				 
 			}
-			if(msg.getSendToSelf().equals("是")){
+			String sendToSelf = msg.getSendToSelf();
+			if(sendToSelf != null && sendToSelf.equals("是")){
 				TaxUtil.sendMessage("通知于" + sendDate + "发送成功！", msg.getMobile(), sendDate);
 				}
 		} catch (SQLException e) {
@@ -247,7 +248,8 @@ public class MessageServiceImp implements MessageService {
 				 vo.setReceiver(TaxUtil.MESSAGE_RECEVIER_TAXER);
 				 id = messageDao.saveMsgResult(key, vo, sendDate, msg.getSendBy());				 
 			}
-			if(msg.getSendToSelf().equals("是")){
+			String sendToSelf = msg.getSendToSelf();
+			if(sendToSelf != null && sendToSelf.equals("是")){
 				TaxUtil.sendMessage("通知于" + sendDate + "发送成功！", msg.getMobile(), sendDate);
 				}
 		} catch (SQLException e) {

@@ -154,10 +154,10 @@ $(function() {
 	$('#msgSend').click(function(){
 		var content = $('#content').val();
 // 		var sign = $('#sign').val();
-// 		if (content == null || content == "") {
-// 			$.messager.alert('操作提示', "请输入消息内容","info");
-// 			return;
-// 		}
+		if (content == null || content == "") {
+			$.messager.alert('操作提示', "请输入消息内容","info");
+			return;
+		}
 // 		if (sign == null || sign == "") {
 // 			$.messager.alert('操作提示', "请输入消息签名","info");
 // 			return;
@@ -195,6 +195,10 @@ $(function() {
 
 	$('#msgSendWithURL').click(function(){
 		var content = $('#content').val();
+		if (content == null || content == "") {
+			$.messager.alert('操作提示', "请输入消息内容","info");
+			return;
+		}
 		var rows = $('#enterpriceDg').datagrid('getSelections');
 		if (rows.length == 0) {
 			$.messager.alert('操作提示', "请选择发送对象","info");
