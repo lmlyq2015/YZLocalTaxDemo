@@ -71,12 +71,12 @@
 				field : 'repMobile',
 				width : 70
 			}, {
-				title : '申报年',
-				field : 'year',
+				title : '所属时期起',
+				field : 'startTime',
 				width : 40
 			}, {
-				title : '申报月',
-				field : 'month',
+				title : '所属时期止',
+				field : 'endTime',
 				width : 40
 			}, {
 				title : '征收项目',

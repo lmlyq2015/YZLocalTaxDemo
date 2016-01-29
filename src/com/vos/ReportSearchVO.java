@@ -10,8 +10,8 @@ public class ReportSearchVO {
 	private String adminMobile;
 	private String rep;
 	private String repMobile;
-	private String year;
-	private String month;
+	private String startTime;
+	private String endTime;
 	private String imposeType;
 	
 	public Long getId() {
@@ -68,17 +68,18 @@ public class ReportSearchVO {
 	public void setRepMobile(String repMobile) {
 		this.repMobile = repMobile;
 	}
-	public String getYear() {
-		return year;
+
+	public String getStartTime() {
+		return startTime;
 	}
-	public void setYear(String year) {
-		this.year = year;
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
 	}
-	public String getMonth() {
-		return month;
+	public String getEndTime() {
+		return endTime;
 	}
-	public void setMonth(String month) {
-		this.month = month;
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 	public String getImposeType() {
 		return imposeType;

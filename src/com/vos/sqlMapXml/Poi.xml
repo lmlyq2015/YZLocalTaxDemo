@@ -9,10 +9,10 @@
 
 	<insert id="insertReport" parameterClass="java.util.ArrayList">
 		INSERT INTO
-		tax_report(TAXID,IMPOSETYPE,YEAR,MONTH,PERIOD,STARTTIME,ENDTIME,DECLAREDATE,DEADLINE,DECLAREWAY,ENTRYDATE)
+		tax_report(TAXID,IMPOSETYPE,STARTTIME,ENDTIME)
 		VALUES
 		<iterate conjunction=",">  
-		(#value[].taxId#,#value[].imposeType#,#value[].year#,#value[].month#,#value[].period#,#value[].startTime#,#value[].endTime#,#value[].declareDate#,#value[].deadLine#,#value[].declareWay#,#value[].entryDate#)
+		(#value[].taxId#,#value[].imposeType#,#value[].startTime#,#value[].endTime#)
 		</iterate> 
 	</insert>
 	
@@ -31,10 +31,10 @@
 	
 	<insert id="insertPay" parameterClass="java.util.ArrayList">
 		INSERT INTO
-		tax_pay(TAXID,IMPOSETYPE,PaymentDates,Deadline,TotaleTax,PaidTax,UnpaidTax,PushDate)
+		tax_pay(TAXID,IMPOSETYPE,TOTALTAX,STARTTIME,ENDTIME)
 		VALUES
 		<iterate conjunction=",">  
-		(#value[].taxId#,#value[].imposeType#,#value[].paymentDates#,#value[].deadline#,#value[].totaleTax#,#value[].paidTax#,#value[].unpaidTax#,#value[].pushDate#)
+		(#value[].taxId#,#value[].imposeType#,#value[].totalTax#,#value[].startTime#,#value[].endTime#)
 		</iterate> 
 	</insert>
 	

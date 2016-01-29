@@ -100,8 +100,8 @@ public class PoiServiceImp implements PoiService {
 
 			Sheet sheet = wb.getSheetAt(0);// 取得第一个sheets
 
-			// 从第四行开始读取数据
-			for (int i = 3; i <= sheet.getLastRowNum(); i++) {
+			// 从第二行开始读取数据
+			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 
 				Report report = new Report();
 				Report addReport = new Report();
@@ -113,7 +113,7 @@ public class PoiServiceImp implements PoiService {
 					continue;
 				}
 
-				int[] cellInt = { 0, 1, 20, 17, 18, 21, 22, 23, 24, 25, 26, 27 };
+				int[] cellInt = { 0, 4, 2, 3 };
 				for (int j = 0; j < cellInt.length; j++) {
 
 					Cell cell = row.getCell(cellInt[j]); // 获得单元格(cell)对象
@@ -166,47 +166,24 @@ public class PoiServiceImp implements PoiService {
 	public Report addingReport(int j, Report report, String cellStr)
 			throws SQLException, ParseException {
 		// TODO Auto-generated method stub
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		switch (j) {
+//		case 10:
+//			report.setId(null);
+//			break;
 		case 0:
-			report.setId(null);
-			break;
-		case 1:
 			report.setTaxId(cellStr);
 			break;
-		case 20:
+		case 4:
 			report.setImposeType(cellStr);
 			break;
-		case 17:
-			report.setYear(cellStr);
+		case 2:
+			report.setStartTime(cellStr);
 			break;
-		case 18:
-			report.setMonth(cellStr);
+		case 3:
+			report.setEndTime(cellStr);
 			break;
-		case 21:
-			report.setPeriod(cellStr);
-			break;
-		case 22:
-			report.setStartTime(sdf.parse(cellStr));
-			break;
-		case 23:
-			report.setEndTime(sdf.parse(cellStr));
-			break;
-		case 24:
-			report.setDeclareDate(sdf.parse(cellStr));
-			break;
-		case 25:
-			report.setDeadLine(cellStr);
-			break;
-		case 26:
-			report.setDeclareWay(cellStr);
-			break;
-		case 27:
-			report.setEntryDate(sdf.parse(cellStr));
-			break;
-
 		}
-
+		
 		return report;
 	}
 
@@ -399,7 +376,7 @@ public class PoiServiceImp implements PoiService {
 					continue;
 				}
 
-				int[] cellInt = { 0, 3, 16, 5, 6, 7, 8, 9, 17 };
+				int[] cellInt = { 0, 2, 4, 5, 6 };
 				for (int j = 0; j < cellInt.length; j++) {
 
 					Cell cell = row.getCell(cellInt[j]); // 获得单元格(cell)对象
@@ -440,47 +417,23 @@ public class PoiServiceImp implements PoiService {
 			ParseException {
 		// TODO Auto-generated method stub
 		switch (j) {
+//		case 10:
+//			pay.setId(null);
+//			break;
 		case 0:
-			pay.setId(null);
-			break;
-		case 3:
 			pay.setTaxId(cellStr);
 			break;
-		case 16:
+		case 2:
 			pay.setImposeType(cellStr);
 			break;
+		case 4:
+			pay.setStartTime(cellStr);
+			break;
 		case 5:
-			DateFormat df = new SimpleDateFormat(
-					"EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
-			Date date = df.parse(cellStr);
-			df = new SimpleDateFormat("yyyy-MM-dd");
-			String str = df.format(date);
-			pay.setPaymentDates(str);
+			pay.setEndTime(cellStr);
 			break;
 		case 6:
-			DateFormat df2 = new SimpleDateFormat(
-					"EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
-			Date date2 = df2.parse(cellStr);
-			df2 = new SimpleDateFormat("yyyy-MM-dd");
-			String str2 = df2.format(date2);
-			pay.setDeadline(str2);
-			break;
-		case 7:
-			pay.setTotaleTax(Float.parseFloat(cellStr));
-			break;
-		case 8:
-			pay.setPaidTax(Float.parseFloat(cellStr));
-			break;
-		case 9:
-			pay.setUnpaidTax(Float.parseFloat(cellStr));
-			break;
-		case 17:
-			DateFormat df1 = new SimpleDateFormat(
-					"EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
-			Date date1 = df1.parse(cellStr);
-			df1 = new SimpleDateFormat("yyyy-MM-dd");
-			String str1 = df1.format(date1);
-			pay.setPushDate(str1);
+			pay.setTotalTax(cellStr);
 			break;
 		}
 

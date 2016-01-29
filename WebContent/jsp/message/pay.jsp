@@ -70,12 +70,16 @@
 				field : 'repMobile',
 				width : 50
 			}, {
-				title : '缴款期限',
-				field : 'deadline',
+				title : '所属时期起',
+				field : 'startTime',
 				width : 20
 			}, {
-				title : '欠缴税额',
-				field : 'unpaidTax',
+				title : '所属时期止',
+				field : 'endTime',
+				width : 20
+			}, {
+				title : '税额',
+				field : 'totalTax',
 				width : 20
 			}, {
 				title : '征收项目',

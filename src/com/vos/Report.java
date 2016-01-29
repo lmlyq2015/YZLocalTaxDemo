@@ -6,15 +6,8 @@ public class Report {
 	private Long id;
 	private String taxId;
 	private String imposeType;
-	private String year;
-	private String month;
-	private String period;
-	private Date startTime;
-	private Date endTime;
-	private Date declareDate;
-	private String deadLine;
-	private String declareWay;
-	private Date entryDate;
+	private String startTime;
+	private String endTime;
 	
 	public Long getId() {
 		return id;
@@ -34,59 +27,17 @@ public class Report {
 	public void setImposeType(String imposeType) {
 		this.imposeType = imposeType;
 	}
-	public String getYear() {
-		return year;
-	}
-	public void setYear(String year) {
-		this.year = year;
-	}
-	public String getMonth() {
-		return month;
-	}
-	public void setMonth(String month) {
-		this.month = month;
-	}
-	public String getPeriod() {
-		return period;
-	}
-	public void setPeriod(String period) {
-		this.period = period;
-	}
-	public Date getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
-	public void setStartTime(Date startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
-	public Date getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
-	}
-	public Date getDeclareDate() {
-		return declareDate;
-	}
-	public void setDeclareDate(Date declareDate) {
-		this.declareDate = declareDate;
-	}
-	public String getDeadLine() {
-		return deadLine;
-	}
-	public void setDeadLine(String deadLine) {
-		this.deadLine = deadLine;
-	}
-	public String getDeclareWay() {
-		return declareWay;
-	}
-	public void setDeclareWay(String declareWay) {
-		this.declareWay = declareWay;
-	}
-	public Date getEntryDate() {
-		return entryDate;
-	}
-	public void setEntryDate(Date entryDate) {
-		this.entryDate = entryDate;
 	}
 	
 }

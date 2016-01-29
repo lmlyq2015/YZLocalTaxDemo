@@ -1,8 +1,13 @@
 package com.util;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -89,6 +94,9 @@ public class TaxUtil {
 	public final static String MESSAGE_RECEVIER_ADMIN = "2";
 	public final static String MESSAGE_RECEVIER_LAWER = "3";
 	
+	public static String path = "C:/"; 
+	public static String filenameTemp; 
+	
 	static{
 		FileInputStream in = null;
 		Properties pro = new Properties();
@@ -114,7 +122,7 @@ public class TaxUtil {
 //				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳,查看链接："+ SEND_URL +"/YZLocalTaxDemo/getContentByWebPage?mesId="+vo.getMesId()+"&taxId="+vo.getTaxId()+"，请尽快缴纳。联系电话：28862886。";
 //		System.out.println(content);
 //		return content;
-		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
+		String content = "尊敬的会计，您所在的企业名称为：" + vo.getTaxName()
 				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳,查看链接："+ SEND_URL +"/YZLocalTaxDemo/YZ/"+vo.getMesId()+"/"+vo.getTaxId()+"，请尽快缴纳。联系电话：28862886。";
 		System.out.println(content);
 		return content;
@@ -122,15 +130,15 @@ public class TaxUtil {
 
 	public static String getPaySqlContent(PayNotificationVo vo) {
 		// TODO Auto-generated method stub
-		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
-				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳：缴款期限为" + vo.getDeadline() + "的" +  vo.getImposeType() + "，未缴税款为"
-				+ vo.getUnpaidTax() + "，请尽快缴纳。联系电话：28862886。";
+		String content = "尊敬的会计，您所在的企业名称为：" + vo.getTaxName()
+				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳：缴款期限为" + vo.getStartTime() + "至" + vo.getEndTime() + "的" +  vo.getImposeType() + "，未缴税款为"
+				+ vo.getTotalTax() + "，请尽快缴纳。联系电话：28862886。";
 		System.out.println(content);
 		return content;
 	}
 	
 	public static String getReportContent(ReportNotificationVo vo) {
-		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
+		String content = "尊敬的会计，您所在的企业名称为：" + vo.getTaxName()
 				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报,查看链接："+SEND_URL+"/YZLocalTaxDemo/YZ/"+vo.getMesId()+"/"+vo.getTaxId()+"，请尽快向鄞州地税局直属分局申报。联系电话：28862886。";
 		System.out.println(content);
 		return content;
@@ -138,8 +146,8 @@ public class TaxUtil {
 
 	public static String getReportSqlContent(ReportNotificationVo vo) {
 		// TODO Auto-generated method stub
-		String content = "尊敬的" + vo.getTaxAgentName() + "会计，您所在的企业名称为：" + vo.getTaxName()
-				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报：所属" + vo.getYear() + "年" + vo.getMonth() + "月的"
+		String content = "尊敬的会计，您所在的企业名称为：" + vo.getTaxName()
+				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报：所属日期为" + vo.getStartTime() + "至" + vo.getEndTime() + "的"
 				+ vo.getImposeType() + "，请尽快向鄞州地税局直属分局申报。联系电话：28862886。";
 		System.out.println(content);
 		return content;
@@ -253,4 +261,87 @@ public class TaxUtil {
 		return null;
 		
 	}
-}
+	
+	
+	
+	
+	
+	/**
+	 * 创建文件
+	 * 
+	 * @throws IOException
+	 */
+	public static void creatTxtFile() throws IOException {
+		filenameTemp = path + "test.txt";
+		File filename = new File(filenameTemp);
+		if (!filename.exists()) {
+			filename.createNewFile();
+		}
+	}
+
+	/**
+	 * 写文件
+	 * 
+	 * @param newStr
+	 *            新内容
+	 * @throws IOException
+	 */
+	public static boolean writeTxtFile(String newStr) throws IOException {
+		// 先读取原有文件内容，然后进行写入操作
+		boolean flag = false;
+		String filein = newStr + "  ---发送测试与"+ DateUtils.getNowTime() + "\r\n";
+		String temp = "";
+
+		FileInputStream fis = null;
+		InputStreamReader isr = null;
+		BufferedReader br = null;
+
+		FileOutputStream fos = null;
+		PrintWriter pw = null;
+		try {
+			// 文件路径
+			File file = new File(filenameTemp);
+			// 将文件读入输入流
+			fis = new FileInputStream(file);
+			isr = new InputStreamReader(fis);
+			br = new BufferedReader(isr);
+			StringBuffer buf = new StringBuffer();
+
+			// 保存该文件原有的内容
+			for (int j = 1; (temp = br.readLine()) != null; j++) {
+				buf = buf.append(temp);
+				// System.getProperty("line.separator")
+				// 行与行之间的分隔符 相当于“\n”
+				buf = buf.append(System.getProperty("line.separator"));
+			}
+			buf.append(filein);
+
+			fos = new FileOutputStream(file);
+			pw = new PrintWriter(fos);
+			pw.write(buf.toString().toCharArray());
+			pw.flush();
+			flag = true;
+		} catch (IOException e1) {
+			// TODO 自动生成 catch 块
+			throw e1;
+		} finally {
+			if (pw != null) {
+				pw.close();
+			}
+			if (fos != null) {
+				fos.close();
+			}
+			if (br != null) {
+				br.close();
+			}
+			if (isr != null) {
+				isr.close();
+			}
+			if (fis != null) {
+				fis.close();
+			}
+		}
+		return flag;
+	}
+
+	}
