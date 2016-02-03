@@ -2,7 +2,8 @@
 	pageEncoding="utf-8"%>
 <%
 	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -14,12 +15,36 @@
 <link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="themes/icon.css">
 <link rel="stylesheet" type="text/css" href="themes/demo.css">
-<link rel="stylesheet" type="text/css" href="themes/style.css">
 
 <script type="text/javascript" src="jquery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="jquery/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js"></script>
 <style>
+div,a,td,span,body,font {
+	color: #000000;
+	font-family: "宋体";
+	line-height: 16px;
+	font-size: 12px;
+}
 
+a:link {
+	font-size: 12px;
+	color: #11DDE8;
+	text-decoration: none;
+}
+
+a:visited {
+	font-size: 12px;
+	color: #11DDE8;
+	text-decoration: none;
+}
+
+a:hover {
+	font-size: 12px;
+	color: #11DDE8;
+	text-decoration: none;
+}
 </style>
 <script type="text/javascript">
 if (window != top)
@@ -35,6 +60,9 @@ $(function(){
 		success : function(data) {
 			var res = jQuery.parseJSON(data);
 			if (res.result) {
+<%-- 				VAR USER = '<%=REQUEST.GETSESSION().GETATTRIBUTE("CURRENT_USER")%>'; --%>
+// 				CONSOLE.INFO(USER);
+				//location.reload(true);
  				location.href='./tax.xxxx';	
 
 			} else {
@@ -47,6 +75,7 @@ $(function(){
 
 	function submitForm() {
 		$('#loginForm').submit();
+
 	}
 
 	function reloadImage(imgurl) {
@@ -64,27 +93,67 @@ $(function(){
 	}
 </script>
 </head>
-<body>
-
-  <section class="container">
-    <div class="login">
-      <h1 style="font-size:22px">鄞州地方税务局纳税服务系统</h1>
-      <form id="loginForm">
-        <p><input class="easyui-validatebox" required="true" type="text" name="loginName" id="loginName" placeholder="登录名"></input></p>
-        <p><input class="easyui-validatebox" required="true" type="password" name="password" id="password" placeholder="密码"></input></p>
-		<p><input class="easyui-validatebox"  required="true" id="code" type="text" name="code" placeholder="验证码"></input></p>
-			<p style="text-align:right"><img width="25%" id="number" src="<%=basePath %>jsp/util/number.jsp"/>&nbsp&nbsp
-				<a href="javascript:reloadImage('<%=basePath %>jsp/util/number.jsp')">看不清</a>
-				</p>
-       
-        <p class="submit"><input type="submit" name="login" value="登录" onclick="submitForm();" >
-        				  <input type="submit" name="commit" value="重置" onclick="clearForm();" ></p>
-      </form>
-    </div>
-	
-  </section>
-<div style="text-align:center;">
-<p>宁波汇民信息科技有限公司</p>
-</div>
+<body style="padding: 0px; margin: 0px; overflow: auto;"
+	onkeydown="onKeydown();">
+	<input type="hidden" value='' id="key" />
+	<form id="loginForm">
+		<div
+			style="width: 100%; height: 100%; top: 0px; left: 0px; position: absolute; z-index: 2; background-color: #0185C5"
+			id="loginDiv">
+			<table width="100%" height="100%" border="0" cellspacing="0"
+				cellpadding="0">
+				<tr>
+					<td align="center" valign="bottom"
+						style="height: 40%; "><span
+						style="font-size: xx-large;">鄞州地方税务局纳税服务系统 </span></td>
+				</tr>
+				<tr>
+					<td align="center" valign="top"
+						style="height: 60%; ">
+						<div
+							style="background: no-repeat left top; width: 760px; height: 252px;">
+							<div style='width: 80%; height: 100px;'>
+								<table border="0" align="right" cellpadding="0" cellspacing="0">
+									<tr>
+										<td width="60" height="40"></td>
+										<td width="180">&nbsp;</td>
+										<td width="200">&nbsp;</td>
+									</tr>
+									<tr>
+										<td height="32" align="right">登录名：</td>
+										<td align="left"><input class="easyui-validatebox"
+											required="true" type="text" name="loginName" id="loginName"
+											placeholder="登录名"></input></td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td height="32" align="right">密码：</td>
+										<td align="left"><input class="easyui-validatebox"
+											required="true" type="password" name="password" id="password"
+											placeholder="密码"></input></td>
+										<td align="left">&nbsp;</td>
+									</tr>
+									<tr>
+										<td height="36" align="right">验证码：</td>
+										<td align="left"><input id="code" type="text" name="code" /></td>
+										<td><img id="number"
+											src="<%=basePath%>jsp/util/number.jsp" border=0 /> <a
+											href="javascript:reloadImage('<%=basePath%>jsp/util/number.jsp')">看不清</a>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2" align="center"><a id="loginBtn"
+											class="easyui-linkbutton" href="javascript:void(0)"
+											onclick="submitForm()">登录</a> <a class="easyui-linkbutton"
+											href="javascript:void(0)" onclick="clearForm()">重置 </a></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</form>
 </body>
 </html>

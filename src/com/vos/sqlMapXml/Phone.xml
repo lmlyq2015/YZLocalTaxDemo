@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"   
+						"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+	<update id="hungup" parameterClass="com.vos.HungupVo">
+		update
+		tax_call_info set
+		CallType = #CallType#,
+		RecordFile = #RecordFile#,
+		Begin = #Begin#,
+		End = #End#,
+		Agent = #Agent#,
+		State = #State#,
+		RingTime = #RingTime#
+		where
+		CallSheetID = #CallSheetID#
+	</update>
+
+	<update id="survey" parameterClass="com.vos.HungupVo">
+		update
+		tax_call_info set
+		satisfactionDegree = #satisfactionDegree#
+		where
+		CallSheetID =
+		#CallSheetID#
+	</update>
+
+	<update id="link" parameterClass="com.vos.HungupVo">
+		update
+		tax_call_info set
+		state = #state#
+		where
+		CallSheetID =
+		#CallSheetID#
+	</update>
+</sqlMap>

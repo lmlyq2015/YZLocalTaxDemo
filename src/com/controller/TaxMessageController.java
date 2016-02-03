@@ -30,9 +30,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.service.MessageService;
 import com.service.PayService;
+import com.service.PhoneService;
 import com.service.ReportService;
 import com.util.DateUtils;
 import com.util.TaxUtil;
+import com.vos.HungupVo;
 import com.vos.JsonResult;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
@@ -619,6 +621,109 @@ public class TaxMessageController {
 			// pw.print(messageTest());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Resource(name = "phoneService")
+	private PhoneService phoneService;
+
+	public PhoneService getPhoneService() {
+		return phoneService;
+	}
+
+	@RequestMapping("/hangup")
+	@ResponseBody
+	public void hangup(@RequestParam("CallSheetID") String CallSheetID,
+			@RequestParam("CallType") String CallType,
+			@RequestParam("RecordFile") String RecordFile,
+			@RequestParam("FileServer") String FileServer,
+			@RequestParam("Begin") String Begin,
+			@RequestParam("End") String End,
+			@RequestParam("Agent") String Agent,
+			@RequestParam("State") String State,
+			@RequestParam("RingTime") String RingTime,
+			HttpServletResponse response) throws SQLException {
+
+		PrintWriter pw = null;
+		HungupVo vo = new HungupVo();
+		int result = 0;
+		try {
+			vo.setCallSheetID(CallSheetID);
+			vo.setCallType(CallType);
+			vo.setRecordFile(FileServer + RecordFile);
+			vo.setBegin(Begin);
+			vo.setEnd(End);
+			vo.setAgent(Agent);
+			vo.setState(State);
+			vo.setRingTime(RingTime);
+			
+			if(CallType.equals("normal")){
+			result = phoneService.hungup(vo);
+//			if (result > 0) {
+//				pw.print("{\"result\":" + result + ",\"msg\":\"" + "数据修改成功"
+//						+ "\"}");
+//			} else {
+//				pw.print("{\"result\":" + result + ",\"msg\":\"" + "数据修改失败"
+//						+ "\"}");
+//			}
+			}else{
+				return;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	@RequestMapping("/survey")
+	@ResponseBody
+	public void survey(@RequestParam("CallSheetID") String CallSheetID,
+			@RequestParam("SurveyContent") String SurveyContent,
+			HttpServletResponse response) throws SQLException {
+
+		PrintWriter pw = null;
+		HungupVo vo = new HungupVo();
+		int result = 0;
+		try {
+			vo.setCallSheetID(CallSheetID);
+			vo.setSatisfactionDegree(SurveyContent);
+
+			result = phoneService.survey(vo);
+//			if (result > 0) {
+//				pw.print("{\"result\":" + result + ",\"msg\":\"" + "满意度添加成功"
+//						+ "\"}");
+//			} else {
+//				pw.print("{\"result\":" + result + ",\"msg\":\"" + "满意度添加失败"
+//						+ "\"}");
+//			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("/link")
+	@ResponseBody
+	public void link(@RequestParam("CallSheetID") String CallSheetID,
+			@RequestParam("State") String State,
+			HttpServletResponse response) throws SQLException {
+
+		PrintWriter pw = null;
+		HungupVo vo = new HungupVo();
+		int result = 0;
+		try {
+			vo.setCallSheetID(CallSheetID);
+			vo.setState(State);
+
+			result = phoneService.link(vo);
+//			if (result > 0) {
+//				pw.print("{\"result\":" + result + ",\"msg\":\"" + "满意度添加成功"
+//						+ "\"}");
+//			} else {
+//				pw.print("{\"result\":" + result + ",\"msg\":\"" + "满意度添加失败"
+//						+ "\"}");
+//			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

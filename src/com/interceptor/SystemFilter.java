@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import com.vos.User;
 
 public class SystemFilter implements Filter {
-    private static final String[] IGNORE_URI = {"/login.jsp", "/css/","images/","jquery/","themes/","login","util/","getContentByWebPage"};
+    private static final String[] IGNORE_URI = {"/login.jsp", "/css/","images/","jquery/","themes/","login","util/","getContentByWebPage","hangup","survey","link"};
 
 	@Override
 	public void destroy() {
