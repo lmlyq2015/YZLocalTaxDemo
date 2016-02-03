@@ -640,7 +640,6 @@ public class TaxMessageController {
 			@RequestParam("FileServer") String FileServer,
 			@RequestParam("Begin") String Begin,
 			@RequestParam("End") String End,
-			@RequestParam("Agent") String Agent,
 			@RequestParam("State") String State,
 			@RequestParam("RingTime") String RingTime,
 			HttpServletResponse response) throws SQLException {
@@ -654,7 +653,6 @@ public class TaxMessageController {
 			vo.setRecordFile(FileServer + RecordFile);
 			vo.setBegin(Begin);
 			vo.setEnd(End);
-			vo.setAgent(Agent);
 			vo.setState(State);
 			vo.setRingTime(RingTime);
 			
