@@ -211,7 +211,8 @@ public class TaxMessageController {
 					ReportNotificationVo.class);
 			for (int i = 0; i < list.size() - 1; i++) {
 				for (int j = list.size() - 1; j > i; j--) {
-					if (list.get(j).getTaxId().equalsIgnoreCase(list.get(i).getTaxId())) {
+					if (list.get(j).getTaxId()
+							.equalsIgnoreCase(list.get(i).getTaxId())) {
 						list.remove(j);
 					}
 				}
@@ -543,7 +544,8 @@ public class TaxMessageController {
 					PayNotificationVo.class);
 			for (int i = 0; i < list.size() - 1; i++) {
 				for (int j = list.size() - 1; j > i; j--) {
-					if (list.get(j).getTaxId().equalsIgnoreCase(list.get(i).getTaxId())) {
+					if (list.get(j).getTaxId()
+							.equalsIgnoreCase(list.get(i).getTaxId())) {
 						list.remove(j);
 					}
 				}
@@ -634,14 +636,28 @@ public class TaxMessageController {
 
 	@RequestMapping("/hangup")
 	@ResponseBody
-	public void hangup(@RequestParam("CallSheetID") String CallSheetID,
+	public void hangup(@RequestParam("CallNo") String CallNo,
+			@RequestParam("CallSheetID") String CallSheetID,
+			@RequestParam("CalledNo") String CalledNo,
+			@RequestParam("CallID") String CallID,
 			@RequestParam("CallType") String CallType,
 			@RequestParam("RecordFile") String RecordFile,
-			@RequestParam("FileServer") String FileServer,
+			@RequestParam("Ring") String Ring,
 			@RequestParam("Begin") String Begin,
 			@RequestParam("End") String End,
+			@RequestParam("QueueTime") String QueueTime,
+			@RequestParam("Queue") String Queue,
+			@RequestParam("Agent") String Agent,
+			@RequestParam("Exten") String Exten,
+			@RequestParam("AgentName") String AgentName,
+			@RequestParam("ActionID") String ActionID,
+			@RequestParam("CallState") String CallState,
 			@RequestParam("State") String State,
+			@RequestParam("FileServer") String FileServer,
 			@RequestParam("RingTime") String RingTime,
+			@RequestParam("IVRKEY") String IVRKEY,
+			@RequestParam("Province") String Province,
+			@RequestParam("District") String District,
 			HttpServletResponse response) throws SQLException {
 
 		PrintWriter pw = null;
@@ -655,25 +671,24 @@ public class TaxMessageController {
 			vo.setEnd(End);
 			vo.setState(State);
 			vo.setRingTime(RingTime);
-			
-			if(CallType.equals("normal")){
-			result = phoneService.hungup(vo);
-//			if (result > 0) {
-//				pw.print("{\"result\":" + result + ",\"msg\":\"" + "数据修改成功"
-//						+ "\"}");
-//			} else {
-//				pw.print("{\"result\":" + result + ",\"msg\":\"" + "数据修改失败"
-//						+ "\"}");
-//			}
-			}else{
+
+			if (CallType.equals("normal")) {
+				result = phoneService.hungup(vo);
+				// if (result > 0) {
+				// pw.print("{\"result\":" + result + ",\"msg\":\"" + "数据修改成功"
+				// + "\"}");
+				// } else {
+				// pw.print("{\"result\":" + result + ",\"msg\":\"" + "数据修改失败"
+				// + "\"}");
+				// }
+			} else {
 				return;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	@RequestMapping("/survey")
 	@ResponseBody
 	public void survey(@RequestParam("CallSheetID") String CallSheetID,
@@ -688,22 +703,38 @@ public class TaxMessageController {
 			vo.setSatisfactionDegree(SurveyContent);
 
 			result = phoneService.survey(vo);
-//			if (result > 0) {
-//				pw.print("{\"result\":" + result + ",\"msg\":\"" + "满意度添加成功"
-//						+ "\"}");
-//			} else {
-//				pw.print("{\"result\":" + result + ",\"msg\":\"" + "满意度添加失败"
-//						+ "\"}");
-//			}
+			// if (result > 0) {
+			// pw.print("{\"result\":" + result + ",\"msg\":\"" + "满意度添加成功"
+			// + "\"}");
+			// } else {
+			// pw.print("{\"result\":" + result + ",\"msg\":\"" + "满意度添加失败"
+			// + "\"}");
+			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("/link")
 	@ResponseBody
-	public void link(@RequestParam("CallSheetID") String CallSheetID,
+	public void link(@RequestParam("CallNo") String CallNo,
+			@RequestParam("CallSheetID") String CallSheetID,
+			@RequestParam("CalledNo") String CalledNo,
+			@RequestParam("CallID") String CallID,
+			@RequestParam("CallType") String CallType,
+			@RequestParam("RecordFile") String RecordFile,
+			@RequestParam("Ring") String Ring,
+			@RequestParam("Begin") String Begin,
+			@RequestParam("End") String End,
+			@RequestParam("QueueTime") String QueueTime,
+			@RequestParam("Queue") String Queue,
+			@RequestParam("Agent") String Agent,
+			@RequestParam("Exten") String Exten,
+			@RequestParam("AgentName") String AgentName,
+			@RequestParam("ActionID") String ActionID,
+			@RequestParam("CallState") String CallState,
 			@RequestParam("State") String State,
+			@RequestParam("FileServer") String FileServer,
 			HttpServletResponse response) throws SQLException {
 
 		PrintWriter pw = null;
@@ -714,13 +745,13 @@ public class TaxMessageController {
 			vo.setState(State);
 
 			result = phoneService.link(vo);
-//			if (result > 0) {
-//				pw.print("{\"result\":" + result + ",\"msg\":\"" + "满意度添加成功"
-//						+ "\"}");
-//			} else {
-//				pw.print("{\"result\":" + result + ",\"msg\":\"" + "满意度添加失败"
-//						+ "\"}");
-//			}
+			// if (result > 0) {
+			// pw.print("{\"result\":" + result + ",\"msg\":\"" + "满意度添加成功"
+			// + "\"}");
+			// } else {
+			// pw.print("{\"result\":" + result + ",\"msg\":\"" + "满意度添加失败"
+			// + "\"}");
+			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
