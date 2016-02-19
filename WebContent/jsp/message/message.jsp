@@ -364,9 +364,6 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 	  			<td>
 	  			<a class="easyui-linkbutton" href="javascript:void(0)" icon="icon-cancel" onclick="clearSearch();">重置</a>
 	  			</td>
-	  			<td>
-	  			<a class="easyui-linkbutton" href="javascript:void(0)" icon="icon-cancel" onclick="deleteComp();">删除企业</a>
-	  			</td>
 	  			</tr>
 	  		</table>
 	  	</form>
