@@ -13,6 +13,9 @@
 <script type="text/javascript" src="locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 $(function(){
+	$(window).resize(function(){ 
+		 $("#resultDg").datagrid("resize",{width:getWidth(0.6)});   
+	});
 	$('#resultDg').datagrid({
 		url:'<%=basePath%>getMessageResultList',
 		title:'搜索',
@@ -26,6 +29,7 @@ $(function(){
 		fitColumns:true,
 		showFooter: true,
 		remoteSort: false,
+		width: getWidth(0.6),
 // 		sortName: 'sendDate',
 // 		sortOrder: 'desc',
 		columns:[[
@@ -42,18 +46,21 @@ $(function(){
 				title:'消息编号',
 				field:'id',
 				hidden:'true',
-				width:100	
+				width:fixWidthTable(0.15),
+				align:'center'	
 				
 			},
 			{
 				title:'消息内容',
 				field:'content',
-				width:200
+				width:fixWidthTable(0.35),
+				align:'center'
 			},
 			{
 				title:'发送时间',
 				field:'sendDate',
-				width:100,
+				width:fixWidthTable(0.15),
+				align:'center',
 				editor: {//设置其为可编辑
 					type: 'datebox',//设置编辑格式
 					options: {
@@ -64,12 +71,14 @@ $(function(){
 			{
 				title:'成功数',
 				field:'successCount',
-				width:100
+				width:fixWidthTable(0.1),
+				align:'center'
 			},
 			{
 				title:'失败数',
 				field:'failCount',
-				width:100,
+				width:fixWidthTable(0.1),
+				align:'center',
 				formatter: function (value, rec, rowIndex) {
 					if (value > 0) {
 						return "<a href='javascript:void(0);' class='easyui-linkbutton' style='color: red;' onclick='openFailureWin();'>"+value+"</a>";
@@ -82,12 +91,14 @@ $(function(){
 			{
 				title:'发送人',
 				field:'sendBy',
-				width:100
+				width:fixWidthTable(0.15),
+				align:'center'
 			},
 			{
 				title:'状态',
 				field:'operate',
-				width:100,
+				width:fixWidthTable(0.15),
+				align:'center',
 				formatter: function (value, rec, rowIndex) {
 					if (rec.failCount > 0) {
 						return "<a href='javascript:void(0);' class='easyui-linkbutton' style='color: red;' id='resendBtn' onclick='reSendMsg()'>全部重新发送</a>";
@@ -179,6 +190,14 @@ function searchStatus() {
 function clearSearch() {
 	$('#resultDg').datagrid("load", {});
 	$('#searchForm').form("clear");
+}
+
+function getWidth(percent){  
+    return $(window).width() * percent;  
+}
+
+function fixWidthTable(percent){  
+    return getWidth(0.6) * percent;  
 }
 
 </script>

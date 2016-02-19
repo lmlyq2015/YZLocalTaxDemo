@@ -147,6 +147,24 @@ public class PoiServiceImp implements PoiService {
 				logger.info("没有数据流!");
 			}
 		}
+
+		List<Report> reportListOld = new ArrayList<Report>();
+		reportListOld = poiDao.getReport();
+
+		for (int i = 0; i < reportList.size(); i++) {
+			for (int j = 0; j < reportListOld.size(); j++) {
+				if (reportList.get(i).getTaxId()
+						.equalsIgnoreCase(reportListOld.get(j).getTaxId())
+						&& reportList
+								.get(i)
+								.getStartTime()
+								.equalsIgnoreCase(
+										reportListOld.get(j).getStartTime())) {
+					reportList.remove(i);
+				}
+			}
+		}
+
 		return reportList;
 	}
 
@@ -167,9 +185,9 @@ public class PoiServiceImp implements PoiService {
 			throws SQLException, ParseException {
 		// TODO Auto-generated method stub
 		switch (j) {
-//		case 10:
-//			report.setId(null);
-//			break;
+		// case 10:
+		// report.setId(null);
+		// break;
 		case 0:
 			report.setTaxId(cellStr);
 			break;
@@ -183,7 +201,7 @@ public class PoiServiceImp implements PoiService {
 			report.setEndTime(cellStr);
 			break;
 		}
-		
+
 		return report;
 	}
 
@@ -289,10 +307,14 @@ public class PoiServiceImp implements PoiService {
 				logger.info("没有数据流!");
 			}
 		}
-		for (int i = 0; i < compList.size() - 1; i++) {
-			for (int j = compList.size() - 1; j > i; j--) {
+
+		List<MessageSearchVO> compListOld = new ArrayList<MessageSearchVO>();
+		compListOld = poiDao.getComp();
+
+		for (int i = 0; i < compList.size(); i++) {
+			for (int j = 0; j < compListOld.size(); j++) {
 				if (compList.get(i).getTaxId()
-						.equalsIgnoreCase(compList.get(j).getTaxId())) {
+						.equalsIgnoreCase(compListOld.get(j).getTaxId())) {
 					compList.remove(i);
 				}
 			}
@@ -409,6 +431,23 @@ public class PoiServiceImp implements PoiService {
 				logger.info("没有数据流!");
 			}
 		}
+
+		List<Report> payListOld = new ArrayList<Report>();
+		payListOld = poiDao.getPay();
+
+		for (int i = 0; i < payList.size(); i++) {
+			for (int j = 0; j < payListOld.size(); j++) {
+				if (payList.get(i).getTaxId()
+						.equalsIgnoreCase(payListOld.get(j).getTaxId())
+						&& payList
+								.get(i)
+								.getStartTime()
+								.equalsIgnoreCase(
+										payListOld.get(j).getStartTime())) {
+					payList.remove(i);
+				}
+			}
+		}
 		return payList;
 	}
 
@@ -417,9 +456,9 @@ public class PoiServiceImp implements PoiService {
 			ParseException {
 		// TODO Auto-generated method stub
 		switch (j) {
-//		case 10:
-//			pay.setId(null);
-//			break;
+		// case 10:
+		// pay.setId(null);
+		// break;
 		case 0:
 			pay.setTaxId(cellStr);
 			break;

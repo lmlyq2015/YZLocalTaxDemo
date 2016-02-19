@@ -211,7 +211,7 @@ public class TaxMessageController {
 					ReportNotificationVo.class);
 			for (int i = 0; i < list.size() - 1; i++) {
 				for (int j = list.size() - 1; j > i; j--) {
-					if (list.get(j).getTaxId().equals(list.get(i).getTaxId())) {
+					if (list.get(j).getTaxId().equalsIgnoreCase(list.get(i).getTaxId())) {
 						list.remove(j);
 					}
 				}
@@ -543,7 +543,7 @@ public class TaxMessageController {
 					PayNotificationVo.class);
 			for (int i = 0; i < list.size() - 1; i++) {
 				for (int j = list.size() - 1; j > i; j--) {
-					if (list.get(j).getTaxId().equals(list.get(i).getTaxId())) {
+					if (list.get(j).getTaxId().equalsIgnoreCase(list.get(i).getTaxId())) {
 						list.remove(j);
 					}
 				}

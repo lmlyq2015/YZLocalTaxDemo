@@ -90,6 +90,24 @@ public class PoiDaoImp implements PoiDao{
 		// TODO Auto-generated method stub
 		return sqlMapClient.queryForList("selectUnequalTaxIdForpay");
 	}
+
+	@Override
+	public List<MessageSearchVO> getComp() throws SQLException {
+		// TODO Auto-generated method stub
+		return sqlMapClient.queryForList("getComp");
+	}
+
+	@Override
+	public List<Report> getReport() throws SQLException {
+		// TODO Auto-generated method stub
+		return sqlMapClient.queryForList("getReport");
+	}
+
+	@Override
+	public List<Report> getPay() throws SQLException {
+		// TODO Auto-generated method stub
+		return sqlMapClient.queryForList("getPay");
+	}
 	
 	
 }

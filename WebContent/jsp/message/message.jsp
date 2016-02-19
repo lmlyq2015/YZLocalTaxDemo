@@ -21,6 +21,9 @@ textarea {
 </style>
 <script type="text/javascript">
 $(function() {
+	$(window).resize(function(){ 
+		$("#enterpriceDg").datagrid("resize",{width:getWidth(0.6)});
+	});
 	$('#enterpriceDg').datagrid({
 <%-- 	url:'<%=basePath%>jsp/message/enterprice_json.json', --%>
 		loadMsg : '数据加载中请稍后',
@@ -37,82 +40,74 @@ $(function() {
 		showFooter: true,
 		remoteSort: false,
 		idField: 'taxId',
-		columns:[[
-			{
-				//title:'<input id=\"detailcheckbox\" type=\"checkbox\"  >',
+		width: getWidth(0.6),
+		columns:[[{
 				field:'check',
 				checkbox:true
-				//width:2,
-// 				formatter: function (value, rec, rowIndex) {
-//                     return "<input type=\"checkbox\"  name=\"PD\" value=\"" + value + "\" >";
-//                 }
-			},
-			{
-				title:'纳税人电子档案号',
-				field:'eid',
-				hidden:'true',
-				width:10	
+			},{
+				title : '纳税人电子档案号',
+				field : 'eid',
+				hidden : 'true',
+				width : fixWidthTable(0.1),
+				align:'center'
+			},{
+				title : '纳税人识别号',
+				field : 'taxId',
+				width : fixWidthTable(0.12),
+				align:'center'				
+			},{
+				title : '纳税人名称',
+				field : 'taxName',
+				width : fixWidthTable(0.15),
+				align:'center'
 				
-			},
-			{
-				title:'纳税人识别号',
-				field:'taxId',
-				width:10	
-				
-			},
-			{
-				title:'纳税人名称',
-				field:'taxName',
-				width:15
-			},
-			{
-				title:'地址',
-				field:'address',
-				width:15
-			},
-			{
-				title:'税收管理员',
-				field:'taxAdmin',
-				width:8
-			},
-			{
-				title:'企业状态',
-				field:'state',
-				hidden:'true',
-				width:15
-			},
-			{
-				title:'法人',
-				field:'rep',
-				width:5
-			},
-			
-			{
-				title:'法人手机',
-				field:'repMobile',
-				width:7
-			},
-			{
-				title:'办税员',
+			},{
+				title : '地址',
+				field : 'address',
+				width : fixWidthTable(0.1),
+				align:'center'
+			},{
+				title : '税收管理员',
+				field : 'taxAdmin',
+				width : fixWidthTable(0.05),
+				align:'center'
+			},{
+				title : '企业状态',
+				field : 'state',
+				hidden : 'true',
+				width : fixWidthTable(0.05),
+				align:'center'
+			},{
+				title : '法人',
+				field : 'rep',
+				width : fixWidthTable(0.05),
+				align:'center'
+			},{
+				title : '法人手机',
+				field : 'repMobile',
+				width : fixWidthTable(0.08),
+				align:'center'
+			},{
+				title : '办税员',
 				field : 'taxAgentName',
-				width : 5
-			},
-			{
-				title:'办税员手机',
-				field:'taxAgentMobile',
-				width:8
-			},
-			{
-				title:'财务主管',
-				field:'adminName',
-				width:5
-			},
-			{
-				title:'财务主管手机',
-				field:'adminMobile',
-				width:7
-			}
-		]],
+				width : fixWidthTable(0.05),
+				align:'center'
+			},{
+				title : '办税员手机',
+				field : 'taxAgentMobile',
+				width : fixWidthTable(0.08),
+				align:'center'
+			}, {
+				title : '财务主管',
+				field : 'adminName',
+				width : fixWidthTable(0.05),
+				align:'center'
+			},{
+				title : '财务主管手机',
+				field : 'adminMobile',
+				width : fixWidthTable(0.08),
+				align:'center'
+			}]],
 		toolbar:'#enterpriceSearch'
 
 	});	
@@ -270,6 +265,14 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 	    	$("#msgSend").linkbutton("enable");
 	    };    
 	}
+	
+	function getWidth(percent){  
+	    return $(window).width() * percent;  
+	}
+	
+	function fixWidthTable(percent){  
+        return getWidth(0.6) * percent;  
+	} 
 </script>
 <body class="easyui-layout">
 
@@ -360,6 +363,9 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 	  			</td>
 	  			<td>
 	  			<a class="easyui-linkbutton" href="javascript:void(0)" icon="icon-cancel" onclick="clearSearch();">重置</a>
+	  			</td>
+	  			<td>
+	  			<a class="easyui-linkbutton" href="javascript:void(0)" icon="icon-cancel" onclick="deleteComp();">删除企业</a>
 	  			</td>
 	  			</tr>
 	  		</table>

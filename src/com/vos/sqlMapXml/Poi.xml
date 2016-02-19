@@ -53,4 +53,12 @@
 	<select id="selectUnequalTaxIdForpay" resultClass="com.vos.TaxId">
 		select distinct(TaxId) from tax_pay where TaxId not in (select TaxId from tax_entbasicinfor)
 	</select>
+	
+	<select id="getComp" resultClass="com.vos.MessageSearchVO">
+		select * from tax_entbasicinfor
+	</select>
+	
+	<select id="getPay" resultClass="com.vos.Pay">
+		select * from tax_pay
+	</select>
 </sqlMap>

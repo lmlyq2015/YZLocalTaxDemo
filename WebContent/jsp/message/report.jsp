@@ -17,6 +17,9 @@
 <script type="text/javascript" src="locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 	$(function() {
+		$(window).resize(function(){ 
+			$("#dg").datagrid("resize",{width:getWidth(0.6)});
+		});
 		$('#dg').datagrid(
 						{
 							loadMsg : '数据加载中请稍后',
@@ -27,7 +30,7 @@
 			fitColumns : true,
 			pagination : true,
 			border : false,
-			pageSize : 10,
+			pageSize : 50,
 			pageList : [ 10, 50, 100 ],
 			rownumbers : true,
 			showFooter: true,
@@ -35,65 +38,65 @@
 			idField: 'id',
 			singleSelect : false,
 			iconCls : '',
+			width: getWidth(0.6),
 			columns : [ [ {
 				field:'check',
 				checkbox:true
 			},{
 				title : '纳税人识别号',
 				field : 'taxId',
-				width : 100
+				width : fixWidthTable(0.1),
+				align:'center'
 			}, {
 				title : '纳税人名称',
 				field : 'taxName',
-				width : 150
+				width : fixWidthTable(0.15),
+				align:'center'
 			}, {
 				title : '办税员名称',
 				field : 'taxAgentName',
-				width : 50
+				width : fixWidthTable(0.08),
+				align:'center'
 			}, {
 				title : '办税员号码',
 				field : 'taxAgentMobile',
-				width : 70
+				width : fixWidthTable(0.1),
+				align:'center'
 			}, {
 				title : '财务负责人名称',
 				field : 'adminName',
-				width : 70
+				width : fixWidthTable(0.08),
+				align:'center'
 			}, {
 				title : '财务负责人号码',
 				field : 'adminMobile',
-				width : 70
+				width : fixWidthTable(0.1),
+				align:'center'
 			}, {
 				title : '法人名称',
 				field : 'rep',
-				width : 50
+				width : fixWidthTable(0.08),
+				align:'center'
 			}, {
 				title : '法人号码',
 				field : 'repMobile',
-				width : 70
+				width : fixWidthTable(0.1),
+				align:'center'
 			}, {
 				title : '所属时期起',
 				field : 'startTime',
-				width : 40
+				width : fixWidthTable(0.08),
+				align:'center'
 			}, {
 				title : '所属时期止',
 				field : 'endTime',
-				width : 40
+				width : fixWidthTable(0.08),
+				align:'center'
 			}, {
 				title : '征收项目',
 				field : 'imposeType',
-				width : 100,
-// 				editor: {
-//                      type: 'combobox',
-//                      options: {
-//                          required: true,
-//                          editable:false,
-//                           missingMessage: '请选择',
-<%--                           url: '<%=basePath%>getImposeTypeList',                         --%>
-//                          valueField: 'imposeType',
-//                          textField: 'imposeType',
-//                          panelHeight: 'auto'
-//                      }
-//                  }
+				width : fixWidthTable(0.08),
+				align:'center'
 			} ] ],
 			toolbar : '#reportSearch'
 		});
@@ -168,35 +171,6 @@
 				}
 				
 			});
-			//$('#sendDate').datebox('setValue', formatterDate(new Date()));
-			
-			
-// 			$('#sendReport').click(function()){
-// 				var rows = $('#dg').datagrid('getSelected');
-// 				if(rows.length == 0){
-// 					$.messager.alert('操作提示', "请选择发送对象","info");
-// 				}else{
-//  				var formObj = sy.serializeObject($('#sendReportMessage').form());
-//  		   	 	var formStr = encodeURI(JSON.stringify(formObj),"UTF-8");
-// 		   	    var data = encodeURI(JSON.stringify(rows),"UTF-8");
-// 				  if (row) {
-// 		          	$.ajax({
-<%-- 		          		url:'<%=basePath%>sendReport', --%>
-// 		          		data : 'data=' + data,
-// 		          		dataType : 'json',
-// 		          		type : 'post',
-// 		          		success : function(result){
-// 		                      if (result) {
-// 		                          $.messager.alert("提示信息", result.msg);
-// 		                          $('#dg').datagrid('unselectAll');
-// 		                      } else {
-// 		                      	$.messager.alert("提示信息", "服务器出错");      		
-// 		          	}   
-// 		          }
-// 		      });
-// 		  	}
-// 			}
-// 			}
 	});
 
 	var sy = $.extend({}, sy);
@@ -229,7 +203,14 @@
 		$('#dg').datagrid("load", {});
 		$('#reportTable1').form("clear");
 	}
-
+	
+	function getWidth(percent){  
+	    return $(window).width() * percent;  
+	}
+	
+	function fixWidthTable(percent){  
+        return getWidth(0.6) * percent;  
+	} 
 </script>
 
 <body class="easyui-layout">
@@ -238,7 +219,7 @@
 		<div id="reportSearch" style="height: 60px;">
 			<form name="readReportForm" method="post"
 				enctype="multipart/form-data" id="readReportForm">
-				<table id="reportTable" >
+				<table id="reportTable">
 					<tr>
 						<th>选择文件:</th>
 						<td><input id="file" type="file" name="file" />
@@ -248,7 +229,7 @@
 			</form>
 
 			<form id="reportTable1">
-				<table id="reportTable1" >
+				<table id="reportTable1">
 					<tr>
 						<th>纳税人识别号:</th>
 						<td><input id="taxId" type="text"
@@ -264,27 +245,27 @@
 							onclick="searchReport();">查找</a> <a id="clearBtn"
 							class="easyui-linkbutton" icon="icon-cancel"
 							href="javascript:void(0);" onclick="clearSearch();">重置</a></td>
-							<td><a id="ReportMsgSend" icon="icon-ok" class="easyui-linkbutton" 
- 							href="javascript:void(0);">发送</a></td>
+						<td><a id="ReportMsgSend" icon="icon-ok"
+							class="easyui-linkbutton" href="javascript:void(0);">发送</a></td>
 					</tr>
 
 				</table>
 			</form>
-			
-<!-- 			<form id="msgForm"> -->
-<!-- 			<table> -->
-<!-- 				<tr> -->
-<!-- 					<th>签名:</th><td><input id="sign" class="easyui-validatebox" -->
-<!-- 						value="鄞州地税直属分局" name="sign"> -->
-<!-- 					</td> -->
-<!-- 					<th>发送时间：</th><td><input id="sendDate" class="easyui-datebox" -->
-<!-- 						name="sendDate"> -->
-<!-- 					</td> -->
-<!-- 					<td><a id="ReportMsgSend" icon="icon-ok" class="easyui-linkbutton" -->
-<!-- 						href="javascript:void(0);">发送</a></td> -->
-<!-- 				</tr> -->
-<!-- 			</table> -->
-<!-- 		</form> -->
+
+			<!-- 			<form id="msgForm"> -->
+			<!-- 			<table> -->
+			<!-- 				<tr> -->
+			<!-- 					<th>签名:</th><td><input id="sign" class="easyui-validatebox" -->
+			<!-- 						value="鄞州地税直属分局" name="sign"> -->
+			<!-- 					</td> -->
+			<!-- 					<th>发送时间：</th><td><input id="sendDate" class="easyui-datebox" -->
+			<!-- 						name="sendDate"> -->
+			<!-- 					</td> -->
+			<!-- 					<td><a id="ReportMsgSend" icon="icon-ok" class="easyui-linkbutton" -->
+			<!-- 						href="javascript:void(0);">发送</a></td> -->
+			<!-- 				</tr> -->
+			<!-- 			</table> -->
+			<!-- 		</form> -->
 
 
 		</div>

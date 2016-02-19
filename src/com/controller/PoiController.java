@@ -19,9 +19,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.service.PayService;
 import com.service.PoiService;
+import com.service.ReportService;
 import com.vos.JsonResult;
 import com.vos.MessageSearchVO;
 import com.vos.Pay;
@@ -64,6 +67,13 @@ public class PoiController {
 		poiService.exportXLS(msgId, response);
 	}
 
+	@Resource(name = "reportService")
+	private ReportService reportService;
+
+	public ReportService getReportService() {
+		return reportService;
+	}
+	
 	/**
 	 * 读取excel报表（Report）
 	 * 
@@ -71,6 +81,7 @@ public class PoiController {
 	 * @throws ParseException
 	 */
 	@RequestMapping(value = "/read", method = RequestMethod.POST)
+	@ResponseBody
 	public void getReadReport(@RequestParam MultipartFile file,
 			HttpServletResponse response) throws IOException, SQLException,
 			ParseException {
@@ -87,6 +98,9 @@ public class PoiController {
 		try {
 			pw = response.getWriter();
 			if (list.size() != 0) {
+				for(int i = 0;i < list.size();i++){
+					System.out.println(list.get(i).getTaxId());
+				}
 				poiService.insertReport(list);
 			}
 
@@ -98,10 +112,12 @@ public class PoiController {
 			if (unequal != 0) {
 				for (int i = 0; i < taxIds.size(); i++) {
 					str += taxIds.get(i).getTaxId() + "、";
+					reportService.deleteReport(taxIds.get(i).getTaxId());
 				}
 				str = str.substring(0, str.length() - 1);
-				msg += "，其中有" + unequal + "家企业未录入企业信息，税号为" + str + " 。";
+				msg += "，其中有" + unequal + "家企业未录入企业信息导入失败，税号为" + str + " 。";
 			}
+			response.setContentType("text/json;charset=utf-8");
 			jr.setMsg(msg);
 			JSONObject json = JSONObject.fromObject(jr);
 			pw.print(json.toString());
@@ -161,6 +177,13 @@ public class PoiController {
 		}
 	}
 
+	@Resource(name = "payService")
+	private PayService payService;
+
+	public PayService getPayService() {
+		return payService;
+	}
+	
 	/**
 	 * 读取excel报表（Pay）
 	 * 
@@ -168,6 +191,7 @@ public class PoiController {
 	 * @throws ParseException
 	 */
 	@RequestMapping(value = "/readPay", method = RequestMethod.POST)
+	@ResponseBody
 	public void getReadPay(@RequestParam MultipartFile file,
 			HttpServletResponse response) throws IOException, SQLException,
 			ParseException {
@@ -194,10 +218,12 @@ public class PoiController {
 			if (unequal != 0) {
 				for (int i = 0; i < taxIds.size(); i++) {
 					str += taxIds.get(i).getTaxId() + "、";
+					payService.deletePay(taxIds.get(i).getTaxId());
 				}
 				str = str.substring(0, str.length() - 1);
-				msg += "，其中有" + unequal + "家企业未录入企业信息，税号为" + str + " 。";
+				msg += "，其中有" + unequal + "家企业未录入企业信息导入失败，税号为" + str + " 。";
 			}
+			response.setContentType("text/json;charset=utf-8");
 			jr.setMsg(msg);
 			JSONObject json = JSONObject.fromObject(jr);
 			pw.print(json.toString());

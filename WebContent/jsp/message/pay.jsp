@@ -17,6 +17,9 @@
 <script type="text/javascript" src="locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 	$(function() {
+		$(window).resize(function(){ 
+			$("#dg").datagrid("resize",{width:getWidth(0.6)});
+		});
 		$('#dg').datagrid(
 						{
 							loadMsg : '数据加载中请稍后',
@@ -34,57 +37,70 @@
 			singleSelect : false,
 			idField: 'id',
 			iconCls : '',
+			width: getWidth(0.6),
 			columns : [ [ {
 				field:'check',
 				checkbox:true
 			},{
 				title : '纳税人识别号',
 				field : 'taxId',
-				width : 50
+				width : fixWidthTable(0.15),
+				align:'center'
 			}, {
 				title : '纳税人名称',
 				field : 'taxName',
-				width : 100
+				width : fixWidthTable(0.15),
+				align:'center'
 			}, {
 				title : '办税员名称',
 				field : 'taxAgentName',
-				width : 30
+				width : fixWidthTable(0.07),
+				align:'center'
 			}, {
 				title : '办税员号码',
 				field : 'taxAgentMobile',
-				width : 50
+				width : fixWidthTable(0.1),
+				align:'center'
 			}, {
 				title : '财务负责人名称',
 				field : 'adminName',
-				width : 30
+				width : fixWidthTable(0.09),
+				align:'center'
 			}, {
 				title : '财务负责人号码',
 				field : 'adminMobile',
-				width : 50
+				width : fixWidthTable(0.1),
+				align:'center'
 			}, {
 				title : '法人名称',
 				field : 'rep',
-				width : 30
+				width : fixWidthTable(0.08),
+				align:'center'
 			}, {
 				title : '法人号码',
 				field : 'repMobile',
-				width : 50
+				width : fixWidthTable(0.1),
+				align:'center'
 			}, {
 				title : '所属时期起',
 				field : 'startTime',
-				width : 20
+				width : fixWidthTable(0.08),
+				align:'center'
 			}, {
 				title : '所属时期止',
 				field : 'endTime',
-				width : 20
+				width : fixWidthTable(0.08),
+				align:'center'
 			}, {
 				title : '税额',
 				field : 'totalTax',
-				width : 20
+				width : fixWidthTable(0.05),
+				align:'center'
 			}, {
 				title : '征收项目',
 				field : 'imposeType',
-				width : 100,
+				width : fixWidthTable(0.12),
+				align:'center'
 			} ] ],
 			toolbar : '#paySearch'
 		});
@@ -194,6 +210,13 @@
 		$('#payTable1').form("clear");
 	}
 
+	function getWidth(percent){  
+	    return $(window).width() * percent;  
+	}
+	
+	function fixWidthTable(percent){  
+        return getWidth(0.6) * percent;  
+	}
 </script>
 
 <body class="easyui-layout">
