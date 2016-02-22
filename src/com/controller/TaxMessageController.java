@@ -223,9 +223,6 @@ public class TaxMessageController {
 			msg.setSendToSelf(u.getSendToSelf());
 			int id = reportService.sendReportMsg(msg);
 			if (id > 0) {
-				for (int i = 0; i < list.size(); i++) {
-					reportService.deleteReport(list.get(i).getTaxId());
-				}
 				pw.print(messageSuc());
 			} else {
 				pw.print(messageErr());
@@ -556,9 +553,6 @@ public class TaxMessageController {
 			msg.setSendToSelf(u.getSendToSelf());
 			int id = payService.sendPayMsg(msg);
 			if (id > 0) {
-				for (int i = 0; i < list.size(); i++) {
-					payService.deletePay(list.get(i).getTaxId());
-				}
 				pw.print(messageSuc());
 			} else {
 				pw.print(messageErr());

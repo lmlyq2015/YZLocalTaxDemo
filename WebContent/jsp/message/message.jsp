@@ -177,7 +177,7 @@ $(function() {
 				success : function(r) {
 					$.messager.alert('操作提示', r.msg,r.result);
 					$('#content').val('');
-					$('#enterpriceDg').datagrid('unselectAll');
+					$('#enterpriceDg').datagrid('clearSelections');
 				},
 				error : function() {
 					$.messager.alert('操作提示', "服务器出错","error");
@@ -210,7 +210,7 @@ $(function() {
 				success : function(r) {
 					$.messager.alert('操作提示', r.msg,r.result);
 					$('#content').val('');
-					$('#enterpriceDg').datagrid('unselectAll');
+					$('#enterpriceDg').datagrid('clearSelections');
 				},
 				error : function() {
 					$.messager.alert('操作提示', "服务器出错","error");

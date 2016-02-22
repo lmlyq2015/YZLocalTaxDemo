@@ -29,7 +29,7 @@
 			//fit : true,
 			fitColumns : true,
 			pagination : true,
-			pageSize : 50,
+			pageSize : 10,
 			pageList : [ 10, 50, 100 ],
 			rownumbers : true,
 			showFooter: true,
@@ -164,10 +164,9 @@
 // 						data : 'data=' + formStr + "=" + data,
 						data : 'data=' + data,
 						success : function(r) {
-							$('#dg').datagrid("loading", "短信发送中……");
 							$.messager.alert('操作提示', r.msg,r.result);
-							$('#dg').datagrid("load",{});
-							$('#dg').datagrid("loaded");
+							$('#dg').datagrid("reload");
+							$('#dg').datagrid("clearSelections");
 						},
 						error : function() {
 							$.messager.alert('操作提示', "服务器出错","error");

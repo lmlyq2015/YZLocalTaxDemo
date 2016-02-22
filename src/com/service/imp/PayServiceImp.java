@@ -53,7 +53,7 @@ public class PayServiceImp implements PayService {
 			String sendDate = DateUtils.getNowTime();
 			List<PayNotificationVo> list = msg.getVoList();
 			String empId = msg.getSendBy();
-
+			int sucNum = 0;
 			for (PayNotificationVo vo : list) {
 				vo.setEmpId(empId);
 				List<ImposeType> imposeTypes = payDao.getImposeType(vo
@@ -85,11 +85,19 @@ public class PayServiceImp implements PayService {
 				vo.setReceiver(TaxUtil.MESSAGE_RECEVIER_TAXER);
 				// id = payDao.savePayMsgResult(key, vo, msg.getSendDate());
 				id = payDao.savePayMsgResult(key, vo, sendDate);
+				boolean a = vo.getResultMsg().equals("发送成功");
+				if (a) {
+					sucNum = sucNum + 1;
+					payDao.deletePay(vo.getTaxId());
+				}
 			}
-			String sendToSelf = msg.getSendToSelf();
-			if (sendToSelf != null && sendToSelf.equals("是")) {
-				TaxUtil.sendMessage("通知于" + sendDate + "发送成功！",
-						msg.getMobile(), sendDate);
+
+			if (sucNum != 0) {
+				String sendToSelf = msg.getSendToSelf();
+				if (sendToSelf != null && sendToSelf.equals("是")) {
+					TaxUtil.sendMessage("通知于" + sendDate + "发送成功！",
+							msg.getMobile(), sendDate);
+				}
 			}
 			// TaxUtil.creatTxtFile();
 			// boolean bo;

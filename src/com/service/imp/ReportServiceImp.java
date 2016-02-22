@@ -55,6 +55,7 @@ public class ReportServiceImp implements ReportService {
 			String sendDate = DateUtils.getNowTime();
 			List<ReportNotificationVo> list = msg.getVoList();
 			String empId = msg.getSendBy();
+			int sucNum = 0;
 			for (ReportNotificationVo vo : list) {
 				// 1办税员
 				vo.setEmpId(empId);
@@ -78,12 +79,21 @@ public class ReportServiceImp implements ReportService {
 				setResultMsg(vo, mr);
 				vo.setReceiver(TaxUtil.MESSAGE_RECEVIER_TAXER);
 				id = reportDao.saveReportMsgResult(key, vo, sendDate);
+				boolean a = vo.getResultMsg().equals("发送成功");
+				if (a) {
+					sucNum = sucNum + 1;
+					reportDao.deleteReport(vo.getTaxId());
+				}
 			}
-			String sendToSelf = msg.getSendToSelf();
-			if (sendToSelf != null && sendToSelf.equals("是")) {
-				TaxUtil.sendMessage("通知于" + sendDate + "发送成功！",
-						msg.getMobile(), sendDate);
+
+			if (sucNum != 0) {
+				String sendToSelf = msg.getSendToSelf();
+				if (sendToSelf != null && sendToSelf.equals("是")) {
+					TaxUtil.sendMessage("通知于" + sendDate + "发送成功！",
+							msg.getMobile(), sendDate);
+				}
 			}
+
 			// TaxUtil.creatTxtFile();
 			// boolean bo;
 			// for (ReportNotificationVo vo : list) {
