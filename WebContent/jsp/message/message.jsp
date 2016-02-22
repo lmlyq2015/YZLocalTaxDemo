@@ -36,7 +36,7 @@ $(function() {
 		iconCls:'icon-reload',
 		rownumbers: true,
 		singleSelect:false,
-		fitColumns:true,
+		fitColumns:false,
 		showFooter: true,
 		remoteSort: false,
 		idField: 'taxId',
@@ -53,59 +53,59 @@ $(function() {
 			},{
 				title : '纳税人识别号',
 				field : 'taxId',
-				width : fixWidthTable(0.12),
+				width : fixWidthTable(0.2),
 				align:'center'				
 			},{
 				title : '纳税人名称',
 				field : 'taxName',
-				width : fixWidthTable(0.15),
+				width : fixWidthTable(0.2),
 				align:'center'
 				
 			},{
 				title : '地址',
 				field : 'address',
-				width : fixWidthTable(0.1),
+				width : fixWidthTable(0.15),
 				align:'center'
 			},{
 				title : '税收管理员',
 				field : 'taxAdmin',
-				width : fixWidthTable(0.05),
+				width : fixWidthTable(0.1),
 				align:'center'
 			},{
 				title : '企业状态',
 				field : 'state',
 				hidden : 'true',
-				width : fixWidthTable(0.05),
+				width : fixWidthTable(0.1),
 				align:'center'
 			},{
 				title : '法人',
 				field : 'rep',
-				width : fixWidthTable(0.05),
+				width : fixWidthTable(0.07),
 				align:'center'
 			},{
 				title : '法人手机',
 				field : 'repMobile',
-				width : fixWidthTable(0.08),
+				width : fixWidthTable(0.13),
 				align:'center'
 			},{
 				title : '办税员',
 				field : 'taxAgentName',
-				width : fixWidthTable(0.05),
+				width : fixWidthTable(0.07),
 				align:'center'
 			},{
 				title : '办税员手机',
 				field : 'taxAgentMobile',
-				width : fixWidthTable(0.08),
+				width : fixWidthTable(0.13),
 				align:'center'
 			}, {
 				title : '财务主管',
 				field : 'adminName',
-				width : fixWidthTable(0.05),
+				width : fixWidthTable(0.07),
 				align:'center'
 			},{
 				title : '财务主管手机',
 				field : 'adminMobile',
-				width : fixWidthTable(0.08),
+				width : fixWidthTable(0.13),
 				align:'center'
 			}]],
 		toolbar:'#enterpriceSearch'
