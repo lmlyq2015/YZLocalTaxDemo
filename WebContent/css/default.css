@@ -134,3 +134,18 @@ a:hover {
 .icon-log {
 	background-position: -380px -80px;
 }
+.icon-message {
+	background: url(../images/email_edit.png) no-repeat;
+}
+.icon-knowledge {
+	background: url(../images/book_open.png) no-repeat;
+}
+.icon-user {
+	background: url(../images/user.png) no-repeat;
+}
+.icon-weixin {
+	background: url(../images/weixin.png) no-repeat;
+}
+.icon-callcenter {
+	background: url(../images/telephone.png) no-repeat;
+}

@@ -33,6 +33,8 @@ import com.service.PayService;
 import com.service.ReportService;
 import com.util.DateUtils;
 import com.util.TaxUtil;
+import com.vos.CallInfoVo;
+import com.vos.Consults;
 import com.vos.JsonResult;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
@@ -530,4 +532,105 @@ public class TaxMessageController {
 			e.printStackTrace();
 		}
 	}
+	@RequestMapping("/saveWhenRing")
+	@ResponseBody
+	public Map<String,Object>saveWhenRing(@RequestParam("data") String data,HttpServletResponse response,HttpSession session) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			String str = URLDecoder.decode(data,"UTF-8");
+			JSONObject object = JSONObject.fromObject(str);
+			CallInfoVo callvo = (CallInfoVo) object.toBean(object, CallInfoVo.class);
+			/*
+			 * 坐席超时未接听，坐席重新振铃或分配下一坐席，更新坐席号
+			 * 
+			 */
+			if (messageService.queryCallInfo(callvo.getCallSheetId()) > 0) {
+				messageService.updateCallInfoWhenRing(callvo);
+			} else {
+				messageService.saveCallInfoWhenRing(callvo);
+			}
+			session.setAttribute("onRingVo", callvo);
+			map.put("result", 1);
+			return map;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	@RequestMapping("/getCallList")
+	@ResponseBody
+	public Map<String,Object> getCallList(HttpSession session) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		try {
+			User user = (User) session.getAttribute("current_user");
+			List<CallInfoVo> list = messageService.getCallList(user.getCallCenterAccount());
+			if (list !=null && list.size() > 0) {
+				map.put("rows", list);
+				map.put("total", list.size());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	@RequestMapping("/getCallInfoByCallNo")
+	@ResponseBody
+	public Map<String,Object> getCallInfoByCallNo(@RequestParam("callNo") String callNo) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		try {
+			List<CallInfoVo> list = messageService.getCallInfoByCallNo(callNo);
+			if (list !=null && list.size() > 0) {
+				map.put("rows", list);
+				map.put("total", list.size());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	@RequestMapping("/getConsultInfoByCallSheetNo")
+	@ResponseBody
+	public Map<String,Object> getConsultInfoByCallSheetNo(@RequestParam("callSheetNo") String callSheetNo,HttpSession session) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		try {
+			//CallInfoVo vo = (CallInfoVo) session.getAttribute("onRingVo");
+			List<Consults> list = messageService
+					.getConsultInfoByCallSheetNo(callSheetNo);
+			map.put("rows", list);
+			map.put("total", list.size());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	@RequestMapping("/addConsults")
+	public void addConsults(@RequestParam("data") String data,HttpServletResponse response,HttpSession session) {
+		PrintWriter pw = null;
+		JsonResult jr = new JsonResult();
+		try {
+			pw = response.getWriter();
+			CallInfoVo vo = (CallInfoVo) session.getAttribute("onRingVo");			
+			/*
+			 * 判断callvo的状态不能为null并且状态是接通状态，否则不能添加
+			 */
+			if (vo != null && messageService.getStatusWhenAddConsults(vo).equals("dealing")) {
+				String str = URLDecoder.decode(data,"UTF-8");
+				JSONObject object = JSONObject.fromObject(str);
+				Consults callvo = (Consults) object.toBean(object, Consults.class);
+				messageService.addConsults(vo.getCallSheetId(), callvo.getQuestions(), callvo.getAnswers());
+				jr.setResult("info");
+				jr.setMsg("咨询记录添加成功");
+				JSONObject json = JSONObject.fromObject(jr);
+				pw.print(json.toString());
+			} else {				
+				jr.setResult("error");
+				jr.setMsg("当前未处于通话状态,无法添加");
+				JSONObject json = JSONObject.fromObject(jr);
+				pw.print(json.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

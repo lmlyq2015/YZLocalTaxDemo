@@ -162,7 +162,7 @@ hojo.declare("icallcenter.Phone", null, {
      
      stopSound: function(){ 
         try {
-       	 document.soundPlayer.stop();
+       	 //document.soundPlayer.stop();
         } catch (e) {
           console.debug(e);
         }
@@ -199,14 +199,14 @@ hojo.declare("icallcenter.Phone", null, {
     			 console.debug("退出成功");
     			 console.dir(response);
     			 console.debug("清除事件XHR");
-    			 window.location = returnUrl;
+    			 //window.location = returnUrl;
 			},
             error: function(response, ioArgs) { 
 				console.debug("注销返回错误");
                 console.dir(response);
                 result = true;
                 console.debug("清除事件XHR");
-		        window.location = returnUrl;
+		        //window.location = returnUrl;
             }
     	 });			
     },
@@ -1138,7 +1138,7 @@ icallcenter.Phone.registerEvent = function(config) {
 	            		//icallcenter.hojotools.error("您的账户无通话座席登录数已达最大或者已经到期,请使用软电话/网关/直线方式登录或联系管理员");
 	            	} else {
                         if(code == 404){
-                            alert('[' + code + "]用户名密码错或logon.js中proxy_url值不正确！");
+                            alert('[' + code + "]用户名密码错或代理服务及地址不正确,呼叫中心将无法使用");
                         }else if(code == 406){
                             alert('[' + code + "]账户版本与登录版本不符！");
                         }else if(code == 400){

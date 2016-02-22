@@ -40,7 +40,8 @@ hojo.declare("icallcenter.callProcessor", null, {
 		var monitorFilename= "";
 		hojo.byId("icallcenter.dialout.input").value = callNo;
 		//alert("Province:" + callPro + ";city:" +callCity+ ";agent:" + agent +";callNo:" + callNo+";calledNo:"+calledNo+";callType:"+callType+";status:"+status+";ringTime:"+ringTime+";beginTime:"+beginTime+";endTime:"+endTime+";monitorFilename:"+monitorFilename);
-		parent.ringAlert("Province:" + callPro + ";city:" +callCity+ ";agent:" + agent +";callNo:" + callNo+";calledNo:"+calledNo+";callType:"+callType+";status:"+status+";ringTime:"+ringTime+""); 
+		//parent.ringAlert("Province:" + callPro + ";city:" +callCity+ ";agent:" + agent +";callNo:" + callNo+";calledNo:"+calledNo+";callType:"+callType+";status:"+status+";ringTime:"+ringTime+""); 
+		parent.onRingPopWindow(data);
 		var phoneJson = {
 	    		Command: "Action",
 	    		Action: "Ring",

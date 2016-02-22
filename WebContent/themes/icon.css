@@ -76,3 +76,18 @@
 .icon-message-send {
 	background: url('icons/email_go.png') no-repeat;
 }
+.icon-message-url {
+	background: url('icons/email_link.png') no-repeat;
+}
+.icon-call-record {
+	background: url('icons/call_edit.png') no-repeat;
+}
+.icon-pay {
+	background: url('icons/money_yen.png') no-repeat;
+}
+.icon-notice {
+	background: url('icons/note_edit.png') no-repeat;
+}
+.icon-report {
+	background: url('icons/report.png') no-repeat;
+}

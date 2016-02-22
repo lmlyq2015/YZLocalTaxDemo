@@ -305,8 +305,8 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 <!-- 					</tr> -->
 					
 						<tr><td>
-						<a id="msgSend" icon="icon-ok" class="easyui-linkbutton" href="javascript:void(0);">短信发送</a>
-						<a id="msgSendWithURL" icon="icon-ok" class="easyui-linkbutton" href="javascript:void(0);">微网页发送</a>
+						<a id="msgSend" icon="icon-message-send" class="easyui-linkbutton" href="javascript:void(0);">短信发送</a>
+						<a id="msgSendWithURL" icon="icon-message-url" class="easyui-linkbutton" href="javascript:void(0);">微网页发送</a>
 						</td></tr>					
 						<tr align="center"><td><a icon="icon-cancel" class="easyui-linkbutton" href="javascript:void(0);" onclick="clearContent();">清空</a></td></tr>				
 <!-- 					<td> -->

@@ -9,6 +9,8 @@ import com.dao.MessageDao;
 import com.service.MessageService;
 import com.util.DateUtils;
 import com.util.TaxUtil;
+import com.vos.CallInfoVo;
+import com.vos.Consults;
 import com.vos.Message;
 import com.vos.MessageResult;
 import com.vos.MessageSearchVO;
@@ -255,5 +257,58 @@ public class MessageServiceImp implements MessageService {
 			throw e;
 		}
 		return id;
+	}
+
+	@Override
+	public void saveCallInfoWhenRing(CallInfoVo callvo) throws SQLException {
+		try {
+			messageDao.saveCallInfoWhenRing(callvo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public int queryCallInfo(String callSheetId) throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.queryCallInfo(callSheetId);
+	}
+
+	@Override
+	public int updateCallInfoWhenRing(CallInfoVo callvo) throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.updateCallInfoWhenRing(callvo);
+	}
+
+	@Override
+	public List<CallInfoVo> getCallList(String account) throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.getCallList(account);
+	}
+
+	@Override
+	public List<CallInfoVo> getCallInfoByCallNo(String callNo)
+			throws SQLException {
+		
+		return messageDao.getCallInfoByCallNo(callNo);
+	}
+
+	@Override
+	public List<Consults> getConsultInfoByCallSheetNo(String callSheetNo)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		return messageDao.getConsultInfoByCallSheetNo(callSheetNo);
+	}
+
+	@Override
+	public String getStatusWhenAddConsults(CallInfoVo callvo)
+			throws SQLException {
+		return messageDao.getStatusWhenAddConsults(callvo);
+	}
+
+	@Override
+	public void addConsults(String callSheetId, String question, String answer)
+			throws SQLException {
+		messageDao.addConsults(callSheetId, question, answer);
 	}
 }

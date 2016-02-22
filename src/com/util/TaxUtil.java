@@ -89,6 +89,14 @@ public class TaxUtil {
 	public final static String MESSAGE_RECEVIER_ADMIN = "2";
 	public final static String MESSAGE_RECEVIER_LAWER = "3";
 	
+	public final static String CALL_TYPE_NORMAL = "普通来电";
+	
+	public final static String CALL_TYPE_DIALOUT = "外呼通话";
+	
+	public final static String CALL_TYPE_TRANSFER = "转接电话";
+	
+	public final static String CALL_TYPE_DIALTRANSFER = "外呼转接";
+	
 	static{
 		FileInputStream in = null;
 		Properties pro = new Properties();

@@ -3,6 +3,8 @@ package com.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.vos.CallInfoVo;
+import com.vos.Consults;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
@@ -43,5 +45,21 @@ public interface MessageService {
 	public int updatePassword(String empId,String newPwd) throws SQLException;
 
 	public int sendNotificationMsgWithURL(Message msg) throws SQLException;
+	
+	public void saveCallInfoWhenRing(CallInfoVo callvo) throws SQLException;
+	
+	public int queryCallInfo(String callSheetId) throws SQLException;
+	
+	public int updateCallInfoWhenRing(CallInfoVo callvo) throws SQLException;
+	
+	public List<CallInfoVo> getCallList(String account) throws SQLException;
+	
+	public List<CallInfoVo> getCallInfoByCallNo(String callNo) throws SQLException;
+	
+	public List<Consults> getConsultInfoByCallSheetNo(String callSheetNo) throws SQLException;
+	
+	public String getStatusWhenAddConsults(CallInfoVo callvo) throws SQLException;
+	
+	public void addConsults(String callSheetId,String question, String answer) throws SQLException;
 
 }

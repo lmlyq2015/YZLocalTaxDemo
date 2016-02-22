@@ -210,4 +210,30 @@
 	<update id="updatePassword">
 		update tax_employees set password = #newPwd# where empid = #empId#
 	</update>
+	<insert id="saveCallInfoWhenRing" parameterClass="com.vos.CallInfoVo">
+		insert into tax_call_info(callSheetId,callNo,callerProvince,callerCity,calledNo,state,callID,agent,offeringTime,callType) values 
+				(#callSheetId#,#originCallNo#,#callerProvince#,#callerCity#,#originCalledNo#,#status#,#callId#,#agent#,#offeringTime#,#callType#)
+	</insert>
+	<select id="queryCallInfoBySheetId" resultClass="java.lang.Integer" parameterClass="java.lang.String">
+		select count(*) from tax_call_info where callSheetId = #callSheetId#
+	</select>
+	<update id="updateCallInfoWhenRing" parameterClass="com.vos.CallInfoVo">
+		update tax_call_info set agent = #agent# where callSheetId = #callSheetId#
+	</update>
+	
+	<select id="getCallList" resultClass="com.vos.CallInfoVo" parameterClass="java.lang.String">
+		select callSheetId, callNo as originCallNo,callerProvince,callerCity,DATE_FORMAT(offeringTime, '%Y-%c-%d %H:%i:%s') as offeringTime ,callType,state as status from tax_call_info where agent = #account# order by offeringTime desc
+	</select>
+	<select id="getCallInfoByCallNo" resultClass="com.vos.CallInfoVo" parameterClass="java.lang.String">
+		select callSheetId, DATE_FORMAT(offeringTime, '%Y-%c-%d %H:%i:%s') as offeringTime,agent,DATE_FORMAT(begin, '%Y-%c-%d %H:%i:%s') as beginTime,DATE_FORMAT(end, '%Y-%c-%d %H:%i:%s') as endTime,recordFile as recordFile, state as status, case satisfactionDegree when 1 then '非常满意' when 2 then '满意' when 3 then '不满意' end as satisfactionDegree,callType from tax_call_info where callNo = #callNo# order by offeringTime desc 
+	</select>
+	<select id="getConsultInfoByCallSheetNo" resultClass="com.vos.Consults" parameterClass="java.lang.String">
+		select question as questions,answer as answers from tax_call_consult_history where callSheetId = #callSheetNo#
+	</select>
+	<select id="getStatusWhenAddConsults" resultClass="java.lang.String" parameterClass="com.vos.CallInfoVo">
+		select state from tax_call_info where callSheetId = #callSheetId#
+	</select>
+	<insert id="addConsults" parameterClass="java.util.Map">
+		insert into tax_call_consult_history(callSheetId,question,answer) values (#callSheetId#,#question#,#answer#)
+	</insert>
 </sqlMap>

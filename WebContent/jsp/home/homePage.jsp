@@ -28,35 +28,36 @@ $.parser.onComplete = function(){
 </script>
 
 <script type="text/javascript">
+	 
 	 var _menus = {"menus":[
-						{"menuid":"1","icon":"icon-sys","menuname":"信息中心",
+						{"menuid":"1","icon":"icon-message","menuname":"信息中心",
 							"menus":[
-									{"menuname":"公告通知","icon":"icon-edit","url":"jsp/message/message.jsp"},			
-									{"menuname":"催缴通知","icon":"icon-print","url":"jsp/message/pay.jsp"},
-									{"menuname":"催报通知","icon":"icon-print","url":"jsp/message/report.jsp"},
+									{"menuname":"公告通知","icon":"icon-notice","url":"jsp/message/message.jsp"},			
+									{"menuname":"催缴通知","icon":"icon-pay","url":"jsp/message/pay.jsp"},
+									{"menuname":"催报通知","icon":"icon-report","url":"jsp/message/report.jsp"},
 									{"menuname":"消息状态","icon":"icon-nav","url":"jsp/message/status.jsp"}
 // 									{"menuname":"草稿箱","icon":"icon-nav","url":""}
 								]
 						},
-						{"menuid":"2","icon":"icon-sys","menuname":"知识库",
+						{"menuid":"2","icon":"icon-knowledge","menuname":"知识库",
 							"menus":[
-							         
+								{"menuname":"模块开发中","icon":"","url":""}   
 								]
 						},
-						{"menuid":"3","icon":"icon-sys","menuname":"微信公众平台",
+// 						{"menuid":"3","icon":"icon-weixin","menuname":"微信公众平台",
+// 							"menus":[
+// 								]
+// 						},
+						{"menuid":"4","icon":"icon-callcenter","menuname":"呼叫中心",
 							"menus":[
+								{"menuname":"通话记录","icon":"icon-call-record","url":"jsp/callcenter/callHome.jsp"}
 								]
 						},
-						{"menuid":"4","icon":"icon-sys","menuname":"呼叫中心",
-							"menus":[
-								{"menuname":"接听呼叫","icon":"icon-edit","url":"jsp/callcenter/callHome.jsp"}
-								]
-						},
-						{"menuid":"5","icon":"icon-sys","menuname":"数据采集",
-							"menus":[
-								]
-						},
-						{"menuid":"6","icon":"icon-sys","menuname":"用户管理",
+// 						{"menuid":"5","icon":"icon-sys","menuname":"数据采集",
+// 							"menus":[
+// 								]
+// 						},
+						{"menuid":"6","icon":"icon-user","menuname":"用户管理",
 							"menus":[{"menuname":"个人信息","icon":"icon-nav","url":"jsp/user/userinfo.jsp"}
 // 									{"menuname":"权限设置","icon":"icon-nav","url":"#"}
 								]
@@ -174,7 +175,30 @@ $.parser.onComplete = function(){
             $("#p11").panel(options);
             
             //init datagrid
+            $('#dlg').dialog({
+            	onOpen:function(){
+            		
+            	}
+            });
             
+            $('#ringBtn').click(function(){
+            	
+            	if(!$('#tabs').tabs('exists','通话记录')){
+            		
+            		$('#tabs').tabs('add',{
+            			title:'通话',
+            			content:createFrame('./jsp/callcenter/callHome.jsp'),
+            			closable:true,
+            			width:$('#mainPanle').width()-10,
+            			height:$('#mainPanle').height()-26
+            		});	
+            	} else {
+            		$('#tabs').tabs('select','通话');
+            	}          	
+            	$('#dlg').dialog('close');
+            	
+            	
+            });
         });
 		
 	function ringAlert(msg) {
@@ -189,6 +213,40 @@ $.parser.onComplete = function(){
             showType: 'slide',  
             timeout: 1000  
         });  
+	}
+	function onRingPopWindow(data) {
+		var object = new Object();
+		object.callSheetId = data.callSheetId;
+		object.originCallNo = data.originCallNo;
+		object.callerProvince = data.callerProvince;
+		object.callerCity = data.callerCity;
+		object.offeringTime = data.offeringTime;
+		object.agent = data.agent;
+		object.status = data.status;
+		object.callType = data.callType;
+		object.callId = data.callId;
+		object.originCalledNo = data.originCalledNo;
+		
+		var ringData = encodeURI(JSON.stringify(object),"UTF-8");
+		$.ajax({
+			url : '<%=basePath%>saveWhenRing',
+			type : 'post',
+			data : 'data=' + ringData,
+			dataType : 'json',
+			success : function(r){
+				$('#dlg').dialog('open');
+				$('#dlg').dialog('refresh','<%=basePath%>jsp/callcenter/onRingWin.jsp');
+			},
+			error : function() {
+				$.messager.alert('提示', '来电记录出错', 'error');
+			}
+		});
+
+	}
+	function createFrame(url)
+	{
+		var s = '<iframe name="mainFrame" scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
+		return s;
 	}
     </script>
 
@@ -280,7 +338,15 @@ $.parser.onComplete = function(){
 		<div class="menu-sep"></div>
 		<div id="mm-exit">退出</div>
 	</div>
-
-
+	
+	<div id="dlg" class="easyui-dialog" title="来电提醒"
+		style="width: 250px; height: 150px; padding: 10px 20px;" closed="true" modal="true"
+		buttons="#dlg-buttons">
+		
+	</div>
+	<div id="dlg-buttons">
+		<a id="ringBtn" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-save">确定</a>
+	</div>
+	
 </body>
 </html>

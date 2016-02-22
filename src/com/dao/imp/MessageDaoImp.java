@@ -14,6 +14,8 @@ import com.dao.MessageDao;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.util.DateUtils;
 import com.util.TaxUtil;
+import com.vos.CallInfoVo;
+import com.vos.Consults;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
@@ -273,5 +275,101 @@ public class MessageDaoImp implements MessageDao {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+
+	@Override
+	public void saveCallInfoWhenRing(CallInfoVo callvo) throws SQLException {
+		try{
+			
+			sqlMapClient.insert("saveCallInfoWhenRing", callvo);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public int queryCallInfo(String callSheetId) throws SQLException {
+		int count = 0;
+		try{
+			
+			count = (Integer) sqlMapClient.queryForObject("queryCallInfoBySheetId", callSheetId);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public int updateCallInfoWhenRing(CallInfoVo callvo) throws SQLException {
+		int count = 0;
+		try{
+			
+			count = (Integer) sqlMapClient.update("updateCallInfoWhenRing", callvo);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public List<CallInfoVo> getCallList(String account) throws SQLException {
+		List<CallInfoVo> list = null;
+		try{
+			list = sqlMapClient.queryForList("getCallList",account.split("@")[0]);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<CallInfoVo> getCallInfoByCallNo(String callNo)
+			throws SQLException {
+		List<CallInfoVo> list = null;
+		try{
+			list = sqlMapClient.queryForList("getCallInfoByCallNo",callNo);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Consults> getConsultInfoByCallSheetNo(String callSheetNo)
+			throws SQLException {
+		List<Consults> list = null;
+		try{
+			list = sqlMapClient.queryForList("getConsultInfoByCallSheetNo",callSheetNo);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public String getStatusWhenAddConsults(CallInfoVo callvo)
+			throws SQLException {
+		String status = null;
+		try {
+			status = (String) sqlMapClient.queryForObject("getStatusWhenAddConsults", callvo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+
+	@Override
+	public void addConsults(String callSheetId, String question, String answer)
+			throws SQLException {
+		Map<String,Object> map = new HashMap<String, Object>();
+		try {
+			map.put("callSheetId", callSheetId);
+			map.put("question", question);
+			map.put("answer", answer);
+			sqlMapClient.insert("addConsults",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
