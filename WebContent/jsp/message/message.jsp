@@ -21,6 +21,9 @@ textarea {
 </style>
 <script type="text/javascript">
 $(function() {
+	$(window).resize(function(){ 
+		$("#enterpriceDg").datagrid("resize",{width:getWidth(0.6)});
+	});
 	$('#enterpriceDg').datagrid({
 <%-- 	url:'<%=basePath%>jsp/message/enterprice_json.json', --%>
 		loadMsg : '数据加载中请稍后',
@@ -37,82 +40,74 @@ $(function() {
 		showFooter: true,
 		remoteSort: false,
 		idField: 'taxId',
-		columns:[[
-			{
-				//title:'<input id=\"detailcheckbox\" type=\"checkbox\"  >',
+		width: getWidth(0.6),
+		columns:[[{
 				field:'check',
 				checkbox:true
-				//width:2,
-// 				formatter: function (value, rec, rowIndex) {
-//                     return "<input type=\"checkbox\"  name=\"PD\" value=\"" + value + "\" >";
-//                 }
-			},
-			{
-				title:'纳税人电子档案号',
-				field:'eid',
-				hidden:'true',
-				width:10	
+			},{
+				title : '纳税人电子档案号',
+				field : 'eid',
+				hidden : 'true',
+				width : fixWidthTable(0.1),
+				align:'center'
+			},{
+				title : '纳税人识别号',
+				field : 'taxId',
+				width : fixWidthTable(0.12),
+				align:'center'				
+			},{
+				title : '纳税人名称',
+				field : 'taxName',
+				width : fixWidthTable(0.15),
+				align:'center'
 				
-			},
-			{
-				title:'纳税人识别号',
-				field:'taxId',
-				width:10	
-				
-			},
-			{
-				title:'纳税人名称',
-				field:'taxName',
-				width:15
-			},
-			{
-				title:'地址',
-				field:'address',
-				width:15
-			},
-			{
-				title:'税收管理员',
-				field:'taxAdmin',
-				width:8
-			},
-			{
-				title:'企业状态',
-				field:'state',
-				hidden:'true',
-				width:15
-			},
-			{
-				title:'法人',
-				field:'rep',
-				width:5
-			},
-			
-			{
-				title:'法人手机',
-				field:'repMobile',
-				width:7
-			},
-			{
-				title:'办税员',
+			},{
+				title : '地址',
+				field : 'address',
+				width : fixWidthTable(0.1),
+				align:'center'
+			},{
+				title : '税收管理员',
+				field : 'taxAdmin',
+				width : fixWidthTable(0.05),
+				align:'center'
+			},{
+				title : '企业状态',
+				field : 'state',
+				hidden : 'true',
+				width : fixWidthTable(0.05),
+				align:'center'
+			},{
+				title : '法人',
+				field : 'rep',
+				width : fixWidthTable(0.05),
+				align:'center'
+			},{
+				title : '法人手机',
+				field : 'repMobile',
+				width : fixWidthTable(0.08),
+				align:'center'
+			},{
+				title : '办税员',
 				field : 'taxAgentName',
-				width : 5
-			},
-			{
-				title:'办税员手机',
-				field:'taxAgentMobile',
-				width:8
-			},
-			{
-				title:'财务主管',
-				field:'adminName',
-				width:5
-			},
-			{
-				title:'财务主管手机',
-				field:'adminMobile',
-				width:7
-			}
-		]],
+				width : fixWidthTable(0.05),
+				align:'center'
+			},{
+				title : '办税员手机',
+				field : 'taxAgentMobile',
+				width : fixWidthTable(0.08),
+				align:'center'
+			}, {
+				title : '财务主管',
+				field : 'adminName',
+				width : fixWidthTable(0.05),
+				align:'center'
+			},{
+				title : '财务主管手机',
+				field : 'adminMobile',
+				width : fixWidthTable(0.08),
+				align:'center'
+			}]],
 		toolbar:'#enterpriceSearch'
 
 	});	
@@ -125,6 +120,7 @@ $(function() {
 		success : function(data) {
 			 var res = jQuery.parseJSON(data);
 				if (res) {
+
 				$.messager.alert('操作提示', res.msg);
 				$('#enterpriceDg').datagrid('load');
 				$('#file').val('');
@@ -146,16 +142,17 @@ $(function() {
 				$('#file').val('');
 				return false;
 			} else {
+			$('#enterpriceDg').datagrid("loading");
 			$('#readCompForm').form('submit');}
 	});
 	
 	$('#msgSend').click(function(){
 		var content = $('#content').val();
 // 		var sign = $('#sign').val();
-// 		if (content == null || content == "") {
-// 			$.messager.alert('操作提示', "请输入消息内容","info");
-// 			return;
-// 		}
+		if (content == null || content == "") {
+			$.messager.alert('操作提示', "请输入消息内容","info");
+			return;
+		}
 // 		if (sign == null || sign == "") {
 // 			$.messager.alert('操作提示', "请输入消息签名","info");
 // 			return;
@@ -180,7 +177,7 @@ $(function() {
 				success : function(r) {
 					$.messager.alert('操作提示', r.msg,r.result);
 					$('#content').val('');
-					$('#enterpriceDg').datagrid('unselectAll');
+					$('#enterpriceDg').datagrid('clearSelections');
 				},
 				error : function() {
 					$.messager.alert('操作提示', "服务器出错","error");
@@ -193,6 +190,10 @@ $(function() {
 
 	$('#msgSendWithURL').click(function(){
 		var content = $('#content').val();
+		if (content == null || content == "") {
+			$.messager.alert('操作提示', "请输入消息内容","info");
+			return;
+		}
 		var rows = $('#enterpriceDg').datagrid('getSelections');
 		if (rows.length == 0) {
 			$.messager.alert('操作提示', "请选择发送对象","info");
@@ -209,7 +210,7 @@ $(function() {
 				success : function(r) {
 					$.messager.alert('操作提示', r.msg,r.result);
 					$('#content').val('');
-					$('#enterpriceDg').datagrid('unselectAll');
+					$('#enterpriceDg').datagrid('clearSelections');
 				},
 				error : function() {
 					$.messager.alert('操作提示', "服务器出错","error");
@@ -264,6 +265,14 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 	    	$("#msgSend").linkbutton("enable");
 	    };    
 	}
+	
+	function getWidth(percent){  
+	    return $(window).width() * percent;  
+	}
+	
+	function fixWidthTable(percent){  
+        return getWidth(0.6) * percent;  
+	} 
 </script>
 <body class="easyui-layout">
 

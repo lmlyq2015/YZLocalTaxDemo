@@ -12,4 +12,5 @@
 	<sqlMap resource="com/vos/sqlMapXml/Report.xml" />
 	<sqlMap resource="com/vos/sqlMapXml/Poi.xml" />
 	<sqlMap resource="com/vos/sqlMapXml/Pay.xml" />
+	<sqlMap resource="com/vos/sqlMapXml/Phone.xml" />
 </sqlMapConfig>	

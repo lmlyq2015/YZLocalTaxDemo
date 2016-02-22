@@ -16,7 +16,7 @@ import com.vos.Pay;
 import com.vos.PayNotificationVo;
 import com.vos.PaySearchVO;
 import com.vos.PayVO;
-import com.vos.UnpaidTax;
+import com.vos.TotalTax;
 
 
 public class PayDaoImp implements PayDao {
@@ -47,8 +47,9 @@ public class PayDaoImp implements PayDao {
 			map.put("adminMobile", paySearchVO.getAdminMobile());
 			map.put("rep", paySearchVO.getRep());
 			map.put("repMobile", paySearchVO.getRepMobile());
-			map.put("deadline", paySearchVO.getDeadline());
-			map.put("unpaidTax", paySearchVO.getUnpaidTax());
+			map.put("startTime", paySearchVO.getStartTime());
+			map.put("endTime", paySearchVO.getEndTime());
+			map.put("totalTax", paySearchVO.getTotalTax());
 			map.put("imposeType", paySearchVO.getImposeType());
 			map.put("firstRow",firstRow);
 			map.put("pageSize",pageSize);
@@ -130,12 +131,12 @@ public class PayDaoImp implements PayDao {
 	}
 
 	@Override
-	public List<UnpaidTax> getUnpaidTax(String taxId) throws SQLException {
+	public List<TotalTax> getUnpaidTax(String taxId) throws SQLException {
 		// TODO Auto-generated method stub
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("taxId", taxId);
 		map.put("type", null);
-		return sqlMapClient.queryForList("getUnpaidTax",map);
+		return sqlMapClient.queryForList("getTotalTax",map);
 	}
 		
 }

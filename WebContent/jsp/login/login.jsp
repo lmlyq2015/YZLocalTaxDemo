@@ -2,7 +2,8 @@
 	pageEncoding="utf-8"%>
 <%
 	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -25,45 +26,6 @@ div,a,td,span,body,font {
 	font-family: "宋体";
 	line-height: 16px;
 	font-size: 12px;
-}
-
-.style_input {
-	background:
-		url(http://www.366tax.com:7001/tax366/login/images/login/bg_login_but.gif)
-		top left no-repeat;
-	border: none;
-	height: 22px;
-	width: 50px;
-	font-size: 12px;
-	color: #006666;
-	text-align: center;
-	line-height: 22px;
-	padding-top: 2px;
-	cursor: pointer;
-}
-
-.bg_input {
-	background:
-		url(http://www.366tax.com:7001/tax366/login/images/login/bg_login_input.gif)
-		top left no-repeat;
-	border: none;
-	height: 22px;
-	width: 174px;
-	font-size: 12px;
-	color: #D3D980;
-	padding: 5px 0px 0px 5px;
-}
-
-.bg_input1 {
-	background:
-		url(http://www.366tax.com:7001/tax366/login/images/login/bg_input_80.gif)
-		top left no-repeat;
-	border: none;
-	height: 22px;
-	width: 174px;
-	font-size: 12px;
-	color: #D3D980;
-	padding: 5px 0px 0px 5px;
 }
 
 a:link {
@@ -131,25 +93,25 @@ $(function(){
 	}
 </script>
 </head>
-<body style="padding: 0px; margin: 0px; overflow: auto;"  onkeydown="onKeydown();">
+<body style="padding: 0px; margin: 0px; overflow: auto;"
+	onkeydown="onKeydown();">
 	<input type="hidden" value='' id="key" />
 	<form id="loginForm">
 		<div
-			style="width: 100%; height: 100%; top: 0px; left: 0px; position: absolute; z-index: 2; background-color: #0e684c;"
+			style="width: 100%; height: 100%; top: 0px; left: 0px; position: absolute; z-index: 2; background-color: #0185C5"
 			id="loginDiv">
 			<table width="100%" height="100%" border="0" cellspacing="0"
 				cellpadding="0">
 				<tr>
 					<td align="center" valign="bottom"
-						style="height: 40%; background: #095483 url(http://www.366tax.com:7001/tax366/login/images/login/home_bg_top.jpg) repeat-x bottom;">
-						<span style="font-size: xx-large;">鄞州地方税务局纳税服务系统 </span>
-					</td>
+						style="height: 40%; "><span
+						style="font-size: xx-large;">鄞州地方税务局纳税服务系统 </span></td>
 				</tr>
 				<tr>
 					<td align="center" valign="top"
-						style="height: 60%; background: #0185C5 url(http://www.366tax.com:7001/tax366/login/images/login/home_bg_bottom.jpg) repeat-x top;">
+						style="height: 60%; ">
 						<div
-							style="background: url(http://www.366tax.com:7001/tax366/login/images/login/home_bottom.jpg) no-repeat left top; width: 760px; height: 252px;">
+							style="background: no-repeat left top; width: 760px; height: 252px;">
 							<div style='width: 80%; height: 100px;'>
 								<table border="0" align="right" cellpadding="0" cellspacing="0">
 									<tr>
@@ -172,16 +134,18 @@ $(function(){
 										<td align="left">&nbsp;</td>
 									</tr>
 									<tr>
-										<td height="36">&nbsp;&nbsp;验证码：</td>
-										<td align="left"><input id="code" type="text" name="code"  /></td>
-										<td><img id="number" src="<%=basePath %>jsp/util/number.jsp"
-											border=0 /> <a
-											href="javascript:reloadImage('<%=basePath %>jsp/util/number.jsp')">看不清</a>
-											</td>
+										<td height="36" align="right">验证码：</td>
+										<td align="left"><input id="code" type="text" name="code" /></td>
+										<td><img id="number"
+											src="<%=basePath%>jsp/util/number.jsp" border=0 /> <a
+											href="javascript:reloadImage('<%=basePath%>jsp/util/number.jsp')">看不清</a>
+										</td>
 									</tr>
 									<tr>
-										<td colspan="2" align="center"><a id="loginBtn" class="easyui-linkbutton" href="javascript:void(0)" onclick="submitForm()" >登录</a>
-										<a class="easyui-linkbutton" href="javascript:void(0)" onclick="clearForm()">重置 </a></td>
+										<td colspan="2" align="center"><a id="loginBtn"
+											class="easyui-linkbutton" href="javascript:void(0)"
+											onclick="submitForm()">登录</a> <a class="easyui-linkbutton"
+											href="javascript:void(0)" onclick="clearForm()">重置 </a></td>
 									</tr>
 								</table>
 							</div>

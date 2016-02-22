@@ -5,7 +5,7 @@
 <sqlMap>
 	<select id="getAllReport" resultClass="com.vos.ReportSearchVO" parameterClass="java.util.Map">
 	<![CDATA[
-		select a.id,a.taxId,b.taxName,b.taxAgentName,b.taxAgentMobile,b.adminName,b.adminMobile,b.rep,b.repMobile,a.year,a.month,a.imposeType from tax_report a,tax_entbasicinfor b where a.taxId=b.taxId
+		select a.id,a.taxId,b.taxName,b.taxAgentName,b.taxAgentMobile,b.adminName,b.adminMobile,b.rep,b.repMobile,a.startTime,a.endTime,a.imposeType from tax_report a,tax_entbasicinfor b where a.taxId=b.taxId
 	]]>
 		<dynamic>
 			 <isNotEmpty prepend="AND" property="taxId">       

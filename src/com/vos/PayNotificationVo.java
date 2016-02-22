@@ -12,14 +12,29 @@ public class PayNotificationVo {
 	private String adminMobile;
 	private int mesId;
 	private String deadline;
-	private String unpaidTax;
+	private String totalTax;
 	private String imposeType;
 	private String status;
 	private String resultMsg;
 	private String address;
 	private String receiver;
 	private String empId;
+	private String startTime;
+	private String endTime;
 	
+	
+	public String getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
 	public String getEmpId() {
 		return empId;
 	}
@@ -93,11 +108,12 @@ public class PayNotificationVo {
 		this.deadline = deadline;
 	}
 	
-	public String getUnpaidTax() {
-		return unpaidTax;
+
+	public String getTotalTax() {
+		return totalTax;
 	}
-	public void setUnpaidTax(String unpaidTax) {
-		this.unpaidTax = unpaidTax;
+	public void setTotalTax(String totalTax) {
+		this.totalTax = totalTax;
 	}
 	public String getImposeType() {
 		return imposeType;

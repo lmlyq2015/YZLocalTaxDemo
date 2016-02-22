@@ -29,4 +29,12 @@ public interface PoiDao {
 	public int selectUnequalNumForpay() throws SQLException;
 
 	public List<TaxId> selectUnequalTaxIdForpay() throws SQLException;
+
+	public List<MessageSearchVO> getComp() throws SQLException;
+
+	public List<Report> getReport() throws SQLException;
+
+	public List<Report> getPay() throws SQLException;
+	
+	
 }

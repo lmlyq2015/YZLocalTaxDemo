@@ -99,5 +99,11 @@
 	<bean id="payDao" class="com.dao.imp.PayDaoImp">
 		<property name="sqlMapClient" ref="sqlMapClient" />
 	</bean>
+	<bean id="phoneService" class="com.service.imp.PhoneServiceImp">
+		<property name="phoneDao" ref="phoneDao"></property>
+	</bean>
+	<bean id="phoneDao" class="com.dao.imp.PhoneDaoImp">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
 	<mvc:default-servlet-handler/>
 </beans>

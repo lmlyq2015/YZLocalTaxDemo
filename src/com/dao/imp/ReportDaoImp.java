@@ -46,8 +46,8 @@ public class ReportDaoImp implements ReportDao {
 			map.put("adminMobile", reportSearchVO.getAdminMobile());
 			map.put("rep", reportSearchVO.getRep());
 			map.put("repMobile", reportSearchVO.getRepMobile());
-			map.put("year", reportSearchVO.getYear());
-			map.put("month", reportSearchVO.getMonth());
+			map.put("startTime", reportSearchVO.getStartTime());
+			map.put("endTime", reportSearchVO.getEndTime());
 			map.put("imposeType", reportSearchVO.getImposeType());
 			map.put("firstRow",firstRow);
 			map.put("pageSize",pageSize);
