@@ -152,15 +152,15 @@ public class PoiServiceImp implements PoiService {
 		reportListOld = poiDao.getReport();
 
 		for (int i = 0; i < reportList.size(); i++) {
+			Report report = reportList.get(i);
+			String taxId = report.getTaxId();
+			String startTime = report.getStartTime();
+
 			for (int j = 0; j < reportListOld.size(); j++) {
-				if (reportList.get(i).getTaxId()
-						.equalsIgnoreCase(reportListOld.get(j).getTaxId())
-						&& reportList
-								.get(i)
-								.getStartTime()
-								.equalsIgnoreCase(
-										reportListOld.get(j).getStartTime())) {
-					reportList.remove(i);
+				if (taxId.equalsIgnoreCase(reportListOld.get(j).getTaxId())
+						&& startTime.equalsIgnoreCase(reportListOld.get(j)
+								.getStartTime())) {
+					reportList.remove(report);
 				}
 			}
 		}
@@ -432,19 +432,18 @@ public class PoiServiceImp implements PoiService {
 			}
 		}
 
-		List<Report> payListOld = new ArrayList<Report>();
+		List<Pay> payListOld = new ArrayList<Pay>();
 		payListOld = poiDao.getPay();
 
 		for (int i = 0; i < payList.size(); i++) {
+			Pay pay = payList.get(i);
+			String id = pay.getTaxId();
+			String startTime = pay.getStartTime();
 			for (int j = 0; j < payListOld.size(); j++) {
-				if (payList.get(i).getTaxId()
-						.equalsIgnoreCase(payListOld.get(j).getTaxId())
-						&& payList
-								.get(i)
-								.getStartTime()
-								.equalsIgnoreCase(
-										payListOld.get(j).getStartTime())) {
-					payList.remove(i);
+				if (id.equalsIgnoreCase(payListOld.get(j).getTaxId())
+						&& startTime.equalsIgnoreCase(payListOld.get(j)
+								.getStartTime())) {
+					payList.remove(pay);
 				}
 			}
 		}

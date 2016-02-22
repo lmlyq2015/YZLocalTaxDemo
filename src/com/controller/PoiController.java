@@ -80,7 +80,7 @@ public class PoiController {
 	 * @throws SQLException
 	 * @throws ParseException
 	 */
-	@RequestMapping(value = "/read", method = RequestMethod.POST)
+	@RequestMapping(value = "/read")
 	@ResponseBody
 	public void getReadReport(@RequestParam MultipartFile file,
 			HttpServletResponse response) throws IOException, SQLException,

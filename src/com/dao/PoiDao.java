@@ -34,7 +34,7 @@ public interface PoiDao {
 
 	public List<Report> getReport() throws SQLException;
 
-	public List<Report> getPay() throws SQLException;
+	public List<Pay> getPay() throws SQLException;
 	
 	
 }

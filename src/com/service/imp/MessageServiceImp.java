@@ -35,6 +35,7 @@ public class MessageServiceImp implements MessageService {
 	@Override
 	public int sendNotificationMsg(Message msg) throws SQLException {
 		int id = 0;
+		int sucNum = 0;
 		try {
 			String result = null;
 			MessageResult mr = null;
@@ -53,13 +54,20 @@ public class MessageServiceImp implements MessageService {
 				vo.setReceiver(TaxUtil.MESSAGE_RECEVIER_TAXER);
 				id = messageDao.saveMsgResult(key, vo, sendDate,
 						msg.getSendBy());
-			}
-			String sendToSelf = msg.getSendToSelf();
-			if (sendToSelf != null && sendToSelf.equals("是")) {
-				TaxUtil.sendMessage("通知于" + sendDate + "发送成功！",
-						msg.getMobile(), sendDate);
+
+				boolean a = vo.getResultMsg().equals("发送成功");
+				if (a) {
+					sucNum = sucNum + 1;
+				}
 			}
 
+			if (sucNum != 0) {
+				String sendToSelf = msg.getSendToSelf();
+				if (sendToSelf != null && sendToSelf.equals("是")) {
+					TaxUtil.sendMessage("通知于" + sendDate + "发送成功！",
+							msg.getMobile(), sendDate);
+				}
+			}
 			// TaxUtil.creatTxtFile();
 			// boolean bo = TaxUtil.writeTxtFile(msgContent);
 			// if (!bo) {
@@ -216,6 +224,7 @@ public class MessageServiceImp implements MessageService {
 	public int sendNotificationMsgWithURL(Message msg) throws SQLException {
 		// TODO Auto-generated method stub
 		int id = 0;
+		int sucNum = 0;
 		try {
 			String result = null;
 			MessageResult mr = null;
@@ -238,11 +247,18 @@ public class MessageServiceImp implements MessageService {
 				vo.setReceiver(TaxUtil.MESSAGE_RECEVIER_TAXER);
 				id = messageDao.saveMsgResult(key, vo, sendDate,
 						msg.getSendBy());
+				boolean a = vo.getResultMsg().equals("发送成功");
+				if (a) {
+					sucNum = sucNum + 1;
+				}
 			}
-			String sendToSelf = msg.getSendToSelf();
-			if (sendToSelf != null && sendToSelf.equals("是")) {
-				TaxUtil.sendMessage("通知于" + sendDate + "发送成功！",
-						msg.getMobile(), sendDate);
+
+			if (sucNum != 0) {
+				String sendToSelf = msg.getSendToSelf();
+				if (sendToSelf != null && sendToSelf.equals("是")) {
+					TaxUtil.sendMessage("通知于" + sendDate + "发送成功！",
+							msg.getMobile(), sendDate);
+				}
 			}
 			// TaxUtil.creatTxtFile();
 			// boolean bo;
@@ -291,7 +307,7 @@ public class MessageServiceImp implements MessageService {
 	@Override
 	public List<CallInfoVo> getCallInfoByCallNo(String callNo)
 			throws SQLException {
-		
+
 		return messageDao.getCallInfoByCallNo(callNo);
 	}
 

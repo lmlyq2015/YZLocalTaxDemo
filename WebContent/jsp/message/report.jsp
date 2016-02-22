@@ -27,7 +27,7 @@
 			//title : '导入搜索',
 			nowrap : false,
 // 			fit : true,
-			fitColumns : true,
+			fitColumns : false,
 			pagination : true,
 			border : false,
 			pageSize : 10,
@@ -45,57 +45,57 @@
 			},{
 				title : '纳税人识别号',
 				field : 'taxId',
-				width : fixWidthTable(0.1),
+				width : fixWidthTable(0.15),
 				align:'center'
 			}, {
 				title : '纳税人名称',
 				field : 'taxName',
-				width : fixWidthTable(0.15),
+				width : fixWidthTable(0.25),
 				align:'center'
 			}, {
 				title : '办税员名称',
 				field : 'taxAgentName',
-				width : fixWidthTable(0.08),
+				width : fixWidthTable(0.10),
 				align:'center'
 			}, {
 				title : '办税员号码',
 				field : 'taxAgentMobile',
-				width : fixWidthTable(0.1),
+				width : fixWidthTable(0.15),
 				align:'center'
 			}, {
 				title : '财务负责人名称',
 				field : 'adminName',
-				width : fixWidthTable(0.08),
+				width : fixWidthTable(0.15),
 				align:'center'
 			}, {
 				title : '财务负责人号码',
 				field : 'adminMobile',
-				width : fixWidthTable(0.1),
+				width : fixWidthTable(0.15),
 				align:'center'
 			}, {
 				title : '法人名称',
 				field : 'rep',
-				width : fixWidthTable(0.08),
+				width : fixWidthTable(0.10),
 				align:'center'
 			}, {
 				title : '法人号码',
 				field : 'repMobile',
-				width : fixWidthTable(0.1),
+				width : fixWidthTable(0.15),
 				align:'center'
 			}, {
 				title : '所属时期起',
 				field : 'startTime',
-				width : fixWidthTable(0.08),
+				width : fixWidthTable(0.10),
 				align:'center'
 			}, {
 				title : '所属时期止',
 				field : 'endTime',
-				width : fixWidthTable(0.08),
+				width : fixWidthTable(0.10),
 				align:'center'
 			}, {
 				title : '征收项目',
 				field : 'imposeType',
-				width : fixWidthTable(0.08),
+				width : fixWidthTable(0.15),
 				align:'center'
 			} ] ],
 			toolbar : '#reportSearch'
@@ -134,7 +134,7 @@
 					return false;
 				} else {
 				$('#dg').datagrid("loading");
-				$('#readReportForm').form('submit');}
+				$('#readReportForm').submit();}
 		});
 			
 			
@@ -222,7 +222,7 @@
 					<tr>
 						<th>选择文件:</th>
 						<td><input id="file" type="file" name="file" />
-							<button id="formBtn" type="submit">导入</button></td>
+							<a id="formBtn" href="javascript:void(0);" class="easyui-linkbutton">导入</a></td>
 					</tr>
 				</table>
 			</form>

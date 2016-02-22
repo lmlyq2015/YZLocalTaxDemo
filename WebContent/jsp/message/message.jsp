@@ -143,7 +143,7 @@ $(function() {
 				return false;
 			} else {
 			$('#enterpriceDg').datagrid("loading");
-			$('#readCompForm').form('submit');}
+			$('#readCompForm').submit();}
 	});
 	
 	$('#msgSend').click(function(){
@@ -339,7 +339,7 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 					<tr>
 						<th>选择文件:</th>
 						<td><input id="file" type="file" name="file" />
-							<button id="formBtn" type="submit">导入</button></td>
+							<a id="formBtn" href="javascript:void(0);" class="easyui-linkbutton">导入</a></td>
 					</tr>
 				</table>
 			</form>

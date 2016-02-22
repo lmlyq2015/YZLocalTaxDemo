@@ -104,7 +104,7 @@ public class PoiDaoImp implements PoiDao{
 	}
 
 	@Override
-	public List<Report> getPay() throws SQLException {
+	public List<Pay> getPay() throws SQLException {
 		// TODO Auto-generated method stub
 		return sqlMapClient.queryForList("getPay");
 	}
