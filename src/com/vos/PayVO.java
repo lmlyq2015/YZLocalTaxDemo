@@ -7,7 +7,7 @@ public class PayVO {
 	private String content;
 	private String sign;
 	private String sendDate;
-	private List<PayNotificationVo> voList;
+	private List<NotificationVo> voList;
 	private String sendBy;
 	private String msgType;
 	private int successCount;
@@ -50,10 +50,10 @@ public class PayVO {
 	public void setSendDate(String sendDate) {
 		this.sendDate = sendDate;
 	}
-	public List<PayNotificationVo> getVoList() {
+	public List<NotificationVo> getVoList() {
 		return voList;
 	}
-	public void setVoList(List<PayNotificationVo> voList) {
+	public void setVoList(List<NotificationVo> voList) {
 		this.voList = voList;
 	}
 	public String getSendBy() {

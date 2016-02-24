@@ -209,8 +209,8 @@ public class TaxMessageController {
 			// object.toBean(JSONObject.fromObject(msgData), ReportVO.class);
 			ReportVO msg = new ReportVO();
 			JSONArray json = JSONArray.fromObject(str);
-			List<ReportNotificationVo> list = json.toList(json,
-					ReportNotificationVo.class);
+			List<NotificationVo> list = json.toList(json,
+					NotificationVo.class);
 			for (int i = 0; i < list.size() - 1; i++) {
 				for (int j = list.size() - 1; j > i; j--) {
 					if (list.get(j).getTaxId()
@@ -281,6 +281,8 @@ public class TaxMessageController {
 					JSONObject.fromObject(recData), NotificationVo.class);
 			msg.setSendBy(((User) session.getAttribute("current_user"))
 					.getEmpId());
+			System.out.println(msg.getId());
+			rec.setMesId(msg.getId());
 			messageService.reSendMsg(msg, rec);
 			pw.print(messageSuc());
 		} catch (UnsupportedEncodingException e) {
@@ -539,8 +541,8 @@ public class TaxMessageController {
 			// PayVO.class);
 			PayVO msg = new PayVO();
 			JSONArray json = JSONArray.fromObject(str);
-			List<PayNotificationVo> list = json.toList(json,
-					PayNotificationVo.class);
+			List<NotificationVo> list = json.toList(json,
+					NotificationVo.class);
 			for (int i = 0; i < list.size() - 1; i++) {
 				for (int j = list.size() - 1; j > i; j--) {
 					if (list.get(j).getTaxId()

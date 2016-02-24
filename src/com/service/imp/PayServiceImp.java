@@ -51,10 +51,10 @@ public class PayServiceImp implements PayService {
 			MessageResult mr = null;
 			// String sendDate = msg.getSendDate();
 			String sendDate = DateUtils.getNowTime();
-			List<PayNotificationVo> list = msg.getVoList();
+			List<NotificationVo> list = msg.getVoList();
 			String empId = msg.getSendBy();
 			int sucNum = 0;
-			for (PayNotificationVo vo : list) {
+			for (NotificationVo vo : list) {
 				vo.setEmpId(empId);
 				List<ImposeType> imposeTypes = payDao.getImposeType(vo
 						.getTaxId());
@@ -88,8 +88,9 @@ public class PayServiceImp implements PayService {
 				boolean a = vo.getResultMsg().equals("发送成功");
 				if (a) {
 					sucNum = sucNum + 1;
-					payDao.deletePay(vo.getTaxId());
+//					payDao.deletePay(vo.getTaxId());
 				}
+				payDao.deletePay(vo.getTaxId());
 			}
 
 			if (sucNum != 0) {
@@ -114,7 +115,7 @@ public class PayServiceImp implements PayService {
 		return id;
 	}
 
-	private PayNotificationVo setResultMsg(PayNotificationVo vo,
+	private NotificationVo setResultMsg(NotificationVo vo,
 			MessageResult mr) {
 		// TODO Auto-generated method stub
 		if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_SUCCESS)) {

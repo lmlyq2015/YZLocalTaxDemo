@@ -18,7 +18,7 @@
 	</insert>
 	<select id="getMessageResultList" resultClass="com.vos.Message" parameterClass="java.util.Map">
 		<![CDATA[
-		select * from(	select m.mesId as Id,m.content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,DATE_FORMAT(s.SendDate, '%Y-%m-%d %H:%i') as sendDate,e.loginname as sendBy 
+		select * from(	select m.Type as msgType, m.mesId as id,m.content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,DATE_FORMAT(s.SendDate, '%Y-%m-%d %H:%i') as sendDate,e.loginname as sendBy 
 							from tax_state s,tax_employees e,tax_message m 
 										where s.EmpId=e.EmpId and s.MesId = m.MesId group by m.MesId order by SendDate desc) a  
 		]]>
@@ -93,9 +93,11 @@
 		</dynamic>
 	</select>
 	<select id="getFailMsgStateList" resultClass="com.vos.NotificationVo" parameterClass="java.util.Map">
-		<![CDATA[
-		select s.TaxId as taxId, b.TaxName as taxName,s.State as state,s.ResultMsg as resultMsg,case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver,b.TaxAgentMobile as taxAgentMobile,b.AdminMobile as adminMobile,b.RepMobile as repMobile 
+		<![CDATA[		
+	
+			select s.TaxId as taxId, b.TaxName as taxName,s.State as state,s.ResultMsg as resultMsg,case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver,b.TaxAgentMobile as taxAgentMobile,b.AdminMobile as adminMobile,b.RepMobile as repMobile 
 								from tax_state s,tax_entbasicinfor b where s.TaxId = b.TaxId and s.MesId = #msgId# and s.State <= 0 limit #beginRow#,#pageSize#
+
 		]]>
 	</select>
 	<update id="updateMsgResult" parameterClass="java.util.Map">

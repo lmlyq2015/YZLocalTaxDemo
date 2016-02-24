@@ -38,7 +38,7 @@ public class MessageDaoImp implements MessageDao {
 	public int saveMessage(Message msg) throws SQLException {
 		int key = 0;
 		try{
-			msg.setMsgType(TaxUtil.MESSAGE_NOTIFICATION_MESSAGE_TYPE);		
+			msg.setMsgType("1");		
 			key = (Integer) sqlMapClient.insert("saveMsg",msg);
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -371,5 +371,19 @@ public class MessageDaoImp implements MessageDao {
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public int saveMessageWithURL(Message msg) throws SQLException {
+		// TODO Auto-generated method stub
+		int key = 0;
+		try{
+			msg.setMsgType("2");		
+			key = (Integer) sqlMapClient.insert("saveMsg",msg);
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return key;
 	}
 }

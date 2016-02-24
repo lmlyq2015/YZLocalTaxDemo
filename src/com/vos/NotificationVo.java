@@ -1,7 +1,7 @@
 package com.vos;
 
 public class NotificationVo {
-
+	private Long id;
 	private String taxId;
 	private String taxName;
 	private String rep;
@@ -13,40 +13,36 @@ public class NotificationVo {
 	private String state;
 	private String eid;
 	private int mesId;
-	
-	public int getMesId() {
-		return mesId;
-	}
-	public void setMesId(int mesId) {
-		this.mesId = mesId;
-	}
-	public String getEid() {
-		return eid;
-	}
-	public void setEid(String eid) {
-		this.eid = eid;
-	}
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
-	}
 	private String resultMsg;
 	private String address;
 	private String taxAdmin;
-	
-	public String getTaxAdmin() {
-		return taxAdmin;
+	private String receiver;
+	private String deadline;
+	private String totalTax;
+	private String imposeType;
+	private String status;
+	private String empId;
+	private String startTime;
+	private String endTime;
+	private String year;
+	private String month;
+	public Long getId() {
+		return id;
 	}
-	public void setTaxAdmin(String taxAdmin) {
-		this.taxAdmin = taxAdmin;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public String getTaxId() {
 		return taxId;
 	}
 	public void setTaxId(String taxId) {
 		this.taxId = taxId;
+	}
+	public String getTaxName() {
+		return taxName;
+	}
+	public void setTaxName(String taxName) {
+		this.taxName = taxName;
 	}
 	public String getRep() {
 		return rep;
@@ -84,12 +80,29 @@ public class NotificationVo {
 	public void setAdminMobile(String adminMobile) {
 		this.adminMobile = adminMobile;
 	}
-	private String receiver;
-	public String getReceiver() {
-		return receiver;
+	public String getState() {
+		return state;
 	}
-	public void setReceiver(String receiver) {
-		this.receiver = receiver;
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getEid() {
+		return eid;
+	}
+	public void setEid(String eid) {
+		this.eid = eid;
+	}
+	public int getMesId() {
+		return mesId;
+	}
+	public void setMesId(int mesId) {
+		this.mesId = mesId;
+	}
+	public String getResultMsg() {
+		return resultMsg;
+	}
+	public void setResultMsg(String resultMsg) {
+		this.resultMsg = resultMsg;
 	}
 	public String getAddress() {
 		return address;
@@ -97,18 +110,71 @@ public class NotificationVo {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-	public String getResultMsg() {
-		return resultMsg;
+	public String getTaxAdmin() {
+		return taxAdmin;
 	}
-	public void setResultMsg(String resultMsg) {
-		this.resultMsg = resultMsg;
+	public void setTaxAdmin(String taxAdmin) {
+		this.taxAdmin = taxAdmin;
 	}
-	public String getTaxName() {
-		return taxName;
+	public String getReceiver() {
+		return receiver;
 	}
-	public void setTaxName(String taxName) {
-		this.taxName = taxName;
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
+	public String getDeadline() {
+		return deadline;
+	}
+	public void setDeadline(String deadline) {
+		this.deadline = deadline;
+	}
+	public String getTotalTax() {
+		return totalTax;
+	}
+	public void setTotalTax(String totalTax) {
+		this.totalTax = totalTax;
+	}
+	public String getImposeType() {
+		return imposeType;
+	}
+	public void setImposeType(String imposeType) {
+		this.imposeType = imposeType;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getEmpId() {
+		return empId;
+	}
+	public void setEmpId(String empId) {
+		this.empId = empId;
+	}
+	public String getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
+	}
+	public String getMonth() {
+		return month;
+	}
+	public void setMonth(String month) {
+		this.month = month;
 	}
 	
 }

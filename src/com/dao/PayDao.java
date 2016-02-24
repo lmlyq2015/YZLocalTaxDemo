@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.vos.ImposeType;
+import com.vos.NotificationVo;
 import com.vos.Pay;
 import com.vos.PayNotificationVo;
 import com.vos.PaySearchVO;
@@ -21,7 +22,7 @@ public interface PayDao {
 
 	public int savePayMsg(PayVO msg, String paySqlContent) throws SQLException;
 
-	public int savePayMsgResult(int key, PayNotificationVo vo, String sendDate) throws SQLException;
+	public int savePayMsgResult(int key, NotificationVo vo, String sendDate) throws SQLException;
 
 	public void deletePay(String taxId) throws SQLException;
 

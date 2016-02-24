@@ -12,6 +12,7 @@ import com.dao.PayDao;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.util.TaxUtil;
 import com.vos.ImposeType;
+import com.vos.NotificationVo;
 import com.vos.Pay;
 import com.vos.PayNotificationVo;
 import com.vos.PaySearchVO;
@@ -87,7 +88,7 @@ public class PayDaoImp implements PayDao {
 			//msg.setContent(msg.getContent() + " " + msg.getSign());
 //			msg.setContent(paySqlContent + " " + msg.getSign());
 			msg.setContent(paySqlContent);
-			msg.setMsgType(TaxUtil.MESSAGE_NOTIFICATION_MESSAGE_TYPE);		
+			msg.setMsgType("3");		
 			key = (Integer) sqlMapClient.insert("savePayMsg",msg);
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -97,7 +98,7 @@ public class PayDaoImp implements PayDao {
 	}
 
 	@Override
-	public int savePayMsgResult(int key, PayNotificationVo vo, String sendDate)
+	public int savePayMsgResult(int key, NotificationVo vo, String sendDate)
 			throws SQLException {
 		// TODO Auto-generated method stub
 		int id = 0;

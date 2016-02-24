@@ -64,6 +64,8 @@ public interface MessageDao {
 	
 	public void addConsults(String callSheetId,String question, String answer) throws SQLException;
 
+	public int saveMessageWithURL(Message msg) throws SQLException;
+
 
 
 

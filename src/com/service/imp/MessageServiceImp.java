@@ -115,8 +115,25 @@ public class MessageServiceImp implements MessageService {
 			} else if (receiver.equals(TaxUtil.MESSAGE_RECEVIER_LAWER)) {
 				mobile = vo.getRepMobile();
 			}
-			result = TaxUtil.sendMessage(msg.getContent(), mobile,
-					DateUtils.getNowTime());
+
+			String type = msg.getMsgType();
+			System.out.println(type);
+			if (type.equals("1")) {
+				result = TaxUtil.sendMessage(msg.getContent(), mobile,
+						DateUtils.getNowTime());
+			} else if (type.equals("2")) {
+				result = TaxUtil
+						.sendMessage(
+								vo.getTaxName() + " : "
+										+ TaxUtil.getMessageContent(vo),
+										mobile, DateUtils.getNowTime());
+			} else if (type.equals("3")) {
+				result = TaxUtil.sendMessage(TaxUtil.getPayContent(vo),
+						mobile, DateUtils.getNowTime());
+			} else if (type.equals("4")) {
+				result = TaxUtil.sendMessage(TaxUtil.getReportContent(vo),
+						mobile, DateUtils.getNowTime());
+			}
 			mr = TaxUtil.parseResult(result);
 			vo.setState(mr.getErrid());
 			setResultMsg(vo, mr);
@@ -233,7 +250,7 @@ public class MessageServiceImp implements MessageService {
 
 			for (NotificationVo vo : list) {
 				msg.setTaxName(vo.getTaxName());
-				int key = messageDao.saveMessage(msg);
+				int key = messageDao.saveMessageWithURL(msg);
 				vo.setMesId(key);
 				msg.setId(key);
 				result = TaxUtil

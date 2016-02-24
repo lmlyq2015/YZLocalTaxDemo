@@ -11,6 +11,7 @@ import com.util.TaxUtil;
 import com.util.TaxUtil;
 import com.vos.ImposeType;
 import com.vos.MessageResult;
+import com.vos.NotificationVo;
 import com.vos.PayNotificationVo;
 import com.vos.Report;
 import com.vos.ReportNotificationVo;
@@ -53,10 +54,10 @@ public class ReportServiceImp implements ReportService {
 			// int key = reportDao.saveReportMsg(msg);
 			// String sendDate = msg.getSendDate();
 			String sendDate = DateUtils.getNowTime();
-			List<ReportNotificationVo> list = msg.getVoList();
+			List<NotificationVo> list = msg.getVoList();
 			String empId = msg.getSendBy();
 			int sucNum = 0;
-			for (ReportNotificationVo vo : list) {
+			for (NotificationVo vo : list) {
 				// 1办税员
 				vo.setEmpId(empId);
 				List<ImposeType> imposeTypes = reportDao.getImposeTypes(vo
@@ -82,8 +83,9 @@ public class ReportServiceImp implements ReportService {
 				boolean a = vo.getResultMsg().equals("发送成功");
 				if (a) {
 					sucNum = sucNum + 1;
-					reportDao.deleteReport(vo.getTaxId());
+//					reportDao.deleteReport(vo.getTaxId());
 				}
+				reportDao.deleteReport(vo.getTaxId());
 			}
 
 			if (sucNum != 0) {
@@ -109,7 +111,7 @@ public class ReportServiceImp implements ReportService {
 		return id;
 	}
 
-	private ReportNotificationVo setResultMsg(ReportNotificationVo vo,
+	private NotificationVo setResultMsg(NotificationVo vo,
 			MessageResult mr) {
 		// TODO Auto-generated method stub
 		if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_SUCCESS)) {

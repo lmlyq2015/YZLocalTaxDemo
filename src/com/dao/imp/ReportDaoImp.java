@@ -13,6 +13,7 @@ import com.dao.ReportDao;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.util.TaxUtil;
 import com.vos.ImposeType;
+import com.vos.NotificationVo;
 import com.vos.Report;
 import com.vos.ReportNotificationVo;
 import com.vos.ReportSearchVO;
@@ -112,7 +113,7 @@ public class ReportDaoImp implements ReportDao {
 			//msg.setContent(msg.getContent() + " " + msg.getSign());
 //			msg.setContent(content + " " + msg.getSign());
 			msg.setContent(content);
-			msg.setMsgType(TaxUtil.MESSAGE_NOTIFICATION_MESSAGE_TYPE);		
+			msg.setMsgType("4");		
 			key = (Integer) sqlMapClient.insert("saveReportMsg",msg);
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -122,7 +123,7 @@ public class ReportDaoImp implements ReportDao {
 	}
 
 	@Override
-	public int saveReportMsgResult(int msgKey, ReportNotificationVo vo, String sendDate)
+	public int saveReportMsgResult(int msgKey, NotificationVo vo, String sendDate)
 			throws SQLException {
 		// TODO Auto-generated method stub
 		int id = 0;
