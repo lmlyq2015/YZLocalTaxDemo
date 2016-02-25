@@ -14,6 +14,7 @@
 <script type="text/javascript" src="jquery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src='jquery/outlook2.js'> </script>
 <script type="text/javascript" src="jquery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="jquery/jquery.tabs.extend.js"></script>
 <script type="text/javascript">
 function closes(){
 	$("#Loading").fadeOut("normal",function(){

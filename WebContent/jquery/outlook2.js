@@ -39,13 +39,35 @@ function InitLeftMenu() {
 
 function addTab(subtitle,url){
 	if(!$('#tabs').tabs('exists',subtitle)){
-		$('#tabs').tabs('add',{
-			title:subtitle,
-			content:createFrame(url),
-			closable:true,
-			width:$('#mainPanle').width()-10,
-			height:$('#mainPanle').height()-26
+		
+//		$('#tabs').tabs('add',{
+//			title:subtitle,
+//			content:createFrame(url),
+//			closable:true,
+//			width:$('#mainPanle').width()-10,
+//			height:$('#mainPanle').height()-26
+//		});
+		$('#tabs').tabs('addIframeTab',{
+			//tab参数为一对象，其属性同于原生add方法参数
+			tab:{
+                title:subtitle,
+                closable:true,
+    			width:$('#mainPanle').width()-10,
+    			height:$('#mainPanle').height()-26,
+                tools:[{
+                    iconCls:'icon-mini-refresh',
+                    handler:function(e){
+                        //var title = $(e.target).parent().parent().text();
+                        $('#tabs').tabs('updateIframeTab',{'which':subtitle});
+                    }
+                }]
+            },
+			//iframe参数用于设置iframe信息，包含：
+			//src[iframe地址],frameBorder[iframe边框,，默认值为0],delay[淡入淡出效果时间]
+			//height[iframe高度，默认值为100%],width[iframe宽度，默认值为100%]
+			iframe:{src:url}
 		});
+        $('#tabs').tabs('addEventParam');
 	}else{
 		$('#tabs').tabs('select',subtitle);
 	}
