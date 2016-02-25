@@ -7,6 +7,7 @@
 <html>
 <base href="<%=basePath%>">
 <head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 <title></title>
 <link href="css/default.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="themes/default/easyui.css" />
