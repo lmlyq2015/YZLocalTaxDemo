@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dao.PoiDao;
 import com.poi.FillReportManager;
 import com.poi.Layouter;
+import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
 import com.vos.Pay;
@@ -38,7 +39,7 @@ import com.poi.Writer;
 public interface PoiService {
 
   
-    public void exportXLS(int msgId,HttpServletResponse response) throws SQLException; 
+    public void exportXLS(List<Message> list,HttpServletResponse response) throws SQLException; 
     
     /** 
      * 读取报表 
@@ -50,7 +51,7 @@ public interface PoiService {
      * 从数据库获得所有的List信息. 
      * @throws SQLException 
      */  
-    public List<NotificationVo> getFailMsg(int msgId) throws SQLException;
+    public List<NotificationVo> getFailMsg(List<Message> list) throws SQLException;
     
     /** 
      * 读取报表的数据后批量插入 

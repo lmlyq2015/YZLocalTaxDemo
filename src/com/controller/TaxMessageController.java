@@ -271,19 +271,22 @@ public class TaxMessageController {
 		try {
 			pw = response.getWriter();
 			str = URLDecoder.decode(data, "UTF-8");
-			String[] arrData = str.split("=");
-			String msgData = arrData[0];
-			String recData = arrData[1];
-			JSONObject object = JSONObject.fromObject(msgData);
-			Message msg = (Message) object.toBean(
-					JSONObject.fromObject(msgData), Message.class);
-			NotificationVo rec = (NotificationVo) object.toBean(
-					JSONObject.fromObject(recData), NotificationVo.class);
-			msg.setSendBy(((User) session.getAttribute("current_user"))
-					.getEmpId());
-			System.out.println(msg.getId());
-			rec.setMesId(msg.getId());
-			messageService.reSendMsg(msg, rec);
+//			String[] arrData = str.split("=");
+//			String msgData = arrData[0];
+//			String recData = arrData[1];
+//			JSONObject object = JSONObject.fromObject(msgData);
+//			Message msg = (Message) object.toBean(
+//					JSONObject.fromObject(msgData), Message.class);
+//			NotificationVo rec = (NotificationVo) object.toBean(
+//					JSONObject.fromObject(recData), NotificationVo.class);
+//			msg.setSendBy(((User) session.getAttribute("current_user"))
+//					.getEmpId());
+//			System.out.println(msg.getId());
+//			rec.setMesId(msg.getId());
+//			messageService.reSendMsg(msg, rec);
+			JSONArray json = JSONArray.fromObject(str);
+			List<Message> list = json.toList(json, Message.class);
+			messageService.reSendMsg(list);
 			pw.print(messageSuc());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();

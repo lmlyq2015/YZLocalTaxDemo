@@ -3,6 +3,7 @@ package com.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
 import com.vos.Pay;
@@ -12,7 +13,7 @@ import com.vos.TaxId;
 public interface PoiDao {
 	
 
-	public List<NotificationVo> getFailMsg(int msgId) throws SQLException;
+	public List<NotificationVo> getFailMsg(List<Message> list) throws SQLException;
 
 	public int[] insertReport(List<Report> list) throws SQLException;
 
@@ -35,6 +36,5 @@ public interface PoiDao {
 	public List<Report> getReport() throws SQLException;
 
 	public List<Pay> getPay() throws SQLException;
-	
 	
 }

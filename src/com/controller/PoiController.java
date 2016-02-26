@@ -2,6 +2,8 @@ package com.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -12,6 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
@@ -26,7 +29,9 @@ import com.service.PayService;
 import com.service.PoiService;
 import com.service.ReportService;
 import com.vos.JsonResult;
+import com.vos.Message;
 import com.vos.MessageSearchVO;
+import com.vos.NotificationVo;
 import com.vos.Pay;
 import com.vos.Report;
 import com.vos.TaxId;
@@ -62,9 +67,24 @@ public class PoiController {
 	 * @throws SQLException
 	 */
 	@RequestMapping(value = "/exportFailMsg", method = RequestMethod.POST)
-	public void getXLS(@RequestParam("msgId") int msgId,
+	public void getXLS(@RequestParam("data") String data,
 			HttpServletResponse response) throws SQLException {
-		poiService.exportXLS(msgId, response);
+		String exportData = null;
+		try {
+			exportData = URLDecoder.decode(data, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JSONArray json = JSONArray.fromObject(exportData);
+		List<Message> list = json.toList(json, Message.class);
+		
+		
+		
+		
+		
+		
+		poiService.exportXLS(list, response);
 	}
 
 	@Resource(name = "reportService")

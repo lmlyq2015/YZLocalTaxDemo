@@ -17,7 +17,29 @@ public class Message {
 	private String mobile;
 	private String sendToSelf;
 	private String taxName;
+	private String receiver;
+	private String taxId;
+	private String resultMsg;
 	
+	
+	public String getTaxId() {
+		return taxId;
+	}
+	public void setTaxId(String taxId) {
+		this.taxId = taxId;
+	}
+	public String getResultMsg() {
+		return resultMsg;
+	}
+	public void setResultMsg(String resultMsg) {
+		this.resultMsg = resultMsg;
+	}
+	public String getReceiver() {
+		return receiver;
+	}
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
 	public String getTaxName() {
 		return taxName;
 	}

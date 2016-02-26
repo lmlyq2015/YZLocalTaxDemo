@@ -66,6 +66,8 @@ public interface MessageDao {
 
 	public int saveMessageWithURL(Message msg) throws SQLException;
 
+	public List<NotificationVo> getReSendList(int id) throws SQLException;
+
 
 
 

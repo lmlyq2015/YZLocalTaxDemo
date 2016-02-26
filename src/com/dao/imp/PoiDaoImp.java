@@ -1,12 +1,14 @@
 package com.dao.imp;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.dao.PoiDao;
 import com.ibatis.sqlmap.client.SqlMapClient;
+import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
 import com.vos.Pay;
@@ -24,15 +26,17 @@ public class PoiDaoImp implements PoiDao{
 		this.sqlMapClient = sqlMapClient;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<NotificationVo> getFailMsg(int msgId) throws SQLException {
+	public List<NotificationVo> getFailMsg(List<Message> list) throws SQLException {
 		// TODO Auto-generated method stub
-		List<NotificationVo> list = null;
+		List<NotificationVo> list1 = new ArrayList<NotificationVo>();
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("msgId",msgId);
-		list =  sqlMapClient.queryForList("getFailMsg",map);
-		return list;
+		for(int i = 0;i < list.size();i++){
+		map.put("msgId",list.get(i).getId());
+		List<NotificationVo> list2 =  sqlMapClient.queryForList("getFailMsg",map);
+		list1.addAll(list2);
+		}
+		return list1;
 	}
 
 	@Override

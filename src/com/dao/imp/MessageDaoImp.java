@@ -37,10 +37,10 @@ public class MessageDaoImp implements MessageDao {
 	@Override
 	public int saveMessage(Message msg) throws SQLException {
 		int key = 0;
-		try{
-			msg.setMsgType("1");		
-			key = (Integer) sqlMapClient.insert("saveMsg",msg);
-		}catch(SQLException e) {
+		try {
+			msg.setMsgType("1");
+			key = (Integer) sqlMapClient.insert("saveMsg", msg);
+		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
@@ -49,83 +49,84 @@ public class MessageDaoImp implements MessageDao {
 	}
 
 	@Override
-	public int saveMsgResult(int msgKey, NotificationVo vo,String sendDate,String sendBy)
-			throws SQLException {
+	public int saveMsgResult(int msgKey, NotificationVo vo, String sendDate,
+			String sendBy) throws SQLException {
 		int id = 0;
-		try{
-			Map<String,Object> map = new HashMap<String,Object>();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("mesId", msgKey);
 			map.put("taxId", vo.getTaxId());
 			map.put("status", vo.getState());
 			map.put("msg", vo.getResultMsg());
 			map.put("empId", sendBy);
 			map.put("receiver", vo.getReceiver());
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//			if (sendDate == null || sendDate.equals("")) {
-//				sendDate = sdf.format(new Date()).toString();
-//			}
+			// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			// if (sendDate == null || sendDate.equals("")) {
+			// sendDate = sdf.format(new Date()).toString();
+			// }
 			map.put("sendDate", sendDate);
 			map.put("Id", 0);
-			sqlMapClient.insert("saveMsgResult",map);
+			sqlMapClient.insert("saveMsgResult", map);
 			return (Integer) map.get("Id");
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
-			//throw e;
+			// throw e;
 		}
 		return id;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Message> getMessageResultList(int firstRow, int pageSize,Message message)
-			throws SQLException {
-		try{
-		Map<String,Object> map = new HashMap<String, Object>();
-		List<Message> list = new ArrayList<Message>();
-		map.put("id", message.getId());
-		map.put("content", message.getContent());
-		map.put("sendDate", message.getSendDate());
-		map.put("sendDateEnd", message.getSendDateEnd());
-		map.put("status", message.getStatus());
-		map.put("successCount", message.getSuccessCount());
-		map.put("failCount", message.getFailCount());
-		map.put("sendBy", message.getSendBy());
-		map.put("operate", message.getMsgType());	
-		map.put("beginRow", firstRow);
-		map.put("pageSize", pageSize);
-		list = sqlMapClient.queryForList("getMessageResultList",map);
-		return list;
-	}catch(SQLException e) {
-		e.printStackTrace();
-		throw e;
+	public List<Message> getMessageResultList(int firstRow, int pageSize,
+			Message message) throws SQLException {
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<Message> list = new ArrayList<Message>();
+			map.put("id", message.getId());
+			map.put("content", message.getContent());
+			map.put("sendDate", message.getSendDate());
+			map.put("sendDateEnd", message.getSendDateEnd());
+			map.put("status", message.getStatus());
+			map.put("successCount", message.getSuccessCount());
+			map.put("failCount", message.getFailCount());
+			map.put("sendBy", message.getSendBy());
+			map.put("operate", message.getMsgType());
+			map.put("beginRow", firstRow);
+			map.put("pageSize", pageSize);
+			list = sqlMapClient.queryForList("getMessageResultList", map);
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		// TODO Auto-generated method stub
 	}
-	// TODO Auto-generated method stub
-}
 
 	@Override
-	public int getMessageResultCount(Message message) throws SQLException {	
-		return (Integer) sqlMapClient.queryForObject("getMessageResultCount",message);
+	public int getMessageResultCount(Message message) throws SQLException {
+		return (Integer) sqlMapClient.queryForObject("getMessageResultCount",
+				message);
 	}
 
 	@Override
 	public List<NotificationVo> getFailMsgStateList(int firstRow, int pageSize,
 			int msgId) throws SQLException {
 		List<NotificationVo> list = null;
-		Map<String,Object> map = new HashMap<String,Object>();
-		//int endRow = pageSize+firstRow;
+		Map<String, Object> map = new HashMap<String, Object>();
+		// int endRow = pageSize+firstRow;
 		map.put("beginRow", firstRow);
 		map.put("pageSize", pageSize);
-		map.put("msgId",msgId);
-		list = sqlMapClient.queryForList("getFailMsgStateList",map);
+		map.put("msgId", msgId);
+		list = sqlMapClient.queryForList("getFailMsgStateList", map);
 		return list;
 	}
 
 	@Override
-	public int updateMsgResult(int msgKey, NotificationVo vo, String sendDate,String oldErrCode,String sendBy)
-			throws SQLException {
+	public int updateMsgResult(int msgKey, NotificationVo vo, String sendDate,
+			String oldErrCode, String sendBy) throws SQLException {
 		int id = 0;
-		try{
-			Map<String,Object> map = new HashMap<String,Object>();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("mesId", msgKey);
 			map.put("errCode", oldErrCode);
 			map.put("status", vo.getState());
@@ -133,13 +134,13 @@ public class MessageDaoImp implements MessageDao {
 			map.put("empId", sendBy);
 			map.put("receiver", vo.getReceiver());
 			map.put("sendDate", sendDate);
-			id = sqlMapClient.update("updateMsgResult",map);
+			id = sqlMapClient.update("updateMsgResult", map);
 			return id;
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		//return id;
+		// return id;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -147,8 +148,8 @@ public class MessageDaoImp implements MessageDao {
 	public List<MessageSearchVO> getAllComp(int firstRow, Integer pageSize,
 			MessageSearchVO messageSearchVO) throws SQLException {
 		// TODO Auto-generated method stub
-		try{
-			Map<String,Object> map = new HashMap<String, Object>();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
 			List<MessageSearchVO> list = new ArrayList<MessageSearchVO>();
 			map.put("taxId", messageSearchVO.getTaxId());
 			map.put("taxName", messageSearchVO.getTaxName());
@@ -161,13 +162,13 @@ public class MessageDaoImp implements MessageDao {
 			map.put("address", messageSearchVO.getAddress());
 			map.put("state", messageSearchVO.getState());
 			map.put("eid", messageSearchVO.getEid());
-			map.put("firstRow",firstRow);
-			map.put("pageSize",pageSize);
-			
-			list = sqlMapClient.queryForList("getAllComp",map);
+			map.put("firstRow", firstRow);
+			map.put("pageSize", pageSize);
+
+			list = sqlMapClient.queryForList("getAllComp", map);
 			return list;
 
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
@@ -177,12 +178,13 @@ public class MessageDaoImp implements MessageDao {
 	public int getCompCount(MessageSearchVO messageSearchVO)
 			throws SQLException {
 		// TODO Auto-generated method stub
-		return (Integer) sqlMapClient.queryForObject("getCompCount",messageSearchVO);
+		return (Integer) sqlMapClient.queryForObject("getCompCount",
+				messageSearchVO);
 	}
 
 	@Override
 	public User validateUser(User user) throws SQLException {
-		return (User) sqlMapClient.queryForObject("validateUser",user);
+		return (User) sqlMapClient.queryForObject("validateUser", user);
 	}
 
 	@Override
@@ -195,8 +197,8 @@ public class MessageDaoImp implements MessageDao {
 			map.put("loginName", searchVo.getLoginName());
 			map.put("beginDate", searchVo.getBeginDate());
 			map.put("endDate", searchVo.getEndDate());
-			map.put("firstRow",firstRow);
-			map.put("pageSize",pageSize);
+			map.put("firstRow", firstRow);
+			map.put("pageSize", pageSize);
 			list = sqlMapClient.queryForList("getAllUser", map);
 			return list;
 		} catch (Exception e) {
@@ -208,44 +210,44 @@ public class MessageDaoImp implements MessageDao {
 	@Override
 	public int getUserCount(UserSearchVo searchVo) throws SQLException {
 		// TODO Auto-generated method stub
-		return (Integer) sqlMapClient.queryForObject("getUserCount",searchVo);
+		return (Integer) sqlMapClient.queryForObject("getUserCount", searchVo);
 
 	}
 
 	@Override
 	public int isExistEmp(String empId) throws SQLException {
 		// TODO Auto-generated method stub
-		return (Integer) sqlMapClient.queryForObject("isExistEmp",empId);
+		return (Integer) sqlMapClient.queryForObject("isExistEmp", empId);
 	}
 
 	@Override
 	public int isExistLoginName(String loginName) throws SQLException {
 		// TODO Auto-generated method stub
-		return (Integer) sqlMapClient.queryForObject("isExistLoginName",loginName);
+		return (Integer) sqlMapClient.queryForObject("isExistLoginName",
+				loginName);
 	}
 
 	@Override
 	public int addNewEmp(User user) throws SQLException {
 		// TODO Auto-generated method stub
 		int result = 0;
-		result = (Integer) sqlMapClient.update("addNewEmp",user);
+		result = (Integer) sqlMapClient.update("addNewEmp", user);
 		return result;
 	}
 
 	@Override
 	public void saveEmpChanges(List<User> list) throws SQLException {
-		try{
+		try {
 			sqlMapClient.startBatch();
-			for(User user : list) {
-				
-				sqlMapClient.update("saveEmpChanges",user);
+			for (User user : list) {
+
+				sqlMapClient.update("saveEmpChanges", user);
 			}
-			sqlMapClient.executeBatch(); 
-		} catch(Exception e) {
+			sqlMapClient.executeBatch();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		
 	}
 
 	@Override
@@ -260,7 +262,7 @@ public class MessageDaoImp implements MessageDao {
 			e.printStackTrace();
 			return 0;
 		}
-		
+
 	}
 
 	@Override
@@ -279,10 +281,10 @@ public class MessageDaoImp implements MessageDao {
 
 	@Override
 	public void saveCallInfoWhenRing(CallInfoVo callvo) throws SQLException {
-		try{
-			
+		try {
+
 			sqlMapClient.insert("saveCallInfoWhenRing", callvo);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -290,10 +292,11 @@ public class MessageDaoImp implements MessageDao {
 	@Override
 	public int queryCallInfo(String callSheetId) throws SQLException {
 		int count = 0;
-		try{
-			
-			count = (Integer) sqlMapClient.queryForObject("queryCallInfoBySheetId", callSheetId);
-		} catch(Exception e) {
+		try {
+
+			count = (Integer) sqlMapClient.queryForObject(
+					"queryCallInfoBySheetId", callSheetId);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return count;
@@ -302,10 +305,11 @@ public class MessageDaoImp implements MessageDao {
 	@Override
 	public int updateCallInfoWhenRing(CallInfoVo callvo) throws SQLException {
 		int count = 0;
-		try{
-			
-			count = (Integer) sqlMapClient.update("updateCallInfoWhenRing", callvo);
-		} catch(Exception e) {
+		try {
+
+			count = (Integer) sqlMapClient.update("updateCallInfoWhenRing",
+					callvo);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return count;
@@ -314,9 +318,10 @@ public class MessageDaoImp implements MessageDao {
 	@Override
 	public List<CallInfoVo> getCallList(String account) throws SQLException {
 		List<CallInfoVo> list = null;
-		try{
-			list = sqlMapClient.queryForList("getCallList",account.split("@")[0]);
-		}catch(Exception e) {
+		try {
+			list = sqlMapClient.queryForList("getCallList",
+					account.split("@")[0]);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
@@ -326,9 +331,9 @@ public class MessageDaoImp implements MessageDao {
 	public List<CallInfoVo> getCallInfoByCallNo(String callNo)
 			throws SQLException {
 		List<CallInfoVo> list = null;
-		try{
-			list = sqlMapClient.queryForList("getCallInfoByCallNo",callNo);
-		}catch(Exception e) {
+		try {
+			list = sqlMapClient.queryForList("getCallInfoByCallNo", callNo);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
@@ -338,9 +343,10 @@ public class MessageDaoImp implements MessageDao {
 	public List<Consults> getConsultInfoByCallSheetNo(String callSheetNo)
 			throws SQLException {
 		List<Consults> list = null;
-		try{
-			list = sqlMapClient.queryForList("getConsultInfoByCallSheetNo",callSheetNo);
-		}catch(Exception e) {
+		try {
+			list = sqlMapClient.queryForList("getConsultInfoByCallSheetNo",
+					callSheetNo);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
@@ -351,7 +357,8 @@ public class MessageDaoImp implements MessageDao {
 			throws SQLException {
 		String status = null;
 		try {
-			status = (String) sqlMapClient.queryForObject("getStatusWhenAddConsults", callvo);
+			status = (String) sqlMapClient.queryForObject(
+					"getStatusWhenAddConsults", callvo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -361,29 +368,41 @@ public class MessageDaoImp implements MessageDao {
 	@Override
 	public void addConsults(String callSheetId, String question, String answer)
 			throws SQLException {
-		Map<String,Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			map.put("callSheetId", callSheetId);
 			map.put("question", question);
 			map.put("answer", answer);
-			sqlMapClient.insert("addConsults",map);
+			sqlMapClient.insert("addConsults", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
 	public int saveMessageWithURL(Message msg) throws SQLException {
 		// TODO Auto-generated method stub
 		int key = 0;
-		try{
-			msg.setMsgType("2");		
-			key = (Integer) sqlMapClient.insert("saveMsg",msg);
-		}catch(SQLException e) {
+		try {
+			msg.setMsgType("2");
+			key = (Integer) sqlMapClient.insert("saveMsg", msg);
+		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
 		return key;
+	}
+
+	@Override
+	public List<NotificationVo> getReSendList(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		List<NotificationVo> list = null;
+		try {
+			list = sqlMapClient.queryForList("getReSendList", id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

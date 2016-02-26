@@ -30,6 +30,7 @@ import com.poi.FillReportManager;
 import com.poi.Layouter;
 import com.poi.Writer;
 import com.service.PoiService;
+import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
 import com.vos.Pay;
@@ -51,7 +52,7 @@ public class PoiServiceImp implements PoiService {
 	private static Logger logger = Logger.getLogger("service");
 
 	@Override
-	public void exportXLS(int msgId, HttpServletResponse response)
+	public void exportXLS(List<Message> list, HttpServletResponse response)
 			throws SQLException {
 		// TODO Auto-generated method stub
 		// 1.创建一个 workbook
@@ -69,7 +70,7 @@ public class PoiServiceImp implements PoiService {
 
 		// 5.填充数据
 		FillReportManager.fillReport(worksheet, startRowIndex, startColIndex,
-				getFailMsg(msgId));
+				getFailMsg(list));
 
 		// 6.设置response参数
 		String fileName = "Export.xls";
@@ -169,9 +170,9 @@ public class PoiServiceImp implements PoiService {
 	}
 
 	@Override
-	public List<NotificationVo> getFailMsg(int msgId) throws SQLException {
+	public List<NotificationVo> getFailMsg(List<Message> list) throws SQLException {
 		// TODO Auto-generated method stub
-		return poiDao.getFailMsg(msgId);
+		return poiDao.getFailMsg(list);
 	}
 
 	@Override

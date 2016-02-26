@@ -39,13 +39,15 @@ public class MessageServiceImp implements MessageService {
 		try {
 			String result = null;
 			MessageResult mr = null;
-			int key = messageDao.saveMessage(msg);
+
 			String msgContent = msg.getContent();
 			String sendDate = DateUtils.getNowTime();
 			List<NotificationVo> list = msg.getVoList();
-			msg.setId(key);
+
 			for (NotificationVo vo : list) {
 				// 1办税员
+				int key = messageDao.saveMessage(msg);
+				msg.setId(key);
 				result = TaxUtil.sendMessage(vo.getTaxName() + " : "
 						+ msgContent, vo.getTaxAgentMobile(), sendDate);
 				mr = TaxUtil.parseResult(result);
@@ -126,10 +128,10 @@ public class MessageServiceImp implements MessageService {
 						.sendMessage(
 								vo.getTaxName() + " : "
 										+ TaxUtil.getMessageContent(vo),
-										mobile, DateUtils.getNowTime());
+								mobile, DateUtils.getNowTime());
 			} else if (type.equals("3")) {
-				result = TaxUtil.sendMessage(TaxUtil.getPayContent(vo),
-						mobile, DateUtils.getNowTime());
+				result = TaxUtil.sendMessage(TaxUtil.getPayContent(vo), mobile,
+						DateUtils.getNowTime());
 			} else if (type.equals("4")) {
 				result = TaxUtil.sendMessage(TaxUtil.getReportContent(vo),
 						mobile, DateUtils.getNowTime());
@@ -345,5 +347,61 @@ public class MessageServiceImp implements MessageService {
 	public void addConsults(String callSheetId, String question, String answer)
 			throws SQLException {
 		messageDao.addConsults(callSheetId, question, answer);
+	}
+
+	@Override
+	public void reSendMsg(List<Message> list) throws SQLException {
+		// TODO Auto-generated method stub
+		try {
+			for (int i = 0; i < list.size(); i++) {
+				if(list.get(i).getFailCount() == 0){
+					continue;
+				}
+				List<NotificationVo> listNo = messageDao.getReSendList(list
+						.get(i).getId());
+				String result = null;
+				String receiver = list.get(i).getReceiver();
+				listNo.get(0).setReceiver(receiver);
+				String mobile = null;
+				MessageResult mr = null;
+				String oldErrCode = listNo.get(0).getState();
+				int id = 0;
+				if (receiver.equals(TaxUtil.MESSAGE_RECEVIER_TAXER)) {
+					mobile = listNo.get(0).getTaxAgentMobile();
+				} else if (receiver.equals(TaxUtil.MESSAGE_RECEVIER_ADMIN)) {
+					mobile = listNo.get(0).getAdminMobile();
+				} else if (receiver.equals(TaxUtil.MESSAGE_RECEVIER_LAWER)) {
+					mobile = listNo.get(0).getRepMobile();
+				}
+
+				String type = listNo.get(0).getMsgType();
+				System.out.println(type);
+				if (type.equals("1")) {
+					result = TaxUtil.sendMessage(list.get(i).getContent(),
+							mobile, DateUtils.getNowTime());
+				} else if (type.equals("2")) {
+					result = TaxUtil.sendMessage(listNo.get(0).getTaxName()
+							+ " : " + TaxUtil.getMessageContent(listNo.get(0)),
+							mobile, DateUtils.getNowTime());
+				} else if (type.equals("3")) {
+					result = TaxUtil.sendMessage(
+							TaxUtil.getPayContent(listNo.get(0)), mobile,
+							DateUtils.getNowTime());
+				} else if (type.equals("4")) {
+					result = TaxUtil.sendMessage(
+							TaxUtil.getReportContent(listNo.get(0)), mobile,
+							DateUtils.getNowTime());
+				}
+				mr = TaxUtil.parseResult(result);
+				listNo.get(0).setState(mr.getErrid());
+				setResultMsg(listNo.get(0), mr);
+				id = messageDao.updateMsgResult(list.get(i).getId(),
+						listNo.get(0), DateUtils.getNowTime(), oldErrCode,
+						listNo.get(0).getEmpId());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 }

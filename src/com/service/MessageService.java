@@ -62,4 +62,6 @@ public interface MessageService {
 	
 	public void addConsults(String callSheetId,String question, String answer) throws SQLException;
 
+	public void reSendMsg(List<Message> list) throws SQLException;
+
 }

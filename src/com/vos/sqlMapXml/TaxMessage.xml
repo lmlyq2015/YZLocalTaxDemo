@@ -1,98 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"   
 						"http://ibatis.apache.org/dtd/sql-map-2.dtd">
-						
+
 <sqlMap>
 	<insert id="saveMsg" parameterClass="com.vos.Message">
-		insert into tax_message(content,type,etdate) values(#content#,#msgType#,str_to_date(now(),'%Y-%m-%d %H:%i:%s'))
-	<selectKey resultClass="java.lang.Integer"  keyProperty="id" >    
-             SELECT last_insert_id() as id
-        </selectKey>  
+		insert into tax_message(content,type,etdate)
+		values(#content#,#msgType#,str_to_date(now(),'%Y-%m-%d %H:%i:%s'))
+		<selectKey resultClass="java.lang.Integer" keyProperty="id">
+			SELECT last_insert_id() as id
+		</selectKey>
 	</insert>
-	
+
 	<insert id="saveMsgResult" parameterClass="java.util.Map">
-		insert into tax_state(taxid,mesid,empid,senddate,state,resultmsg,RecId) values (#taxId#,#mesId#,#empId#,#sendDate#,#status#,#msg#,#receiver#)
-		<selectKey resultClass="java.lang.Integer"  keyProperty="Id" >    
-             SELECT last_insert_id() as id
-        </selectKey>  
+		insert into
+		tax_state(taxid,mesid,empid,senddate,state,resultmsg,RecId) values
+		(#taxId#,#mesId#,#empId#,#sendDate#,#status#,#msg#,#receiver#)
+		<selectKey resultClass="java.lang.Integer" keyProperty="Id">
+			SELECT last_insert_id() as id
+		</selectKey>
 	</insert>
-	<select id="getMessageResultList" resultClass="com.vos.Message" parameterClass="java.util.Map">
+	<select id="getMessageResultList" resultClass="com.vos.Message"
+		parameterClass="java.util.Map">
 		<![CDATA[
-		select * from(	select m.Type as msgType, m.mesId as id,m.content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,DATE_FORMAT(s.SendDate, '%Y-%m-%d %H:%i') as sendDate,e.loginname as sendBy 
+		select * from(	select m.Type as msgType, m.mesId as id,m.content as content,
+sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,
+DATE_FORMAT(s.SendDate, '%Y-%m-%d %H:%i') as sendDate,e.loginname as sendBy,RecId as receiver,s.TaxId as TaxId,s.ResultMsg as resultMsg
 							from tax_state s,tax_employees e,tax_message m 
 										where s.EmpId=e.EmpId and s.MesId = m.MesId group by m.MesId order by SendDate desc) a  
 		]]>
-			<dynamic prepend="where">
-			 <isNotEmpty prepend="AND" property="content">       
-                  (content like '%$content$%')       
-            </isNotEmpty>
-            <isNotEmpty prepend="AND" property="sendDate">
+		<dynamic prepend="where">
+			<isNotEmpty prepend="AND" property="content">
+				(content like
+				'%$content$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sendDate">
             <![CDATA[       
                   (sendDate >=  #sendDate#)  
-                   ]]>      
-            </isNotEmpty>
-            <isNotEmpty prepend="AND" property="sendDateEnd">  
+                   ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sendDateEnd">  
             <![CDATA[     
                   (sendDate <=  #sendDateEnd#) 
-                  ]]>       
-            </isNotEmpty>
-<!--   			<isNotEmpty prepend="AND" property="status">     -->
-<!--                   (ResultMsg = #status#) -->
-<!--             </isNotEmpty> -->
+                  ]]>
+			</isNotEmpty>
+			<!-- <isNotEmpty prepend="AND" property="status"> -->
+			<!-- (ResultMsg = #status#) -->
+			<!-- </isNotEmpty> -->
 			<isNotEmpty property="status">
-            <isEqual prepend="AND" property="status" compareValue="发送成功">
-            		(successCount > 0)
-			</isEqual> 
-			
-			<isEqual prepend="AND" property="status" compareValue="发送失败">
+				<isEqual prepend="AND" property="status" compareValue="发送成功">
+					(successCount > 0)
+				</isEqual>
+
+				<isEqual prepend="AND" property="status" compareValue="发送失败">
 			<![CDATA[  
             		(failCount > 0)
-            		  ]]> 
-			</isEqual>		 
+            		  ]]>
+				</isEqual>
 			</isNotEmpty>
-			 <isNotEmpty prepend="AND" property="sendBy">       
-                  (sendBy like '%$sendBy$%')       
-            </isNotEmpty>
+			<isNotEmpty prepend="AND" property="sendBy">
+				(sendBy like
+				'%$sendBy$%')
+			</isNotEmpty>
 		</dynamic>
-		 limit #beginRow#,#pageSize#
+		limit #beginRow#,#pageSize#
 	</select>
-		<select id="getMessageResultCount" resultClass="java.lang.Integer">
+	<select id="getMessageResultCount" resultClass="java.lang.Integer">
 		<![CDATA[
 		select count(*) from (	select * from(	select m.mesId as Id,m.content as content,sum(case when state = '1' then 1 else 0 end) as successCount,sum(case when state < '1' then 1 else 0 end) as failCount,DATE_FORMAT(s.SendDate, '%Y-%m-%d %H:%i') as sendDate,e.loginname as sendBy 
 							from tax_state s,tax_employees e,tax_message m 
 										where s.EmpId=e.EmpId and s.MesId = m.MesId group by m.MesId order by SendDate desc) a  ) b  											
 		]]>
-			<dynamic prepend="where">
-			 <isNotEmpty prepend="AND" property="content">       
-                  (content like '%$content$%')       
-            </isNotEmpty>
-            <isNotEmpty prepend="AND" property="sendDate">
+		<dynamic prepend="where">
+			<isNotEmpty prepend="AND" property="content">
+				(content like
+				'%$content$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sendDate">
             <![CDATA[       
                   (sendDate >=  #sendDate#)  
-                   ]]>      
-            </isNotEmpty>
-            <isNotEmpty prepend="AND" property="sendDateEnd">  
+                   ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sendDateEnd">  
             <![CDATA[     
                   (sendDate <=  #sendDateEnd#) 
-                  ]]>       
-            </isNotEmpty>
+                  ]]>
+			</isNotEmpty>
 			<isNotEmpty property="status">
-            <isEqual prepend="AND" property="status" compareValue="发送成功">
-            		(successCount > 0)
-			</isEqual> 
-			
-			<isEqual prepend="AND" property="status" compareValue="发送失败">
+				<isEqual prepend="AND" property="status" compareValue="发送成功">
+					(successCount > 0)
+				</isEqual>
+
+				<isEqual prepend="AND" property="status" compareValue="发送失败">
 			<![CDATA[  
             		(failCount > 0)
-            		  ]]> 
-			</isEqual>		 
+            		  ]]>
+				</isEqual>
 			</isNotEmpty>
-			 <isNotEmpty prepend="AND" property="sendBy">       
-                  (sendBy like '%$sendBy$%')       
-            </isNotEmpty>
+			<isNotEmpty prepend="AND" property="sendBy">
+				(sendBy like
+				'%$sendBy$%')
+			</isNotEmpty>
 		</dynamic>
 	</select>
-	<select id="getFailMsgStateList" resultClass="com.vos.NotificationVo" parameterClass="java.util.Map">
+	<select id="getFailMsgStateList" resultClass="com.vos.NotificationVo"
+		parameterClass="java.util.Map">
 		<![CDATA[		
 	
 			select s.TaxId as taxId, b.TaxName as taxName,s.State as state,s.ResultMsg as resultMsg,case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver,b.TaxAgentMobile as taxAgentMobile,b.AdminMobile as adminMobile,b.RepMobile as repMobile 
@@ -101,105 +112,127 @@
 		]]>
 	</select>
 	<update id="updateMsgResult" parameterClass="java.util.Map">
-		update tax_state set state = #status#,senddate = #sendDate#,resultMsg = #msg#,empid = #empId#,recid = #receiver# where mesid = #mesId# and state = #errCode#
+		update tax_state set
+		state = #status#,senddate = #sendDate#,resultMsg = #msg#,empid =
+		#empId#,recid = #receiver# where mesid = #mesId# and state = #errCode#
 	</update>
-	
-	<select id="getAllComp" resultClass="com.vos.MessageSearchVO" parameterClass="java.util.Map">
+
+	<select id="getAllComp" resultClass="com.vos.MessageSearchVO"
+		parameterClass="java.util.Map">
 	<![CDATA[
 		select * from tax_entbasicinfor
 	]]>
 		<dynamic prepend="WHERE">
-			 <isNotEmpty prepend="AND" property="taxId">       
-                  (taxId like '%$taxId$%')       
-            </isNotEmpty>
-            <isNotEmpty prepend="AND" property="taxName">       
-                  (taxName like '%$taxName$%')       
-            </isNotEmpty>
+			<isNotEmpty prepend="AND" property="taxId">
+				(taxId like
+				'%$taxId$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="taxName">
+				(taxName like
+				'%$taxName$%')
+			</isNotEmpty>
 		</dynamic>
-		limit #firstRow#,#pageSize#		
+		limit #firstRow#,#pageSize#
 	</select>
-	
-	<select id="getCompCount" resultClass="java.lang.Integer" parameterClass="com.vos.MessageSearchVO">
+
+	<select id="getCompCount" resultClass="java.lang.Integer"
+		parameterClass="com.vos.MessageSearchVO">
 	<![CDATA[
 		select count(*) from tax_entbasicinfor
 		]]>
-		<dynamic prepend="WHERE"> 
-			 <isNotEmpty prepend="AND" property="taxId">       
-                  (taxId like '%$taxId$%')       
-            </isNotEmpty>
-            <isNotEmpty prepend="AND" property="taxName">       
-                  (taxName like '%$taxName$%')       
-            </isNotEmpty> 
-		</dynamic>		
-		
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="taxId">
+				(taxId like
+				'%$taxId$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="taxName">
+				(taxName like
+				'%$taxName$%')
+			</isNotEmpty>
+		</dynamic>
+
 	</select>
-	<select id="validateUser" parameterClass="com.vos.User" resultClass="com.vos.User">
-		select * from tax_employees where loginName = #loginName# and password = #password#
+	<select id="validateUser" parameterClass="com.vos.User"
+		resultClass="com.vos.User">
+		select * from tax_employees where loginName = #loginName#
+		and password = #password#
 	</select>
-	
-	<select id="getFailMsg" resultClass="com.vos.NotificationVo" parameterClass="java.util.Map">
+	<select id="getFailMsg" resultClass="com.vos.NotificationVo"
+		parameterClass="java.util.Map">
 		<![CDATA[
 		select s.TaxId as taxId, b.TaxName as taxName,s.State as state,s.ResultMsg as resultMsg,case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver
 								from tax_state s,tax_entbasicinfor b where s.TaxId = b.TaxId and s.MesId = #msgId# and s.State < 0 
 		]]>
 	</select>
-	<select id="getAllUser" resultClass="com.vos.User" parameterClass="java.util.Map">
+	<select id="getAllUser" resultClass="com.vos.User"
+		parameterClass="java.util.Map">
 	<![CDATA[
 		select empId,loginName,mobile as contact,email,DATE_FORMAT(lastlogindate, '%Y-%m-%d %H:%i') as lastLoginDate,sendtoself as sendToSelf from tax_employees
 	]]>
 		<dynamic prepend="WHERE">
-		    <isNotEmpty prepend="AND" property="beginDate">
+			<isNotEmpty prepend="AND" property="beginDate">
             <![CDATA[       
                   (LastLoginDate >=  #beginDate#)  
-                   ]]>      
-            </isNotEmpty>
-            <isNotEmpty prepend="AND" property="endDate">  
+                   ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endDate">  
             <![CDATA[     
                   (LastLoginDate <=  #endDate#) 
                   ]]>
-             </isNotEmpty>
-			 <isNotEmpty prepend="AND" property="empId">       
-                  (empId like '%$empId$%')       
-            </isNotEmpty>
-            <isNotEmpty prepend="AND" property="loginName">       
-                  (loginName like '%$loginName$%')       
-            </isNotEmpty>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="empId">
+				(empId like
+				'%$empId$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="loginName">
+				(loginName like
+				'%$loginName$%')
+			</isNotEmpty>
 
 		</dynamic>
 		limit #firstRow#,#pageSize#
 	</select>
-	<select id="getUserCount" resultClass="java.lang.Integer" parameterClass="com.vos.UserSearchVo">
+	<select id="getUserCount" resultClass="java.lang.Integer"
+		parameterClass="com.vos.UserSearchVo">
 	<![CDATA[
 		select count(*) from tax_employees
 		]]>
 		<dynamic prepend="WHERE">
-			 <isNotEmpty prepend="AND" property="empId">       
-                  (empId like '%$empId$%')       
-            </isNotEmpty>
-            <isNotEmpty prepend="AND" property="loginName">       
-                  (loginName like '%$loginName$%')       
-            </isNotEmpty>
-            <isNotEmpty  prepend="AND" property="beginDate">
+			<isNotEmpty prepend="AND" property="empId">
+				(empId like
+				'%$empId$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="loginName">
+				(loginName like
+				'%$loginName$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="beginDate">
             <![CDATA[       
                   (LastLoginDate >=  #beginDate#)  
-                   ]]>      
-            </isNotEmpty >
-            <isNotEmpty  prepend="AND" property="endDate">
+                   ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endDate">
             <![CDATA[     
                   (LastLoginDate <=  #endDate#) 
                   ]]>
-             </isNotEmpty >
-		</dynamic>	
-		
+			</isNotEmpty>
+		</dynamic>
+
 	</select>
-	<select id="isExistEmp" resultClass="java.lang.Integer" parameterClass="java.lang.String">
-		select count(*) from tax_employees where empId = #empId#
+	<select id="isExistEmp" resultClass="java.lang.Integer"
+		parameterClass="java.lang.String">
+		select count(*) from tax_employees where empId =
+		#empId#
 	</select>
-	<select id="isExistLoginName" resultClass="java.lang.Integer" parameterClass="java.lang.String">
-		select count(*) from tax_employees where loginName = #loginName#
+	<select id="isExistLoginName" resultClass="java.lang.Integer"
+		parameterClass="java.lang.String">
+		select count(*) from tax_employees where loginName =
+		#loginName#
 	</select>
 	<update id="addNewEmp" parameterClass="com.vos.User">
-		insert into tax_employees(EmpId,LoginName,Password,Email,Mobile,SendToSelf) values(#empId#,#loginName#,#password#,#email#,#contact#,#sendToSelf#)
+		insert into
+		tax_employees(EmpId,LoginName,Password,Email,Mobile,SendToSelf)
+		values(#empId#,#loginName#,#password#,#email#,#contact#,#sendToSelf#)
 	</update>
 	<update id="saveEmpChanges" parameterClass="com.vos.User">
        	 <![CDATA[
@@ -207,35 +240,70 @@
        	 ]]>
 	</update>
 	<update id="updateLoginDate" parameterClass="java.util.Map">
-		update tax_employees set LastLoginDate = #lastLoginDate# where empid = #empid#
+		update tax_employees
+		set LastLoginDate = #lastLoginDate# where empid = #empid#
 	</update>
 	<update id="updatePassword">
-		update tax_employees set password = #newPwd# where empid = #empId#
+		update tax_employees set password = #newPwd# where
+		empid = #empId#
 	</update>
 	<insert id="saveCallInfoWhenRing" parameterClass="com.vos.CallInfoVo">
-		insert into tax_call_info(callSheetId,callNo,callerProvince,callerCity,calledNo,state,callID,agent,offeringTime,callType) values 
-				(#callSheetId#,#originCallNo#,#callerProvince#,#callerCity#,#originCalledNo#,#status#,#callId#,#agent#,#offeringTime#,#callType#)
+		insert into
+		tax_call_info(callSheetId,callNo,callerProvince,callerCity,calledNo,state,callID,agent,offeringTime,callType)
+		values
+		(#callSheetId#,#originCallNo#,#callerProvince#,#callerCity#,#originCalledNo#,#status#,#callId#,#agent#,#offeringTime#,#callType#)
 	</insert>
-	<select id="queryCallInfoBySheetId" resultClass="java.lang.Integer" parameterClass="java.lang.String">
-		select count(*) from tax_call_info where callSheetId = #callSheetId#
+	<select id="queryCallInfoBySheetId" resultClass="java.lang.Integer"
+		parameterClass="java.lang.String">
+		select count(*) from tax_call_info where callSheetId =
+		#callSheetId#
 	</select>
 	<update id="updateCallInfoWhenRing" parameterClass="com.vos.CallInfoVo">
-		update tax_call_info set agent = #agent# where callSheetId = #callSheetId#
+		update
+		tax_call_info set agent = #agent# where callSheetId = #callSheetId#
 	</update>
-	
-	<select id="getCallList" resultClass="com.vos.CallInfoVo" parameterClass="java.lang.String">
-		select callSheetId, callNo as originCallNo,callerProvince,callerCity,DATE_FORMAT(offeringTime, '%Y-%c-%d %H:%i:%s') as offeringTime ,callType,state as status from tax_call_info where agent = #account# order by offeringTime desc
+
+	<select id="getCallList" resultClass="com.vos.CallInfoVo"
+		parameterClass="java.lang.String">
+		select callSheetId, callNo as
+		originCallNo,callerProvince,callerCity,DATE_FORMAT(offeringTime,
+		'%Y-%c-%d %H:%i:%s') as offeringTime ,callType,state as status from
+		tax_call_info where agent = #account# order by offeringTime desc
 	</select>
-	<select id="getCallInfoByCallNo" resultClass="com.vos.CallInfoVo" parameterClass="java.lang.String">
-		select callSheetId, DATE_FORMAT(offeringTime, '%Y-%c-%d %H:%i:%s') as offeringTime,agent,DATE_FORMAT(begin, '%Y-%c-%d %H:%i:%s') as beginTime,DATE_FORMAT(end, '%Y-%c-%d %H:%i:%s') as endTime,recordFile as recordFile, state as status, case satisfactionDegree when 1 then '非常满意' when 2 then '满意' when 3 then '不满意' end as satisfactionDegree,callType from tax_call_info where callNo = #callNo# order by offeringTime desc 
+	<select id="getCallInfoByCallNo" resultClass="com.vos.CallInfoVo"
+		parameterClass="java.lang.String">
+		select callSheetId, DATE_FORMAT(offeringTime, '%Y-%c-%d
+		%H:%i:%s') as offeringTime,agent,DATE_FORMAT(begin, '%Y-%c-%d
+		%H:%i:%s') as beginTime,DATE_FORMAT(end, '%Y-%c-%d %H:%i:%s') as
+		endTime,recordFile as recordFile, state as status, case
+		satisfactionDegree when 1 then '非常满意' when 2 then '满意' when 3 then
+		'不满意' end as satisfactionDegree,callType from tax_call_info where
+		callNo = #callNo# order by offeringTime desc
 	</select>
-	<select id="getConsultInfoByCallSheetNo" resultClass="com.vos.Consults" parameterClass="java.lang.String">
-		select question as questions,answer as answers from tax_call_consult_history where callSheetId = #callSheetNo#
+	<select id="getConsultInfoByCallSheetNo" resultClass="com.vos.Consults"
+		parameterClass="java.lang.String">
+		select question as questions,answer as answers from
+		tax_call_consult_history where callSheetId = #callSheetNo#
 	</select>
-	<select id="getStatusWhenAddConsults" resultClass="java.lang.String" parameterClass="com.vos.CallInfoVo">
-		select state from tax_call_info where callSheetId = #callSheetId#
+	<select id="getStatusWhenAddConsults" resultClass="java.lang.String"
+		parameterClass="com.vos.CallInfoVo">
+		select state from tax_call_info where callSheetId =
+		#callSheetId#
 	</select>
 	<insert id="addConsults" parameterClass="java.util.Map">
-		insert into tax_call_consult_history(callSheetId,question,answer) values (#callSheetId#,#question#,#answer#)
+		insert into
+		tax_call_consult_history(callSheetId,question,answer) values
+		(#callSheetId#,#question#,#answer#)
 	</insert>
+
+	<select id="getReSendList" resultClass="com.vos.NotificationVo"
+		parameterClass="java.lang.Integer">
+		<![CDATA[		
+	select s.TaxId as taxId, b.TaxName as taxName,s.State as state,s.ResultMsg as resultMsg,c.Type as msgType,s.EmpId as empId,
+case RecId when 1 then '办税员' when 2 then '财务主管' when 3 then '法人' end as receiver,
+b.TaxAgentMobile as taxAgentMobile,b.AdminMobile as adminMobile,b.RepMobile as repMobile 
+								from tax_state s,tax_entbasicinfor b,tax_message c where s.TaxId = b.TaxId and s.MesId = c.MesId and s.MesId = #msgId# and s.State <= 0
+
+		]]>
+	</select>
 </sqlMap>

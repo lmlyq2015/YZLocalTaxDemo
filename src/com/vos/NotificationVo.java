@@ -26,6 +26,14 @@ public class NotificationVo {
 	private String endTime;
 	private String year;
 	private String month;
+	private String msgType;
+	
+	public String getMsgType() {
+		return msgType;
+	}
+	public void setMsgType(String msgType) {
+		this.msgType = msgType;
+	}
 	public Long getId() {
 		return id;
 	}
