@@ -7,6 +7,8 @@
 <html>
 <base href="<%=basePath%>">
 <head>
+<title>鄞州地方税务局纳税服务系统</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 <title></title>
 <link href="css/default.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="themes/default/easyui.css" />
@@ -14,6 +16,7 @@
 <script type="text/javascript" src="jquery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src='jquery/outlook2.js'> </script>
 <script type="text/javascript" src="jquery/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="jquery/jquery.tabs.extend.js"></script>
 <script type="text/javascript">
 function closes(){
 	$("#Loading").fadeOut("normal",function(){
@@ -141,7 +144,7 @@ $.parser.onComplete = function(){
                 $.messager.confirm('系统提示', '您确定要退出本次登录吗?', function(r) {
 
                     if (r) {
-                        location.href = '<%=basePath%>';
+                        location.href = '<%=basePath%>jsp/login/login.html';
                     }
                 });
 

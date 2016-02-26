@@ -755,7 +755,7 @@ public class TaxMessageController {
 			@RequestParam("State") String State,
 			@RequestParam("FileServer") String FileServer,
 			@RequestParam("RingTime") String RingTime,
-			@RequestParam("IVRKEY") String IVRKEY,
+			@RequestParam("MonitorFilename") String MonitorFilename,
 			@RequestParam("Province") String Province,
 			@RequestParam("District") String District,
 			HttpServletResponse response) throws SQLException {
@@ -772,7 +772,7 @@ public class TaxMessageController {
 			vo.setState(State);
 			vo.setRingTime(RingTime);
 
-			if (CallType.equals("normal")) {
+			if (CallType.equals("normal") || CallType.equals("transfer")) {
 				result = phoneService.hungup(vo);
 				// if (result > 0) {
 				// pw.print("{\"result\":" + result + ",\"msg\":\"" + "数据修改成功"

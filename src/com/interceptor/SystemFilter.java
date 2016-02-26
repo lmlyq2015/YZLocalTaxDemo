@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import com.vos.User;
 
 public class SystemFilter implements Filter {
-    private static final String[] IGNORE_URI = {"/login.jsp", "/css/","images/","jquery/","themes/","login","util/","getContentByWebPage","hangup","survey","link"};
+    private static final String[] IGNORE_URI = {"/login.html", "/css/","images/","jquery/","themes/","login","util/","getContentByWebPage","hangup","survey","link"};
 
 	@Override
 	public void destroy() {
@@ -48,7 +48,7 @@ public class SystemFilter implements Filter {
 	                httpResponse.sendError(HttpStatus.UNAUTHORIZED.value(),  
 	                        "您已经太长时间没有操作,请刷新页面");  
 	        	}
-		        httpResponse.sendRedirect(httpRequest.getScheme()+"://"+ httpRequest.getServerName()+":"+httpRequest.getServerPort()+httpRequest.getContextPath()+"/jsp/login/login.jsp");  
+		        httpResponse.sendRedirect(httpRequest.getScheme()+"://"+ httpRequest.getServerName()+":"+httpRequest.getServerPort()+httpRequest.getContextPath()+"/jsp/login/login.html");  
 		        return;  
 	        }
 
