@@ -7,6 +7,7 @@
 <html>
 <base href="<%=basePath%>">
 <head>
+<title>鄞州地方税务局纳税服务系统</title>
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 <title></title>
 <link href="css/default.css" rel="stylesheet" type="text/css" />
@@ -143,7 +144,7 @@ $.parser.onComplete = function(){
                 $.messager.confirm('系统提示', '您确定要退出本次登录吗?', function(r) {
 
                     if (r) {
-                        location.href = '<%=basePath%>';
+                        location.href = '<%=basePath%>jsp/login/login.html';
                     }
                 });
 

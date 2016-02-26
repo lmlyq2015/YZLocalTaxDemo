@@ -769,7 +769,7 @@ public class TaxMessageController {
 			vo.setState(State);
 			vo.setRingTime(RingTime);
 
-			if (CallType.equals("normal")) {
+			if (CallType.equals("normal") || CallType.equals("transfer")) {
 				result = phoneService.hungup(vo);
 				// if (result > 0) {
 				// pw.print("{\"result\":" + result + ",\"msg\":\"" + "数据修改成功"

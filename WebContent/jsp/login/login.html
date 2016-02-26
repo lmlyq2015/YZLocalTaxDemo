@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+
+<span id="If">
+<title>鄞州地税纳税服务平台</title>
+</span>
+<script type="text/javascript">
+if (window != top)
+	top.location.href = location.href; 
+</script>
+<link rel="stylesheet" type="text/css" href="login.css"></link>
+<link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css"/>
+<link rel="stylesheet" type="text/css" href="../../themes/icon.css"/>
+<link rel="stylesheet" type="text/css" href="../../themes/demo.css"/>
+
+<script type="text/javascript" src="../../jquery/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../jquery/jquery.easyui.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	 $('#loginForm').form({
+		url : '../../login',
+		onSubmit : function() {
+			return $("#loginForm").form('validate');
+		},
+		success : function(data) {
+			var res = jQuery.parseJSON(data);
+			if (res.result) {
+				location.href='./tax.xxxx';	
+			} else {
+				$.messager.alert('提示', '信息填写错误', 'error');
+
+			}
+		}
+	});
+});
+			function changeIdentifyingCode(e2){
+				var img_el =window.document.getElementById(e2);
+			   	var rnd=Math.floor(Math.random()*10000000); 
+				img_el.src=img_el.src+"?ID="+rnd;
+			}
+			
+			function bindEnter(obj){
+			    if(obj.keyCode == 13){
+			    	document.getElementById("denglu").click();
+			    }
+			}
+			function reloadImage(imgurl) {
+				var verify = document.getElementById('number');
+				verify.src = imgurl + "?id=" + Math.random();
+			}
+			function submitForm() {
+				$('#loginForm').submit();
+
+			}
+</script>
+</head>
+<body onkeydown="bindEnter(event)">
+<div id="container">
+
+<form method="post" id="loginForm">
+<div style="display:none;" id="loginFormhidden"><input type="hidden" name="formids" value="If_0,userName,password,identifyingCode,loginType,loginTitle,If_1,If_2" />
+<input type="hidden" name="session" value="T" />
+<input type="hidden" name="submitmode" value="" />
+<input type="hidden" name="submitname" value="" />
+<input type="hidden" name="If_0" value="T" />
+<input type="hidden" name="If_1" value="F" />
+<input type="hidden" name="If_2" value="T" />
+</div>
+<span id="If_0">
+<div id="top"><img src="../../images/blue-login-top0.jpg"></img></div>
+</span>
+
+     <div id="login_main">
+          <div id="login_main_right">
+          	<font color="red"></font>
+			
+               <ul class="login-tab">
+                   <li class="hovertab">系统登录</li>
+               </ul>
+               <div class="login-cont">
+                    <div class="ep1 ep-main" id="loginId">
+                         <ul>
+                               <li>
+                               	<label for="userName" class="ep-main-labelbg1">用户名：</label>
+                               	<input type="text" name="loginName" value="" id="loginName" />
+                               </li>                    
+                               <li>
+                               	<label for="password" class="ep-main-labelbg2">密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
+                               	<input type="password" name="password" value="" id="password" />
+                               	<a href="##" onclick="alert('请联系电话 0574-26267022');">忘记密码</a>           
+                               </li>
+                               <li>
+                               	<label for="identifyingCode" class="ep-main-labelbg3">验证码：</label>
+								<input type="text" name="code" value="" id="code" class="verification" maxLength="4" />
+								
+								<img id="number" src="../../jsp/util/number.jsp" border=0" />
+								<a href="#" onclick="javascript:reloadImage('../../jsp/util/number.jsp')">换一换</a>
+								
+                               </li>
+                         </ul>
+                         <h2>
+                          	<input type="button" id="denglu" value="登录" onclick="submitForm()" />
+                         	
+                         </h2>
+                    </div>
+               </div>
+             
+          </div>
+     </div>
+          <table width="100%">
+      <tr>
+      <td><div id="marquee"></div>
+      
+       <!-- <marquee  direction=up   scrolldelay="300" onmouseover="this.stop()" onmouseout="this.start()" style="height: 20px;!important;">
+          <span jwcid="@For" keyExpression="id"  value="ognl:nwbAnnounce"  source="ognl:newsCategory">
+             <span class="blue"><a href="#" parameters="ognl:nwbAnnounce.id" jwcid="@cofortune:ExternalLink" page="pages/news/NewsShow" target="_blank"><span jwcid="@Insert" value="ognl:nwbAnnounce.title"/></a></span>
+             <span class="gray"> <span style="float: right;" jwcid="@Insert" value="ognl:getDate(nwbAnnounce.createDate)"/></span><br/>
+          </span>   	
+       </marquee> -->
+       </td>
+       </tr>
+       </table>
+       <span style="display: none;" id="newsCategoryNum">10</span>
+      </form>
+      
+    <!--  <div class="login-massage">通知：<span class="blue">商务部关于推进现代物流技术应用和共同配送工作的指导意见</span><span class="gray">2012-07-26</span></div> -->
+     <div id="footer">
+                      版权所有：宁波汇民信息科技有限公司 技术支持电话 ： 0574-26267022 <br /> 
+                     <font color="red">系统提示：本系统建议使用IE浏览器8.0及以上版本</font> 
+     </div>
+</div>
+
+
+		
+</body>
+</html>
