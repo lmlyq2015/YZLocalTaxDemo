@@ -354,11 +354,11 @@ public class MessageServiceImp implements MessageService {
 		// TODO Auto-generated method stub
 		try {
 			for (int i = 0; i < list.size(); i++) {
-				if(list.get(i).getFailCount() == 0){
+				if(list.get(i).getFailCount() == 0){  //状态成功的跳过
 					continue;
 				}
 				List<NotificationVo> listNo = messageDao.getReSendList(list
-						.get(i).getId());
+						.get(i).getId());  //后台读取失败短信信息
 				String result = null;
 				String receiver = list.get(i).getReceiver();
 				listNo.get(0).setReceiver(receiver);

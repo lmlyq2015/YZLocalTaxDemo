@@ -311,6 +311,23 @@ function reSendFailMsg() {
 		 });
 	}
 }	
+
+function updateReceiver(){
+	var rows = $('#resultDg').datagrid('getSelections');
+	var rec = $('#receiverSelect').combobox('getValue');
+	if (rows.length == 0) {
+		$.messager.alert('操作提示', "请选择修改对象","info");
+		return;
+	}else{
+	for(var i = 0;i < rows.length;i++){
+	   $('#resultDg').datagrid('updateRow',{
+		   index: i,
+		   row:{
+			   receiver: rec
+		   }});
+	}
+}
+}
 // 	$('#failMsgDg').datagrid('selectRow',index);
 // 	$('#failMsgDg').datagrid('refreshRow',index);
 // 	var message = $('#resultDg').datagrid('getSelected');
@@ -377,10 +394,19 @@ function reSendFailMsg() {
 				<tr>
 					<td><a id="exportBtn" class="easyui-linkbutton"
 						href="javascript:void(0)" icon="icon-save"
-						onclick="exportFailMsg();">导出</a></td>
+						onclick="exportFailMsg();">导出失败</a></td>
 					<td><a id="sendBtn" class="easyui-linkbutton"
-						href="javascript:void(0)" icon="icon-ok"
-						onclick="reSendFailMsg();">重发</a></td>
+						href="javascript:void(0)" icon="icon-report"
+						onclick="reSendFailMsg();">重发短信</a></td>
+					<th>接收人:</th>
+					<td><select id="receiverSelect" name="receiverSelect"
+						class="easyui-combobox" editable="false">
+							<option value="1">办税员</option>
+							<option value="2">财务主管</option>
+							<option value="3">法人</option>
+					</select><a id="updateBtn" class="easyui-linkbutton"
+						href="javascript:void(0)" icon="icon-edit"
+						onclick="updateReceiver();">批量修改接收人</a></td>
 
 				</tr>
 
