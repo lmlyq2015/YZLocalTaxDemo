@@ -245,7 +245,6 @@ function fixWidthTable(percent){
 function exportFailMsg(){
 	var rows = $('#resultDg').datagrid('getSelections');
 	var i = 0;
-	var ids;
 	if (rows.length == 0) {
 		$.messager.alert('操作提示', "请选择导出对象","info");
 		return;

@@ -3,6 +3,8 @@ package com.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.vos.CallInfoVo;
 import com.vos.Consults;
 import com.vos.Message;
@@ -63,5 +65,7 @@ public interface MessageService {
 	public void addConsults(String callSheetId,String question, String answer) throws SQLException;
 
 	public void reSendMsg(List<Message> list) throws SQLException;
+
+	public void deleteComp(List<MessageSearchVO> list,HttpServletResponse response) throws SQLException;
 
 }

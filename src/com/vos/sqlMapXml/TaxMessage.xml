@@ -306,4 +306,18 @@ b.TaxAgentMobile as taxAgentMobile,b.AdminMobile as adminMobile,b.RepMobile as r
 
 		]]>
 	</select>
+
+	<delete id="deleteState" parameterClass="java.lang.String">
+		<![CDATA[
+			delete from tax_state where taxid = #taxId#
+		]]>
+
+	</delete>
+
+	<delete id="deleteComp" parameterClass="java.lang.String">
+		<![CDATA[
+			delete from tax_entbasicinfor where taxid = #taxId#
+		]]>
+
+	</delete>
 </sqlMap>

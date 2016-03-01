@@ -68,6 +68,10 @@ public interface MessageDao {
 
 	public List<NotificationVo> getReSendList(int id) throws SQLException;
 
+	public void deleteState(String taxId) throws SQLException;
+
+	public void deleteComp(String taxId) throws SQLException;
+
 
 
 

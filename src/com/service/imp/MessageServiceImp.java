@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Service;
 
 import com.dao.MessageDao;
@@ -402,6 +404,16 @@ public class MessageServiceImp implements MessageService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
+		}
+	}
+
+	@Override
+	public void deleteComp(List<MessageSearchVO> list,
+			HttpServletResponse response) throws SQLException {
+		// TODO Auto-generated method stub
+		for(int i = 0;i < list.size();i++){
+		messageDao.deleteState(list.get(i).getTaxId());
+		messageDao.deleteComp(list.get(i).getTaxId());
 		}
 	}
 }

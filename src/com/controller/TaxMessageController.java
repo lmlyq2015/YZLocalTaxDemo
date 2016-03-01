@@ -209,8 +209,7 @@ public class TaxMessageController {
 			// object.toBean(JSONObject.fromObject(msgData), ReportVO.class);
 			ReportVO msg = new ReportVO();
 			JSONArray json = JSONArray.fromObject(str);
-			List<NotificationVo> list = json.toList(json,
-					NotificationVo.class);
+			List<NotificationVo> list = json.toList(json, NotificationVo.class);
 			for (int i = 0; i < list.size() - 1; i++) {
 				for (int j = list.size() - 1; j > i; j--) {
 					if (list.get(j).getTaxId()
@@ -271,19 +270,19 @@ public class TaxMessageController {
 		try {
 			pw = response.getWriter();
 			str = URLDecoder.decode(data, "UTF-8");
-//			String[] arrData = str.split("=");
-//			String msgData = arrData[0];
-//			String recData = arrData[1];
-//			JSONObject object = JSONObject.fromObject(msgData);
-//			Message msg = (Message) object.toBean(
-//					JSONObject.fromObject(msgData), Message.class);
-//			NotificationVo rec = (NotificationVo) object.toBean(
-//					JSONObject.fromObject(recData), NotificationVo.class);
-//			msg.setSendBy(((User) session.getAttribute("current_user"))
-//					.getEmpId());
-//			System.out.println(msg.getId());
-//			rec.setMesId(msg.getId());
-//			messageService.reSendMsg(msg, rec);
+			// String[] arrData = str.split("=");
+			// String msgData = arrData[0];
+			// String recData = arrData[1];
+			// JSONObject object = JSONObject.fromObject(msgData);
+			// Message msg = (Message) object.toBean(
+			// JSONObject.fromObject(msgData), Message.class);
+			// NotificationVo rec = (NotificationVo) object.toBean(
+			// JSONObject.fromObject(recData), NotificationVo.class);
+			// msg.setSendBy(((User) session.getAttribute("current_user"))
+			// .getEmpId());
+			// System.out.println(msg.getId());
+			// rec.setMesId(msg.getId());
+			// messageService.reSendMsg(msg, rec);
 			JSONArray json = JSONArray.fromObject(str);
 			List<Message> list = json.toList(json, Message.class);
 			messageService.reSendMsg(list);
@@ -544,8 +543,7 @@ public class TaxMessageController {
 			// PayVO.class);
 			PayVO msg = new PayVO();
 			JSONArray json = JSONArray.fromObject(str);
-			List<NotificationVo> list = json.toList(json,
-					NotificationVo.class);
+			List<NotificationVo> list = json.toList(json, NotificationVo.class);
 			for (int i = 0; i < list.size() - 1; i++) {
 				for (int j = list.size() - 1; j > i; j--) {
 					if (list.get(j).getTaxId()
@@ -627,17 +625,19 @@ public class TaxMessageController {
 			e.printStackTrace();
 		}
 	}
+
 	@RequestMapping("/saveWhenRing")
 	@ResponseBody
-	public Map<String,Object>saveWhenRing(@RequestParam("data") String data,HttpServletResponse response,HttpSession session) {
-		Map<String,Object> map = new HashMap<String,Object>();
-		try{
-			String str = URLDecoder.decode(data,"UTF-8");
+	public Map<String, Object> saveWhenRing(@RequestParam("data") String data,
+			HttpServletResponse response, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			String str = URLDecoder.decode(data, "UTF-8");
 			JSONObject object = JSONObject.fromObject(str);
-			CallInfoVo callvo = (CallInfoVo) object.toBean(object, CallInfoVo.class);
+			CallInfoVo callvo = (CallInfoVo) object.toBean(object,
+					CallInfoVo.class);
 			/*
 			 * 坐席超时未接听，坐席重新振铃或分配下一坐席，更新坐席号
-			 * 
 			 */
 			if (messageService.queryCallInfo(callvo.getCallSheetId()) > 0) {
 				messageService.updateCallInfoWhenRing(callvo);
@@ -647,77 +647,89 @@ public class TaxMessageController {
 			session.setAttribute("onRingVo", callvo);
 			map.put("result", 1);
 			return map;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return map;
 	}
+
 	@RequestMapping("/getCallList")
 	@ResponseBody
-	public Map<String,Object> getCallList(HttpSession session) {
-		Map<String,Object> map = new HashMap<String,Object>();
+	public Map<String, Object> getCallList(HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			User user = (User) session.getAttribute("current_user");
-			List<CallInfoVo> list = messageService.getCallList(user.getCallCenterAccount());
-			if (list !=null && list.size() > 0) {
+			List<CallInfoVo> list = messageService.getCallList(user
+					.getCallCenterAccount());
+			if (list != null && list.size() > 0) {
 				map.put("rows", list);
 				map.put("total", list.size());
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return map;
 	}
+
 	@RequestMapping("/getCallInfoByCallNo")
 	@ResponseBody
-	public Map<String,Object> getCallInfoByCallNo(@RequestParam("callNo") String callNo) {
-		Map<String,Object> map = new HashMap<String,Object>();
+	public Map<String, Object> getCallInfoByCallNo(
+			@RequestParam("callNo") String callNo) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			List<CallInfoVo> list = messageService.getCallInfoByCallNo(callNo);
-			if (list !=null && list.size() > 0) {
+			if (list != null && list.size() > 0) {
 				map.put("rows", list);
 				map.put("total", list.size());
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return map;
 	}
+
 	@RequestMapping("/getConsultInfoByCallSheetNo")
 	@ResponseBody
-	public Map<String,Object> getConsultInfoByCallSheetNo(@RequestParam("callSheetNo") String callSheetNo,HttpSession session) {
-		Map<String,Object> map = new HashMap<String,Object>();
+	public Map<String, Object> getConsultInfoByCallSheetNo(
+			@RequestParam("callSheetNo") String callSheetNo, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			//CallInfoVo vo = (CallInfoVo) session.getAttribute("onRingVo");
+			// CallInfoVo vo = (CallInfoVo) session.getAttribute("onRingVo");
 			List<Consults> list = messageService
 					.getConsultInfoByCallSheetNo(callSheetNo);
 			map.put("rows", list);
 			map.put("total", list.size());
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return map;
 	}
+
 	@RequestMapping("/addConsults")
-	public void addConsults(@RequestParam("data") String data,HttpServletResponse response,HttpSession session) {
+	public void addConsults(@RequestParam("data") String data,
+			HttpServletResponse response, HttpSession session) {
 		PrintWriter pw = null;
 		JsonResult jr = new JsonResult();
 		try {
 			pw = response.getWriter();
-			CallInfoVo vo = (CallInfoVo) session.getAttribute("onRingVo");			
+			CallInfoVo vo = (CallInfoVo) session.getAttribute("onRingVo");
 			/*
 			 * 判断callvo的状态不能为null并且状态是接通状态，否则不能添加
 			 */
-			if (vo != null && messageService.getStatusWhenAddConsults(vo).equals("dealing")) {
-				String str = URLDecoder.decode(data,"UTF-8");
+			if (vo != null
+					&& messageService.getStatusWhenAddConsults(vo).equals(
+							"dealing")) {
+				String str = URLDecoder.decode(data, "UTF-8");
 				JSONObject object = JSONObject.fromObject(str);
-				Consults callvo = (Consults) object.toBean(object, Consults.class);
-				messageService.addConsults(vo.getCallSheetId(), callvo.getQuestions(), callvo.getAnswers());
+				Consults callvo = (Consults) object.toBean(object,
+						Consults.class);
+				messageService.addConsults(vo.getCallSheetId(),
+						callvo.getQuestions(), callvo.getAnswers());
 				jr.setResult("info");
 				jr.setMsg("咨询记录添加成功");
 				JSONObject json = JSONObject.fromObject(jr);
 				pw.print(json.toString());
-			} else {				
+			} else {
 				jr.setResult("error");
 				jr.setMsg("当前未处于通话状态,无法添加");
 				JSONObject json = JSONObject.fromObject(jr);
@@ -727,6 +739,7 @@ public class TaxMessageController {
 			e.printStackTrace();
 		}
 	}
+
 	@Resource(name = "phoneService")
 	private PhoneService phoneService;
 
@@ -855,5 +868,32 @@ public class TaxMessageController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@RequestMapping("/deleteComp")
+	@ResponseBody
+	public void deleteComp(@RequestParam("data") String data,
+			HttpServletResponse response) throws IOException {
+		String deleteData = null;
+		JsonResult jr = new JsonResult();
+		PrintWriter pw = response.getWriter();
+		try {
+			deleteData = URLDecoder.decode(data, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JSONArray json = JSONArray.fromObject(deleteData);
+		List<MessageSearchVO> list = json.toList(json, MessageSearchVO.class);
+
+		try {
+			messageService.deleteComp(list, response);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+		}
+		jr.setResult("info");
+		jr.setMsg("企业删除成功");
+		JSONObject json1 = JSONObject.fromObject(jr);
+		pw.print(json1.toString());
 	}
 }

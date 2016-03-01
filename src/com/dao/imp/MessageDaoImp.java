@@ -405,4 +405,17 @@ public class MessageDaoImp implements MessageDao {
 		}
 		return list;
 	}
+
+	@Override
+	public void deleteState(String taxId) throws SQLException {
+		// TODO Auto-generated method stub
+		sqlMapClient.delete("deleteState", taxId);
+	}
+
+	@Override
+	public void deleteComp(String taxId) throws SQLException {
+		// TODO Auto-generated method stub
+		sqlMapClient.delete("deleteComp", taxId);
+	}
+
 }

@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+	pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<%String path = request.getContextPath(); 
-      String basePath = request.getScheme()+"://"+ request.getServerName()+":"+request.getServerPort()+path+"/";%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 <base href="<%=basePath%>">
 <link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="themes/icon.css">
@@ -11,13 +15,10 @@
 <script type="text/javascript" src="jquery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="jquery/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="locale/easyui-lang-zh_CN.js"></script>
-<style type="text/css"> 
-
+<style type="text/css">
 textarea {
-    resize: none;
+	resize: none;
 }
-
-
 </style>
 <script type="text/javascript">
 $(function() {
@@ -273,101 +274,131 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 	function fixWidthTable(percent){  
         return getWidth(0.6) * percent;  
 	} 
+	
+	function deleteComp(){
+		var rows = $('#enterpriceDg').datagrid('getSelections');
+		var i = 0;
+		if (rows.length == 0) {
+			$.messager.alert('操作提示', "请选择删除企业","info");
+			return;
+		} else {
+			 var data = encodeURI(JSON.stringify(rows),"UTF-8");
+			 $.messager.confirm("操作提示","确认删除？" , function (d) {
+					if (d) {
+						 $.ajax({
+				    			url : '<%=basePath%>deleteComp',
+				    			data : 'data=' + data,
+				    			dataType : 'json',
+				    			type : 'post',
+				    			success : function(r) {
+				    				if(r) {
+				    					$.messager.alert('操作提示', r.msg, r.result);
+			    						$('#enterpriceDg').datagrid('reload');
+				    			}
+						 },
+			    			error : function() {
+			    				$.messager.alert('操作提示', '服务器出错', 'error');
+			    			} 
+						 });
+				}
+				 });
+		}
+	}
 </script>
 <body class="easyui-layout">
 
-      <div region="west" title="消息内容" style="width: 233px;height: 500px;">          
-			<form id="msgForm">					
-	
-<!-- 				
-<table> -->
-<!-- 					<tr> -->
-<!-- 						<td><input id="sendDate" class="easyui-datebox" type="text" name="sendDate"></td>	 -->
-<!-- 						<td><a icon="icon-ok" class="easyui-linkbutton" href="javascript:void(0);">发送</a></td> -->
-						
-<!-- 						<td><a icon="icon-cancel" class="easyui-linkbutton" href="javascript:void(0);">清空</a></td> -->
-<!-- 						<td><a icon="icon-save" class="easyui-linkbutton" href="javascript:void(0);">保存草稿</a></td> -->
-<!-- 					</tr> -->
-<!-- 					<tr> -->
-<!-- 					<th>消息内容:</th> -->
-<!-- 						<td><textarea style="width: 300px;" class="easyui-validatebox"  name="content" style="height: 100px;" required="true" placeholder="根据运营商政策规定，建议每次提交小于等于225个字符 -->
-<!-- 									  （含签名、空格、字母、符号等） " maxlength="255"></textarea><span -->
-<!-- 							style="color: red; margin-left: 2px;">*</span></td> -->
-					
-<!-- 					</tr> -->
-<!-- 				</table> -->
-					<table>
-					<tr>
-						<td>
-						<textarea id="content" style="width: 218px;height: 400px;" class="easyui-validatebox"  name="content" onKeyUp="textup()"></textarea>
-						</td>
-					</tr>
-<!-- 					<tr height="30" align="center"> -->
-<!-- 						<td> -->
-<!-- 						签名:<input id="sign" class="easyui-validatebox" value="鄞州地税直属分局" name="sign"> -->
-<!-- 						</td> -->
-<!-- 					</tr> -->
-<!-- 					<tr height="50" align="center"> -->
-<!-- 						<td> -->
-<!-- 						发送时间：<input id="sendDate" class="easyui-datetimebox"  name="sendDate"> -->
-<!-- 						</td> -->
-<!-- 					</tr> -->
-					
-						<tr><td>
-						<a id="msgSend" icon="icon-message-send" class="easyui-linkbutton" href="javascript:void(0);">短信发送</a>
-						<a id="msgSendWithURL" icon="icon-message-url" class="easyui-linkbutton" href="javascript:void(0);">微网页发送</a>
-						</td></tr>					
-						<tr align="center"><td><a icon="icon-cancel" class="easyui-linkbutton" href="javascript:void(0);" onclick="clearContent();">清空</a></td></tr>				
-<!-- 					<td> -->
-<!-- 						<a icon="icon-save" class="easyui-linkbutton" href="javascript:void(0);">保存草稿</a>					 -->
-<!-- 					</td> -->
-				
-					</table>
-			</form>
-		
-      </div>  
+	<div region="west" title="消息内容" style="width: 233px; height: 500px;">
+		<form id="msgForm">
 
-      
-      <div region="center" title="企业列表" style="padding:5px;background:#eee;" fit="true">
+			<!-- 				
+<table> -->
+			<!-- 					<tr> -->
+			<!-- 						<td><input id="sendDate" class="easyui-datebox" type="text" name="sendDate"></td>	 -->
+			<!-- 						<td><a icon="icon-ok" class="easyui-linkbutton" href="javascript:void(0);">发送</a></td> -->
+
+			<!-- 						<td><a icon="icon-cancel" class="easyui-linkbutton" href="javascript:void(0);">清空</a></td> -->
+			<!-- 						<td><a icon="icon-save" class="easyui-linkbutton" href="javascript:void(0);">保存草稿</a></td> -->
+			<!-- 					</tr> -->
+			<!-- 					<tr> -->
+			<!-- 					<th>消息内容:</th> -->
+			<!-- 						<td><textarea style="width: 300px;" class="easyui-validatebox"  name="content" style="height: 100px;" required="true" placeholder="根据运营商政策规定，建议每次提交小于等于225个字符 -->
+			<!-- 									  （含签名、空格、字母、符号等） " maxlength="255"></textarea><span -->
+			<!-- 							style="color: red; margin-left: 2px;">*</span></td> -->
+
+			<!-- 					</tr> -->
+			<!-- 				</table> -->
+			<table>
+				<tr>
+					<td><textarea id="content"
+							style="width: 218px; height: 400px;" class="easyui-validatebox"
+							name="content" onKeyUp="textup()"></textarea></td>
+				</tr>
+				<!-- 					<tr height="30" align="center"> -->
+				<!-- 						<td> -->
+				<!-- 						签名:<input id="sign" class="easyui-validatebox" value="鄞州地税直属分局" name="sign"> -->
+				<!-- 						</td> -->
+				<!-- 					</tr> -->
+				<!-- 					<tr height="50" align="center"> -->
+				<!-- 						<td> -->
+				<!-- 						发送时间：<input id="sendDate" class="easyui-datetimebox"  name="sendDate"> -->
+				<!-- 						</td> -->
+				<!-- 					</tr> -->
+
+				<tr>
+					<td><a id="msgSend" icon="icon-message-send"
+						class="easyui-linkbutton" href="javascript:void(0);">短信发送</a> <a
+						id="msgSendWithURL" icon="icon-message-url"
+						class="easyui-linkbutton" href="javascript:void(0);">微网页发送</a></td>
+				</tr>
+				<tr align="center">
+					<td><a icon="icon-cancel" class="easyui-linkbutton"
+						href="javascript:void(0);" onclick="clearContent();">清空</a></td>
+				</tr>
+				<!-- 					<td> -->
+				<!-- 						<a icon="icon-save" class="easyui-linkbutton" href="javascript:void(0);">保存草稿</a>					 -->
+				<!-- 					</td> -->
+
+			</table>
+		</form>
+
+	</div>
+
+
+	<div region="center" title="企业列表"
+		style="padding: 5px; background: #eee;" fit="true">
 		<table id="enterpriceDg" fit="true">
-		
+
 		</table>
-	  <div id="enterpriceSearch" style="height: 60px;">
-	  <form name="readCompForm" method="post"
-				enctype="multipart/form-data" id="readCompForm">
-				<table id="reportTable" >
+		<div id="enterpriceSearch" style="height: 60px;">
+			<form name="readCompForm" method="post" enctype="multipart/form-data"
+				id="readCompForm">
+				<table id="reportTable">
 					<tr>
 						<th>选择文件:</th>
-						<td><input id="file" type="file" name="file" />
-							<a id="formBtn" href="javascript:void(0);" class="easyui-linkbutton">导入</a></td>
+						<td><input id="file" type="file" name="file" /> <a
+							id="formBtn" href="javascript:void(0);" class="easyui-linkbutton">导入</a></td>
 					</tr>
 				</table>
 			</form>
-	  	<form id="CompSearch">
-	  		<table>
-	  			<tr>
-	  			<th>
-	  			纳税人识别号:
-	  			</th>
-	  			<td>
-	  			<input id="taxId" class="easyui-validatebox"  name="taxId">
-	  			</td>
-	  			<th>
-	  			纳税人名称:
-	  			</th>
-	  			<td>
-	  			<input id="taxName" class="easyui-validatebox"  name="taxName">
-	  			</td>
-	  			<td>
-	  			<a class="easyui-linkbutton" href="javascript:void(0)" icon="icon-search" onclick="searchComp();">查找</a>
-	  			</td>
-	  			<td>
-	  			<a class="easyui-linkbutton" href="javascript:void(0)" icon="icon-cancel" onclick="clearSearch();">重置</a>
-	  			</td>
-	  			</tr>
-	  		</table>
-	  	</form>
-	  </div>
-  </div> 
+			<form id="CompSearch">
+				<table>
+					<tr>
+						<th>纳税人识别号:</th>
+						<td><input id="taxId" class="easyui-validatebox" name="taxId">
+						</td>
+						<th>纳税人名称:</th>
+						<td><input id="taxName" class="easyui-validatebox"
+							name="taxName"></td>
+						<td><a class="easyui-linkbutton" href="javascript:void(0)"
+							icon="icon-search" onclick="searchComp();">查找</a></td>
+						<td><a class="easyui-linkbutton" href="javascript:void(0)"
+							icon="icon-cancel" onclick="clearSearch();">重置</a></td>
+						<td><a class="easyui-linkbutton" href="javascript:void(0)"
+							icon="icon-tip" onclick="deleteComp();">删除企业</a></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
 </body>
 </html>
