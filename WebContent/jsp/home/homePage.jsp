@@ -287,7 +287,7 @@ $.parser.onComplete = function(){
 			鄞州地方税务局纳税服务系统</span>
 			
 			<div style="float: right;line-height: 50px" fit="true">
-				<iframe align="middle" name="phone" scrolling="no" frameborder="0"  src="<%=basePath%>edb_bar/phoneBar/phonebar.html?loginName=${current_user.callCenterAccount }&password=${current_user.callCenterPwd }&loginType=sip" width="500px" height="60px"></iframe>
+				<iframe align="middle" name="phone" scrolling="no" frameborder="0"  src="<%=basePath%>edb_bar/phoneBar/phonebar.html?loginName=${current_user.callCenterAccount }&password=${current_user.callCenterPwd }&loginType=gateway" width="500px" height="60px"></iframe>
 			</div>
 	</div>
 	<div region="south" split="true"
