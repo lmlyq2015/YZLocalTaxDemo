@@ -276,8 +276,7 @@ DATE_FORMAT(s.SendDate, '%Y-%m-%d %H:%i') as sendDate,e.loginname as sendBy,RecI
 		%H:%i:%s') as offeringTime,agent,DATE_FORMAT(begin, '%Y-%c-%d
 		%H:%i:%s') as beginTime,DATE_FORMAT(end, '%Y-%c-%d %H:%i:%s') as
 		endTime,recordFile as recordFile, state as status, case
-		satisfactionDegree when 1 then '非常满意' when 2 then '满意' when 3 then
-		'不满意' end as satisfactionDegree,callType from tax_call_info where
+		satisfactionDegree when 1 then '非常满意' when 2 then '满意' end as satisfactionDegree,callType from tax_call_info where
 		callNo = #callNo# order by offeringTime desc
 	</select>
 	<select id="getConsultInfoByCallSheetNo" resultClass="com.vos.Consults"

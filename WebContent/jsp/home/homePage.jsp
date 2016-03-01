@@ -188,13 +188,27 @@ $.parser.onComplete = function(){
             	
             	if(!$('#tabs').tabs('exists','通话记录')){
             		
-            		$('#tabs').tabs('add',{
-            			title:'通话',
-            			content:createFrame('./jsp/callcenter/callHome.jsp'),
-            			closable:true,
-            			width:$('#mainPanle').width()-10,
-            			height:$('#mainPanle').height()-26
-            		});	
+            		$('#tabs').tabs('addIframeTab',{
+            			//tab参数为一对象，其属性同于原生add方法参数
+            			tab:{
+                            title:'通话记录',
+                            closable:true,
+                			width:$('#mainPanle').width()-10,
+                			height:$('#mainPanle').height()-26,
+                            tools:[{
+                                iconCls:'icon-mini-refresh',
+                                handler:function(e){
+                                    //var title = $(e.target).parent().parent().text();
+                                    $('#tabs').tabs('updateIframeTab',{'which':'通话记录'});
+                                }
+                            }]
+                        },
+            			//iframe参数用于设置iframe信息，包含：
+            			//src[iframe地址],frameBorder[iframe边框,，默认值为0],delay[淡入淡出效果时间]
+            			//height[iframe高度，默认值为100%],width[iframe宽度，默认值为100%]
+            			iframe:{src:'./jsp/callcenter/callHome.jsp'}
+            		});
+
             	} else {
             		$('#tabs').tabs('select','通话');
             	}          	
