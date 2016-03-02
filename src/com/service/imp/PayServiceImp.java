@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.dao.PayDao;
 import com.service.PayService;
 import com.util.DateUtils;
@@ -146,6 +148,31 @@ public class PayServiceImp implements PayService {
 	public void deletePay(String taxId) throws SQLException {
 		// TODO Auto-generated method stub
 		payDao.deletePay(taxId);
+	}
+
+	@Override
+	public void deletePay(List<PaySearchVO> list, HttpServletResponse response)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < list.size(); i++) {
+			payDao.deletePay(list.get(i));
+		}
+	}
+
+	@Override
+	public int selectPay(List<PaySearchVO> list, HttpServletResponse response)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		int id = 0;
+		for (int i = 0; i < list.size(); i++) {
+			int num = payDao.selectPay(list.get(i));
+			if (num == 0) {
+				continue;
+			} else {
+				id += 1;
+			}
+		}
+		return id;
 	}
 
 }

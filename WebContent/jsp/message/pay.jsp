@@ -175,7 +175,30 @@
 				}
 				
 			});
-			//$('#sendDate').datebox('setValue', formatterDate(new Date()));
+			
+			
+			$('#PayDelete').click(function(){
+				var rows = $('#dg').datagrid('getSelections');
+				if (rows.length == 0) {
+					$.messager.alert('操作提示', "请选择删除对象","info");
+					return;
+				} else {
+					var data = encodeURI(JSON.stringify(rows),"UTF-8");
+					$.ajax({
+						url : '<%=basePath%>deletePay',
+						type : "POST",
+						dataType : "json",
+						data : 'data=' + data,
+						success : function(r) {
+							$.messager.alert('操作提示', r.msg,r.result);
+							$('#dg').datagrid("reload");
+						},
+						error : function() {
+							$.messager.alert('操作提示', "服务器出错","error");
+						}
+					});
+				}			
+			});
 	});
 
 	var sy = $.extend({}, sy);
@@ -207,6 +230,7 @@
 	function clearSearch() {
 		$('#dg').datagrid("load", {});
 		$('#payTable1').form("clear");
+		$('#dg').datagrid("clearSelections");
 	}
 
 	function getWidth(percent){  
@@ -253,6 +277,8 @@
 							href="javascript:void(0);" onclick="clearSearch();">重置</a></td>
 					<td><a id="payMsgSend" icon="icon-ok" class="easyui-linkbutton"
 						href="javascript:void(0);">发送</a></td>
+					<td><a id="PayDelete" icon="icon-tip" class="easyui-linkbutton"
+						href="javascript:void(0);">删除</a></td>
 					</tr>
 
 				</table>

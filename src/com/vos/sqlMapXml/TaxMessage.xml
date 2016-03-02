@@ -319,4 +319,8 @@ b.TaxAgentMobile as taxAgentMobile,b.AdminMobile as adminMobile,b.RepMobile as r
 		]]>
 
 	</delete>
+	
+	<select id="selectComp" resultClass="com.vos.MessageSearchVO" parameterClass="java.lang.String">
+		select * from tax_entbasicinfor where taxid = #taxId#
+	</select>
 </sqlMap>

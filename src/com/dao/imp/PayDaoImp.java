@@ -139,5 +139,25 @@ public class PayDaoImp implements PayDao {
 		map.put("type", null);
 		return sqlMapClient.queryForList("getTotalTax",map);
 	}
+
+	@Override
+	public void deletePay(PaySearchVO paySearchVO) throws SQLException {
+		// TODO Auto-generated method stub
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("taxId", paySearchVO.getTaxId());
+		map.put("imposeType", paySearchVO.getImposeType());
+		map.put("startTime", paySearchVO.getStartTime());
+		sqlMapClient.delete("deletePayByImposeType", map);
+	}
+
+	@Override
+	public int selectPay(PaySearchVO paySearchVO) throws SQLException {
+		// TODO Auto-generated method stub
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("taxId", paySearchVO.getTaxId());
+		map.put("imposeType", paySearchVO.getImposeType());
+		map.put("startTime", paySearchVO.getStartTime());
+		return (Integer) sqlMapClient.queryForObject("selectPay",map);
+	}
 		
 }

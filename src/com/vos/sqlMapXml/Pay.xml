@@ -1,66 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"   
 						"http://ibatis.apache.org/dtd/sql-map-2.dtd">
-						
+
 <sqlMap>
-	<select id="getAllPay" resultClass="com.vos.PaySearchVO" parameterClass="java.util.Map">
+	<select id="getAllPay" resultClass="com.vos.PaySearchVO"
+		parameterClass="java.util.Map">
 	<![CDATA[
 		select a.id,a.taxId,b.taxName,b.taxAgentName,b.taxAgentMobile,b.adminName,b.adminMobile,b.rep,b.repMobile,a.startTime,a.endTime,a.totalTax,a.imposeType from tax_pay a,tax_entbasicinfor b where a.taxId=b.taxId
 		]]>
 		<dynamic>
-			 <isNotEmpty prepend="AND" property="taxId">       
-                  (a.taxId like '%$taxId$%')       
-            </isNotEmpty>
-            <isNotEmpty prepend="AND" property="taxName">       
-                  (b.taxName like '%$taxName$%')       
-            </isNotEmpty>
-             <isNotEmpty prepend="AND" property="imposeType">    
-                  (a.imposeType like '%$imposeType$%')    
-            </isNotEmpty> 
+			<isNotEmpty prepend="AND" property="taxId">
+				(a.taxId like
+				'%$taxId$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="taxName">
+				(b.taxName like
+				'%$taxName$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="imposeType">
+				(a.imposeType like
+				'%$imposeType$%')
+			</isNotEmpty>
 		</dynamic>
-		limit #firstRow#,#pageSize#		
+		limit #firstRow#,#pageSize#
 	</select>
-	
-	<select id="getPayCount" resultClass="java.lang.Integer" parameterClass="com.vos.PaySearchVO">
+
+	<select id="getPayCount" resultClass="java.lang.Integer"
+		parameterClass="com.vos.PaySearchVO">
 	<![CDATA[
 		select count(*) from tax_pay a,tax_entbasicinfor b where a.taxId=b.taxId
 		]]>
-		<dynamic> 
-			 <isNotEmpty prepend="AND" property="taxId">       
-                  (a.taxId like '%$taxId$%')       
-            </isNotEmpty>
-            <isNotEmpty prepend="AND" property="taxName">       
-                  (b.taxName like '%$taxName$%')       
-            </isNotEmpty>
-             <isNotEmpty prepend="AND" property="imposeType">    
-                  (a.imposeType like '%$imposeType$%')    
-            </isNotEmpty> 
-		</dynamic>				
+		<dynamic>
+			<isNotEmpty prepend="AND" property="taxId">
+				(a.taxId like
+				'%$taxId$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="taxName">
+				(b.taxName like
+				'%$taxName$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="imposeType">
+				(a.imposeType like
+				'%$imposeType$%')
+			</isNotEmpty>
+		</dynamic>
 	</select>
-	
+
 	<insert id="savePayMsg" parameterClass="com.vos.PayVO">
-		insert into tax_message(content,type,etdate) values(#content#,#msgType#,str_to_date(now(),'%Y-%m-%d %H:%i:%s'))
-	<selectKey resultClass="java.lang.Integer"  keyProperty="id" >    
-             SELECT last_insert_id() as id
-        </selectKey>  
+		insert into tax_message(content,type,etdate)
+		values(#content#,#msgType#,str_to_date(now(),'%Y-%m-%d %H:%i:%s'))
+		<selectKey resultClass="java.lang.Integer" keyProperty="id">
+			SELECT last_insert_id() as id
+		</selectKey>
 	</insert>
-	
+
 	<insert id="savePayMsgResult" parameterClass="java.util.Map">
-		insert into tax_state(taxid,mesid,empid,senddate,state,resultmsg,RecId) values (#taxId#,#mesId#,#empId#,str_to_date(#sendDate#,'%Y-%m-%d %H:%i:%s'),#status#,#msg#,#receiver#)
-	<selectKey resultClass="java.lang.Integer"  keyProperty="Id" >    
-             SELECT last_insert_id() as id
-        </selectKey>  
+		insert into
+		tax_state(taxid,mesid,empid,senddate,state,resultmsg,RecId) values
+		(#taxId#,#mesId#,#empId#,str_to_date(#sendDate#,'%Y-%m-%d
+		%H:%i:%s'),#status#,#msg#,#receiver#)
+		<selectKey resultClass="java.lang.Integer" keyProperty="Id">
+			SELECT last_insert_id() as id
+		</selectKey>
 	</insert>
-	
+
 	<delete id="deletePay" parameterClass="java.lang.String">
-			delete from tax_pay where taxid = #taxId#
+		delete from tax_pay where
+		taxid = #taxId#
 	</delete>
-	
-	<select id="getImposeType" resultClass="com.vos.ImposeType" parameterClass="java.util.Map">
-	select a.imposeType as name from tax_pay a,tax_entbasicinfor b where a.taxId=b.taxId and a.TaxId = #taxId#
+
+	<select id="getImposeType" resultClass="com.vos.ImposeType"
+		parameterClass="java.util.Map">
+		select a.imposeType as name from tax_pay
+		a,tax_entbasicinfor b where
+		a.taxId=b.taxId and a.TaxId = #taxId#
 	</select>
-	
-	<select id="getTotalTax" resultClass="com.vos.TotalTax" parameterClass="java.util.Map">
-	select a.TotalTax from tax_pay a,tax_entbasicinfor b where a.taxId=b.taxId and a.TaxId = #taxId#
+
+	<select id="getTotalTax" resultClass="com.vos.TotalTax"
+		parameterClass="java.util.Map">
+		select a.TotalTax from tax_pay a,tax_entbasicinfor b
+		where a.taxId=b.taxId
+		and a.TaxId = #taxId#
 	</select>
+
+	<select id="selectPay" resultClass="java.lang.Integer"
+		parameterClass="java.util.Map">
+		select count(*) from tax_pay where TaxId = #taxId#
+		and
+		ImposeType = #imposeType# and StartTime = #startTime#
+	</select>
+
+	<delete id="deletePayByImposeType" parameterClass="java.util.Map">
+		<![CDATA[
+			delete from tax_pay where TaxId = #taxId# and ImposeType = #imposeType# and StartTime  = #startTime#
+		]]>
+	</delete>
 </sqlMap>

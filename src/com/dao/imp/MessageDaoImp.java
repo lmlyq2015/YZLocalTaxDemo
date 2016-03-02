@@ -418,4 +418,10 @@ public class MessageDaoImp implements MessageDao {
 		sqlMapClient.delete("deleteComp", taxId);
 	}
 
+	@Override
+	public String selectComp(String taxId) throws SQLException {
+		// TODO Auto-generated method stub
+		return (String) sqlMapClient.queryForObject("selectComp", taxId);
+	}
+
 }

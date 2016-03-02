@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.dao.ReportDao;
 import com.service.ReportService;
 import com.util.DateUtils;
@@ -83,7 +85,7 @@ public class ReportServiceImp implements ReportService {
 				boolean a = vo.getResultMsg().equals("发送成功");
 				if (a) {
 					sucNum = sucNum + 1;
-//					reportDao.deleteReport(vo.getTaxId());
+					// reportDao.deleteReport(vo.getTaxId());
 				}
 				reportDao.deleteReport(vo.getTaxId());
 			}
@@ -111,8 +113,7 @@ public class ReportServiceImp implements ReportService {
 		return id;
 	}
 
-	private NotificationVo setResultMsg(NotificationVo vo,
-			MessageResult mr) {
+	private NotificationVo setResultMsg(NotificationVo vo, MessageResult mr) {
 		// TODO Auto-generated method stub
 		if (mr.getErrid().equals(TaxUtil.MESSAGE_STATUS_SUCCESS)) {
 			vo.setResultMsg(TaxUtil.MESSAGE_STATUS_SUCCESS_MSG);
@@ -151,4 +152,28 @@ public class ReportServiceImp implements ReportService {
 		return reportDao.getContentByWebPage(mesId, taxId);
 	}
 
+	@Override
+	public void deleteReport(List<ReportSearchVO> list, HttpServletResponse response)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < list.size(); i++) {
+			reportDao.deleteReport(list.get(i));
+		}
+	}
+
+	@Override
+	public int selectReport(List<ReportSearchVO> list, HttpServletResponse response)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		int id = 0;
+		for (int i = 0; i < list.size(); i++) {
+			int num = reportDao.selectReport(list.get(i));
+			if (num == 0) {
+				continue;
+			} else {
+				id += 1;
+			}
+		}
+		return id;
+	}
 }

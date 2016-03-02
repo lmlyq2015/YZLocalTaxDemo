@@ -356,11 +356,11 @@ public class MessageServiceImp implements MessageService {
 		// TODO Auto-generated method stub
 		try {
 			for (int i = 0; i < list.size(); i++) {
-				if(list.get(i).getFailCount() == 0){  //状态成功的跳过
+				if (list.get(i).getFailCount() == 0) { // 状态成功的跳过
 					continue;
 				}
 				List<NotificationVo> listNo = messageDao.getReSendList(list
-						.get(i).getId());  //后台读取失败短信信息
+						.get(i).getId()); // 后台读取失败短信信息
 				String result = null;
 				String receiver = list.get(i).getReceiver();
 				listNo.get(0).setReceiver(receiver);
@@ -411,9 +411,25 @@ public class MessageServiceImp implements MessageService {
 	public void deleteComp(List<MessageSearchVO> list,
 			HttpServletResponse response) throws SQLException {
 		// TODO Auto-generated method stub
-		for(int i = 0;i < list.size();i++){
-		messageDao.deleteState(list.get(i).getTaxId());
-		messageDao.deleteComp(list.get(i).getTaxId());
+		for (int i = 0; i < list.size(); i++) {
+			messageDao.deleteState(list.get(i).getTaxId());
+			messageDao.deleteComp(list.get(i).getTaxId());
 		}
+	}
+
+	@Override
+	public int selectComp(List<MessageSearchVO> list,
+			HttpServletResponse response) throws SQLException {
+		// TODO Auto-generated method stub
+		int id = 0;
+		for (int i = 0; i < list.size(); i++) {
+			String t = messageDao.selectComp(list.get(i).getTaxId());
+			if (t == null) {
+				continue;
+			} else {
+				id += 1;
+			}
+		}
+		return id;
 	}
 }

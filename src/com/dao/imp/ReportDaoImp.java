@@ -160,9 +160,13 @@ public class ReportDaoImp implements ReportDao {
 	}
 
 	@Override
-	public void deleteReport(String taxId) throws SQLException {
+	public void deleteReport(ReportSearchVO reportSearchVO) throws SQLException {
 		// TODO Auto-generated method stub
-		sqlMapClient.delete("deleteReport", taxId);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("taxId", reportSearchVO.getTaxId());
+		map.put("imposeType", reportSearchVO.getImposeType());
+		map.put("startTime", reportSearchVO.getStartTime());
+		sqlMapClient.delete("deleteReportByImposeType", map);
 	}
 
 	@Override
@@ -173,6 +177,22 @@ public class ReportDaoImp implements ReportDao {
 		map.put("mesId", mesId);
 		map.put("taxId", taxId);
 		return (String) sqlMapClient.queryForObject("getContentByWebPage",map);
+	}
+
+	@Override
+	public int selectReport(ReportSearchVO reportSearchVO) throws SQLException {
+		// TODO Auto-generated method stub
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("taxId", reportSearchVO.getTaxId());
+		map.put("imposeType", reportSearchVO.getImposeType());
+		map.put("startTime", reportSearchVO.getStartTime());
+		return (Integer) sqlMapClient.queryForObject("selectReport",map);
+	}
+
+	@Override
+	public void deleteReport(String taxId) throws SQLException {
+		// TODO Auto-generated method stub
+		sqlMapClient.delete("deleteReport", taxId);
 	}
 	
 }

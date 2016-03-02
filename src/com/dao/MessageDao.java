@@ -72,6 +72,8 @@ public interface MessageDao {
 
 	public void deleteComp(String taxId) throws SQLException;
 
+	public String selectComp(String taxId) throws SQLException;
+
 
 
 

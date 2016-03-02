@@ -68,4 +68,6 @@ public interface MessageService {
 
 	public void deleteComp(List<MessageSearchVO> list,HttpServletResponse response) throws SQLException;
 
+	public int selectComp(List<MessageSearchVO> list,HttpServletResponse response) throws SQLException;
+
 }
