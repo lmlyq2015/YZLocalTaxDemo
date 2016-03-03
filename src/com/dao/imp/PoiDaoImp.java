@@ -32,9 +32,9 @@ public class PoiDaoImp implements PoiDao{
 		List<NotificationVo> list1 = new ArrayList<NotificationVo>();
 		Map<String,Object> map = new HashMap<String,Object>();
 		for(int i = 0;i < list.size();i++){
-		map.put("msgId",list.get(i).getId());
-		List<NotificationVo> list2 =  sqlMapClient.queryForList("getFailMsg",map);
-		list1.addAll(list2);
+			map.put("msgId",list.get(i).getId());
+			List<NotificationVo> list2 =  sqlMapClient.queryForList("getFailMsg",map);
+			list1.addAll(list2);
 		}
 		return list1;
 	}

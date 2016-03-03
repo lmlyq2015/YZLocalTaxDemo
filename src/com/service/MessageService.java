@@ -70,4 +70,6 @@ public interface MessageService {
 	
 	public List<Consults> getKnowledgeContent(String title) throws Exception;
 
+	public int selectComp(List<MessageSearchVO> list,HttpServletResponse response) throws SQLException;
+
 }

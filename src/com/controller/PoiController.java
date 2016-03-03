@@ -78,12 +78,6 @@ public class PoiController {
 		}
 		JSONArray json = JSONArray.fromObject(exportData);
 		List<Message> list = json.toList(json, Message.class);
-		
-		
-		
-		
-		
-		
 		poiService.exportXLS(list, response);
 	}
 

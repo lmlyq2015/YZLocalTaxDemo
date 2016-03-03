@@ -879,6 +879,7 @@ public class TaxMessageController {
 		String deleteData = null;
 		JsonResult jr = new JsonResult();
 		PrintWriter pw = response.getWriter();
+		int id = 0;
 		try {
 			deleteData = URLDecoder.decode(data, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -893,12 +894,108 @@ public class TaxMessageController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
-			// TODO Auto-generated catch block
 		}
-		jr.setResult("info");
-		jr.setMsg("企业删除成功");
-		JSONObject json1 = JSONObject.fromObject(jr);
-		pw.print(json1.toString());
+		try {
+			id = messageService.selectComp(list, response);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (id == 0) {
+			jr.setResult("info");
+			jr.setMsg("企业删除成功");
+			JSONObject json1 = JSONObject.fromObject(jr);
+			pw.print(json1.toString());
+		} else {
+			jr.setResult("error");
+			jr.setMsg("企业删除失败");
+			JSONObject json1 = JSONObject.fromObject(jr);
+			pw.print(json1.toString());
+		}
+	}
+	
+	@RequestMapping("/deleteReport")
+	@ResponseBody
+	public void deleteReport(@RequestParam("data") String data,
+			HttpServletResponse response) throws IOException {
+		String deleteData = null;
+		JsonResult jr = new JsonResult();
+		PrintWriter pw = response.getWriter();
+		int id = 0;
+		try {
+			deleteData = URLDecoder.decode(data, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JSONArray json = JSONArray.fromObject(deleteData);
+		List<ReportSearchVO> list = json.toList(json, ReportSearchVO.class);
+
+		try {
+			reportService.deleteReport(list, response);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			id = reportService.selectReport(list, response);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (id == 0) {
+			jr.setResult("info");
+			jr.setMsg("删除成功");
+			JSONObject json1 = JSONObject.fromObject(jr);
+			pw.print(json1.toString());
+		} else {
+			jr.setResult("error");
+			jr.setMsg("删除失败");
+			JSONObject json1 = JSONObject.fromObject(jr);
+			pw.print(json1.toString());
+		}
+	}
+	
+	@RequestMapping("/deletePay")
+	@ResponseBody
+	public void deletePay(@RequestParam("data") String data,
+			HttpServletResponse response) throws IOException {
+		String deleteData = null;
+		JsonResult jr = new JsonResult();
+		PrintWriter pw = response.getWriter();
+		int id = 0;
+		try {
+			deleteData = URLDecoder.decode(data, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JSONArray json = JSONArray.fromObject(deleteData);
+		List<PaySearchVO> list = json.toList(json, PaySearchVO.class);
+
+		try {
+			payService.deletePay(list, response);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			id = payService.selectPay(list, response);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (id == 0) {
+			jr.setResult("info");
+			jr.setMsg("删除成功");
+			JSONObject json1 = JSONObject.fromObject(jr);
+			pw.print(json1.toString());
+		} else {
+			jr.setResult("error");
+			jr.setMsg("删除失败");
+			JSONObject json1 = JSONObject.fromObject(jr);
+			pw.print(json1.toString());
+		}
 	}
 	
 	@RequestMapping("/getKnowledgeContent")

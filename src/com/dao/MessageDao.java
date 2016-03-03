@@ -74,6 +74,8 @@ public interface MessageDao {
 	
 	public List<Consults> getKnowledgeContent(String title) throws Exception;
 
+	public String selectComp(String taxId) throws SQLException;
+
 
 
 

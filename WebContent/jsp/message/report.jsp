@@ -161,7 +161,6 @@
 						success : function(r) {
 							$.messager.alert('操作提示', r.msg,r.result);
 							$('#dg').datagrid("reload");
-							$('#dg').datagrid("clearSelections");
 						},
 						error : function() {
 							$.messager.alert('操作提示', "服务器出错","error");
@@ -169,6 +168,30 @@
 					});
 				}
 				
+			});
+			
+			
+			$('#ReportDelete').click(function(){
+				var rows = $('#dg').datagrid('getSelections');
+				if (rows.length == 0) {
+					$.messager.alert('操作提示', "请选择删除对象","info");
+					return;
+				} else {
+					var data = encodeURI(JSON.stringify(rows),"UTF-8");
+					$.ajax({
+						url : '<%=basePath%>deleteReport',
+						type : "POST",
+						dataType : "json",
+						data : 'data=' + data,
+						success : function(r) {
+							$.messager.alert('操作提示', r.msg,r.result);
+							$('#dg').datagrid("reload");
+						},
+						error : function() {
+							$.messager.alert('操作提示', "服务器出错","error");
+						}
+					});
+				}			
 			});
 	});
 
@@ -201,6 +224,7 @@
 	function clearSearch() {
 		$('#dg').datagrid("load", {});
 		$('#reportTable1').form("clear");
+		$('#dg').datagrid("clearSelections");
 	}
 	
 	function getWidth(percent){  
@@ -210,6 +234,8 @@
 	function fixWidthTable(percent){  
         return getWidth(0.6) * percent;  
 	} 
+	
+
 </script>
 
 <body class="easyui-layout">
@@ -221,8 +247,8 @@
 				<table id="reportTable">
 					<tr>
 						<th>选择文件:</th>
-						<td><input id="file" type="file" name="file" />
-							<a id="formBtn" href="javascript:void(0);" class="easyui-linkbutton">导入</a></td>
+						<td><input id="file" type="file" name="file" /> <a
+							id="formBtn" href="javascript:void(0);" class="easyui-linkbutton">导入</a></td>
 					</tr>
 				</table>
 			</form>
@@ -246,6 +272,8 @@
 							href="javascript:void(0);" onclick="clearSearch();">重置</a></td>
 						<td><a id="ReportMsgSend" icon="icon-ok"
 							class="easyui-linkbutton" href="javascript:void(0);">发送</a></td>
+						<td><a id="ReportDelete" icon="icon-tip"
+							class="easyui-linkbutton" href="javascript:void(0);">删除</a></td>
 					</tr>
 
 				</table>

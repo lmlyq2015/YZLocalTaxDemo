@@ -432,4 +432,9 @@ public class MessageDaoImp implements MessageDao {
 		return list;
 	}
 
+	public String selectComp(String taxId) throws SQLException {
+		// TODO Auto-generated method stub
+		return (String) sqlMapClient.queryForObject("selectComp", taxId);
+	}
+
 }

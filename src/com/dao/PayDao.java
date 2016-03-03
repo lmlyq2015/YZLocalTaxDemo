@@ -27,5 +27,9 @@ public interface PayDao {
 	public void deletePay(String taxId) throws SQLException;
 
 	public List<TotalTax> getUnpaidTax(String taxId) throws SQLException;
+
+	public void deletePay(PaySearchVO paySearchVO) throws SQLException;
+
+	public int selectPay(PaySearchVO paySearchVO) throws SQLException;
 	
 }

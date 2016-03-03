@@ -232,6 +232,7 @@ function searchStatus() {
 function clearSearch() {
 	$('#resultDg').datagrid("load", {});
 	$('#searchForm').form("clear");
+	$('#resultDg').datagrid("clearSelections");
 }
 
 function getWidth(percent){  
@@ -314,16 +315,17 @@ function reSendFailMsg() {
 function updateReceiver(){
 	var rows = $('#resultDg').datagrid('getSelections');
 	var rec = $('#receiverSelect').combobox('getValue');
+	var arr = [];
 	if (rows.length == 0) {
 		$.messager.alert('操作提示', "请选择修改对象","info");
 		return;
-	}else{
-	for(var i = 0;i < rows.length;i++){
-	   $('#resultDg').datagrid('updateRow',{
-		   index: i,
-		   row:{
-			   receiver: rec
-		   }});
+	}else{		
+		for(var i = 0;i < rows.length;i++){
+	   		$('#resultDg').datagrid('updateRow',{
+		  	 index: $('#resultDg').datagrid('getRowIndex',rows[i].id),
+		  	 row:{
+				   receiver: rec
+		  	 }});
 	}
 }
 }
