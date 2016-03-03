@@ -64,7 +64,7 @@
 			}, {
 				title : '财务负责人名称',
 				field : 'adminName',
-				width : fixWidthTable(0.10),
+				width : fixWidthTable(0.12),
 				align:'center'
 			}, {
 				title : '财务负责人号码',
