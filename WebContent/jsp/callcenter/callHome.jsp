@@ -17,10 +17,6 @@
 
 textarea {
     resize: none;
-    
-.datagrid-header {
-position: absolute; visibility: hidden;
-}
 }
 #askDiv {
     min-height: 120px; 
@@ -50,6 +46,7 @@ position: absolute; visibility: hidden;
     overflow-y: auto;
     -webkit-user-modify: read-write-plaintext-only;
 }
+#contentDg .datagrid-btable tr{height: 50px;}
 
 </style>
 <script type="text/javascript">
@@ -221,6 +218,26 @@ $(function() {
 			  
 				 ]
 	});
+	
+	$('#contentDg').datagrid({
+		loadMsg : '加载中...',
+		fitColumns:false,
+		singleSelect:true,
+ 		showHeader : false,
+ 		nowrap : false,
+		columns:[[
+					{
+						title : '搜索结果',
+						field : 'answers',
+						width:'98%',
+						heigth:fixWidthTable(2)
+					}     
+		      	]],
+		      	 onClickRow : function (rowIndex, rowData) {
+		      		$('#answerDiv').text(rowData.answers);
+		      	 }
+
+	});
 	$('#consultWinClose').click(function(){
 		
 		$('#consultDlg').dialog('close');
@@ -262,6 +279,12 @@ $(function() {
 		
 		
 	});
+    $('#askDiv').keydown(function(event){
+    	if (event.keyCode == 13) {
+    		var title = $("#askDiv").text();
+			 $("#contentDg").datagrid({url:'<%=basePath%>getKnowledgeContent',queryParams:{title : title}});
+    		}
+       });
 
 });
 	function dateFormat(offeringTime) {
@@ -370,7 +393,7 @@ $(function() {
 		style="width: 500px; height: 200px; padding: 10px 20px;" closed="true" modal="true">
 	</div>
 	<div id="consultDlg" class="easyui-dialog"
-		style="width: 600px; height: 400px;" closed="true" modal="true" title="咨询">
+		style="width: 700px; height: 400px;" closed="true" modal="true" title="咨询">
 		<div class="easyui-layout" border="false" fit="true">
 			<div region="center">
 				<div class="easyui-layout" border="false" fit="true">
@@ -384,10 +407,17 @@ $(function() {
 				</div>
 
 			</div>
-			<div region="east" title="问题检索" style="width: 250px;height: 200px;padding-right: 2px;">
-				
-				<input id="searchContent" class="easyui-textbox" style="float: left;overflow: hidden;width: 99%;border:1px solid #006666;">
-				
+			<div region="east"  style="width: 350px;height: 200px;padding-right: 2px;">
+				<div class="easyui-layout" border="false" fit="true">
+<!-- 					<div region="north"> -->
+<!-- 					  <input id="searchContent" class="easyui-textbox"  style="float: left;overflow: hidden;width: 99%;border:1px solid #006666;height: 20px;"> -->
+<!-- 					</div> -->
+					<div region="center" border="false" title="搜索结果">
+						<table id="contentDg" fit="true" border="false">
+						
+						</table>
+					</div>
+				</div>
 				
 				
 			</div>

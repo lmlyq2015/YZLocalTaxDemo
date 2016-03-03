@@ -418,4 +418,18 @@ public class MessageDaoImp implements MessageDao {
 		sqlMapClient.delete("deleteComp", taxId);
 	}
 
+	@Override
+	public List<Consults> getKnowledgeContent(String title) throws Exception {
+		List<Consults> list = null;
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("title", title);
+			list = sqlMapClient.queryForList("getKnowledgeContent",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return list;
+	}
+
 }

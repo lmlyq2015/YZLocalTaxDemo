@@ -71,6 +71,8 @@ public interface MessageDao {
 	public void deleteState(String taxId) throws SQLException;
 
 	public void deleteComp(String taxId) throws SQLException;
+	
+	public List<Consults> getKnowledgeContent(String title) throws Exception;
 
 
 

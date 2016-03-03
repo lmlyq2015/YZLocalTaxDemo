@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -873,7 +875,7 @@ public class TaxMessageController {
 	@RequestMapping("/deleteComp")
 	@ResponseBody
 	public void deleteComp(@RequestParam("data") String data,
-			HttpServletResponse response) throws IOException {
+			HttpServletResponse response) throws Exception {
 		String deleteData = null;
 		JsonResult jr = new JsonResult();
 		PrintWriter pw = response.getWriter();
@@ -888,12 +890,30 @@ public class TaxMessageController {
 
 		try {
 			messageService.deleteComp(list, response);
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 			// TODO Auto-generated catch block
 		}
 		jr.setResult("info");
 		jr.setMsg("企业删除成功");
 		JSONObject json1 = JSONObject.fromObject(jr);
 		pw.print(json1.toString());
+	}
+	
+	@RequestMapping("/getKnowledgeContent")
+	@ResponseBody
+	public Map<String,Object> getKnowledgeContent(@RequestParam("title") String title,HttpServletRequest request) throws Exception {
+		try {
+			Map<String,Object> map = new HashMap<String,Object>();
+			title.replaceAll("\\s*|\t|\r|\n|<br>", "");
+			List<Consults> list = messageService.getKnowledgeContent(title.trim());
+			map.put("rows", list);
+			map.put("total", list.size());
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 }

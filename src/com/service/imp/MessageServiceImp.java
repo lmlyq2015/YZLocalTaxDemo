@@ -416,4 +416,10 @@ public class MessageServiceImp implements MessageService {
 		messageDao.deleteComp(list.get(i).getTaxId());
 		}
 	}
+
+	@Override
+	public List<Consults> getKnowledgeContent(String title) throws Exception {
+		// TODO Auto-generated method stub
+		return messageDao.getKnowledgeContent(title);
+	}
 }

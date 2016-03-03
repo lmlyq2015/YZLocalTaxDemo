@@ -67,5 +67,7 @@ public interface MessageService {
 	public void reSendMsg(List<Message> list) throws SQLException;
 
 	public void deleteComp(List<MessageSearchVO> list,HttpServletResponse response) throws SQLException;
+	
+	public List<Consults> getKnowledgeContent(String title) throws Exception;
 
 }

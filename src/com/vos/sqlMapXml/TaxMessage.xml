@@ -319,4 +319,9 @@ b.TaxAgentMobile as taxAgentMobile,b.AdminMobile as adminMobile,b.RepMobile as r
 		]]>
 
 	</delete>
+	<select id="getKnowledgeContent" parameterClass="java.util.Map" resultClass="com.vos.Consults">
+		<![CDATA[
+			select content as answers from tax_knowledge_house where title like '%$title$%'
+		]]>
+	</select>
 </sqlMap>
