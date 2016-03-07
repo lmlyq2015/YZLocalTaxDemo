@@ -210,7 +210,8 @@ $.parser.onComplete = function(){
             		});
 
             	} else {
-            		$('#tabs').tabs('select','通话');
+            		$('#tabs').tabs('select','通话记录');
+            		$('#tabs').tabs('updateIframeTab',{'which':'通话记录'});
             	}          	
             	$('#dlg').dialog('close');
             	
