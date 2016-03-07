@@ -250,6 +250,7 @@ sy.serializeObject = function (form) { /*将form表单内的元素序列化为�
 	function clearSearch() {
 		$('#enterpriceDg').datagrid("load", {});
 		$('#CompSearch').form("clear");
+		$('#enterpriceDg').datagrid("clearSelections");
 	}
 	
 	function clearContent(){
