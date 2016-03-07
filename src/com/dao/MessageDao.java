@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vos.CallInfoVo;
 import com.vos.Consults;
+import com.vos.ContactVo;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
@@ -56,8 +57,9 @@ public interface MessageDao {
 	
 	public List<CallInfoVo> getCallList(String account) throws SQLException;
 	
-	public List<CallInfoVo> getCallInfoByCallNo(String callNo) throws SQLException;
+	public List<CallInfoVo> getCallInfoByCallNo(String callNo,int firstRow, int pageSize) throws SQLException;
 
+	public int getCallInfoByCallNo(String callNo) throws Exception;
 	public List<Consults> getConsultInfoByCallSheetNo(String callSheetNo) throws SQLException;
 	
 	public String getStatusWhenAddConsults(CallInfoVo callvo) throws SQLException;
@@ -75,8 +77,7 @@ public interface MessageDao {
 	public List<Consults> getKnowledgeContent(String title) throws Exception;
 
 	public String selectComp(String taxId) throws SQLException;
-
-
-
+	
+	public List<ContactVo> getContactList() throws Exception;
 
 }

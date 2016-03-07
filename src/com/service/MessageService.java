@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.vos.CallInfoVo;
 import com.vos.Consults;
+import com.vos.ContactVo;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
@@ -56,7 +57,9 @@ public interface MessageService {
 	
 	public List<CallInfoVo> getCallList(String account) throws SQLException;
 	
-	public List<CallInfoVo> getCallInfoByCallNo(String callNo) throws SQLException;
+	public List<CallInfoVo> getCallInfoByCallNo(String callNo,int firstRow, int pageSize) throws SQLException;
+	
+	public int getCallInfoByCallNo(String callNo) throws Exception;
 	
 	public List<Consults> getConsultInfoByCallSheetNo(String callSheetNo) throws SQLException;
 	
@@ -72,4 +75,5 @@ public interface MessageService {
 
 	public int selectComp(List<MessageSearchVO> list,HttpServletResponse response) throws SQLException;
 
+	public List<ContactVo> getContactList() throws Exception;
 }

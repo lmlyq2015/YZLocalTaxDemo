@@ -215,7 +215,7 @@ $.parser.onComplete = function(){
             	$('#dlg').dialog('close');
             	
             	
-            });
+            }); 
         });
 		
 	function ringAlert(msg) {
@@ -265,6 +265,13 @@ $.parser.onComplete = function(){
 		var s = '<iframe name="mainFrame" scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
 		return s;
 	}
+	
+	function openPhoneNoDlg(type) {
+		$('#consultTranDlgBtn').attr('title',type); 
+		$('#consultTranDlg').dialog('open');
+		$('#consultTranDlg').dialog('refresh','<%=basePath%>window/contactList.jsp');
+	}
+
     </script>
 
 </head>
@@ -287,7 +294,7 @@ $.parser.onComplete = function(){
 			鄞州地方税务局纳税服务系统</span>
 			
 			<div style="float: right;line-height: 50px" fit="true">
-				<iframe align="middle" name="phone" scrolling="no" frameborder="0"  src="<%=basePath%>edb_bar/phoneBar/phonebar.html?loginName=${current_user.callCenterAccount }&password=${current_user.callCenterPwd }&loginType=gateway" width="500px" height="60px"></iframe>
+				<iframe id="phone" align="middle" name="phone" scrolling="no" frameborder="0"  src="<%=basePath%>edb_bar/phoneBar/phonebar.html?loginName=${current_user.callCenterAccount }&password=${current_user.callCenterPwd }&loginType=sip" width="500px" height="60px"></iframe>
 			</div>
 	</div>
 	<div region="south" split="true"
@@ -364,6 +371,13 @@ $.parser.onComplete = function(){
 	<div id="dlg-buttons">
 		<a id="ringBtn" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-save">确定</a>
 	</div>
-	
+	<div id="consultTranDlg" class="easyui-dialog" title="电话薄"
+		style="width: 350px; height: 400px;" closed="true" modal="true"
+		buttons="#consultTranDlg-button">
+	</div>
+		<div id="consultTranDlg-button">
+		<a id="consultTranDlgBtn" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-save">确定</a>
+		<a id="clearBtn" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel">清除</a>
+	</div>
 </body>
 </html>

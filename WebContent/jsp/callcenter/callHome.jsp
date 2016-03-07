@@ -99,7 +99,7 @@ $(function() {
 		singleSelect:true,
 		nowrap : false,
 		pagination : true,
-		pageSize: 20,
+		pageSize: 10,
 		pageList:[10,20,30],
 		sortName: 'offeringTime',
  		sortOrder: 'desc',

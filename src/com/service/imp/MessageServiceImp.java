@@ -14,6 +14,7 @@ import com.util.DateUtils;
 import com.util.TaxUtil;
 import com.vos.CallInfoVo;
 import com.vos.Consults;
+import com.vos.ContactVo;
 import com.vos.Message;
 import com.vos.MessageResult;
 import com.vos.MessageSearchVO;
@@ -326,10 +327,10 @@ public class MessageServiceImp implements MessageService {
 	}
 
 	@Override
-	public List<CallInfoVo> getCallInfoByCallNo(String callNo)
+	public List<CallInfoVo> getCallInfoByCallNo(String callNo,int firstRow, int pageSize)
 			throws SQLException {
 
-		return messageDao.getCallInfoByCallNo(callNo);
+		return messageDao.getCallInfoByCallNo(callNo,firstRow, pageSize);
 	}
 
 	@Override
@@ -436,5 +437,17 @@ public class MessageServiceImp implements MessageService {
 			}
 		}
 		return id;
+	}
+
+	@Override
+	public List<ContactVo> getContactList() throws Exception {
+		// TODO Auto-generated method stub
+		return messageDao.getContactList();
+	}
+
+	@Override
+	public int getCallInfoByCallNo(String callNo) throws Exception {
+		// TODO Auto-generated method stub
+		return messageDao.getCallInfoByCallNo(callNo);
 	}
 }

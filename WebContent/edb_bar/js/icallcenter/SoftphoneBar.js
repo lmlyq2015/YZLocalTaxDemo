@@ -274,11 +274,13 @@ hojo.declare("icallcenter.SoftphoneBar", null, {
     },
 	    
     toTransfer: function() {
-    	icallcenter.hojotools.input("transfer");
+    	window.parent.openPhoneNoDlg("transfer");
+    	//icallcenter.hojotools.input("transfer");
 	},
 
 	toConsult: function() {
-    	icallcenter.hojotools.input("consult");
+		window.parent.openPhoneNoDlg("consult");
+    	//icallcenter.hojotools.input("consult");
     },
 	
     exTransfer: function(phoneNum) {

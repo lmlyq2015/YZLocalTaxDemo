@@ -16,6 +16,7 @@ import com.util.DateUtils;
 import com.util.TaxUtil;
 import com.vos.CallInfoVo;
 import com.vos.Consults;
+import com.vos.ContactVo;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
@@ -328,11 +329,15 @@ public class MessageDaoImp implements MessageDao {
 	}
 
 	@Override
-	public List<CallInfoVo> getCallInfoByCallNo(String callNo)
+	public List<CallInfoVo> getCallInfoByCallNo(String callNo,int firstRow, int pageSize)
 			throws SQLException {
 		List<CallInfoVo> list = null;
 		try {
-			list = sqlMapClient.queryForList("getCallInfoByCallNo", callNo);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("callNo", callNo);
+			map.put("beginRow", firstRow);
+			map.put("pageSize", pageSize);
+			list = sqlMapClient.queryForList("getCallInfoByCallNo", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -435,6 +440,31 @@ public class MessageDaoImp implements MessageDao {
 	public String selectComp(String taxId) throws SQLException {
 		// TODO Auto-generated method stub
 		return (String) sqlMapClient.queryForObject("selectComp", taxId);
+	}
+
+	@Override
+	public List<ContactVo> getContactList() throws Exception {
+		List<ContactVo> list = null;
+		try {
+			list = sqlMapClient.queryForList("getContactList");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return list;
+	}
+
+	@Override
+	public int getCallInfoByCallNo(String callNo) throws Exception {
+		// TODO Auto-generated method stub
+		int count = 0;
+		try {
+			count = (Integer) sqlMapClient.queryForObject("getCallCount",callNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return count;
 	}
 
 }

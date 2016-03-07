@@ -271,13 +271,13 @@ DATE_FORMAT(s.SendDate, '%Y-%m-%d %H:%i') as sendDate,e.loginname as sendBy,RecI
 		tax_call_info where agent = #account# order by offeringTime desc
 	</select>
 	<select id="getCallInfoByCallNo" resultClass="com.vos.CallInfoVo"
-		parameterClass="java.lang.String">
+		parameterClass="java.util.Map">
 		select callSheetId, DATE_FORMAT(offeringTime, '%Y-%c-%d
 		%H:%i:%s') as offeringTime,agent,DATE_FORMAT(begin, '%Y-%c-%d
 		%H:%i:%s') as beginTime,DATE_FORMAT(end, '%Y-%c-%d %H:%i:%s') as
 		endTime,recordFile as recordFile, state as status, case
 		satisfactionDegree when 1 then '非常满意' when 2 then '满意' end as satisfactionDegree,callType from tax_call_info where
-		callNo = #callNo# order by offeringTime desc
+		callNo = #callNo# order by offeringTime desc limit #beginRow#,#pageSize#
 	</select>
 	<select id="getConsultInfoByCallSheetNo" resultClass="com.vos.Consults"
 		parameterClass="java.lang.String">
@@ -328,5 +328,12 @@ b.TaxAgentMobile as taxAgentMobile,b.AdminMobile as adminMobile,b.RepMobile as r
 	
 	<select id="selectComp" resultClass="com.vos.MessageSearchVO" parameterClass="java.lang.String">
 		select * from tax_entbasicinfor where taxid = #taxId#
+	</select>
+	
+	<select id="getContactList" resultClass="com.vos.ContactVo">
+		select name,number from tax_contact
+	</select>
+	<select id="getCallCount" resultClass="java.lang.Integer" parameterClass="java.lang.String">
+		select count(*) from tax_call_info where callNo = #callNo#
 	</select>
 </sqlMap>

@@ -38,6 +38,7 @@ import com.util.DateUtils;
 import com.util.TaxUtil;
 import com.vos.CallInfoVo;
 import com.vos.Consults;
+import com.vos.ContactVo;
 import com.vos.HungupVo;
 import com.vos.JsonResult;
 import com.vos.Message;
@@ -676,13 +677,19 @@ public class TaxMessageController {
 	@RequestMapping("/getCallInfoByCallNo")
 	@ResponseBody
 	public Map<String, Object> getCallInfoByCallNo(
-			@RequestParam("callNo") String callNo) {
+			@RequestParam("callNo") String callNo,
+			@RequestParam("rows") Integer pageSize,
+			@RequestParam("page") Integer pageNumber) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			List<CallInfoVo> list = messageService.getCallInfoByCallNo(callNo);
+			int intPageNum = pageNumber == null || pageNumber <= 0 ? 1 : pageNumber;
+			int intPageSize = pageSize == null || pageSize <= 0 ? 10 : pageSize;
+			int firstRow = (pageNumber - 1) * pageSize;
+			List<CallInfoVo> list = messageService.getCallInfoByCallNo(callNo,firstRow, pageSize);
+			int count = messageService.getCallInfoByCallNo(callNo);
 			if (list != null && list.size() > 0) {
 				map.put("rows", list);
-				map.put("total", list.size());
+				map.put("total", count);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1007,6 +1014,20 @@ public class TaxMessageController {
 			List<Consults> list = messageService.getKnowledgeContent(title.trim());
 			map.put("rows", list);
 			map.put("total", list.size());
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	@RequestMapping("/getContactList")
+	@ResponseBody
+	public Map<String,Object> getContactList() throws Exception {
+		try {
+			Map<String,Object> map = new HashMap<String,Object>();		
+			List<ContactVo> list = messageService.getContactList();
+			map.put("rows", list);
+			map.put("total", list.size());	
 			return map;
 		} catch (Exception e) {
 			e.printStackTrace();
