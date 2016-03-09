@@ -788,12 +788,12 @@ public class TaxMessageController {
 		try {
 			vo.setCallSheetID(CallSheetID);
 			vo.setCallType(CallType);
-			vo.setRecordFile(FileServer + RecordFile);
+			vo.setRecordFile(MonitorFilename);
 			vo.setBegin(Begin);
 			vo.setEnd(End);
 			vo.setState(State);
 			vo.setRingTime(RingTime);
-
+			System.out.println("execute hangup function");	
 			if (CallType.equals("normal") || CallType.equals("transfer")) {
 				result = phoneService.hungup(vo);
 				// if (result > 0) {
