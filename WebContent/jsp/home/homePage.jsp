@@ -217,6 +217,41 @@ $.parser.onComplete = function(){
             	
             	
             }); 
+            
+            $('#consultTranDlgBtn').click(function(){
+            	
+            	var numberInput = $('#number').val().trim();
+            	var listSelected = isListSelected();
+        		if (numberInput == '' && !listSelected) {
+        			$.messager.alert('操作提示', "请选择电话号码","error");
+        		} else if (numberInput != '' && listSelected) {
+        			$.messager.alert('操作提示', "输入框和列表选择重复，请重新选择","error");
+        		} else {
+        			var number = numberInput==''?$('#contactListDg').datagrid('getSelected').number:numberInput;
+        			var type = $('#consultTranDlgBtn').attr('title');
+        			if (type == 'transfer') {
+        				$("#phone")[0].contentWindow.softphoneBar.exTransfer(number); 
+        			} else if (type == 'consult') {
+        				$("#phone")[0].contentWindow.softphoneBar.exConsult(number);
+        			} else {
+        				$.messager.alert('提示', '转接咨询初始化出错', 'error');
+        			}
+        			$('#consultTranDlg').dialog('close');
+        		}	
+            });
+            
+            $('#clearBtn').click(function(){
+            	
+              	 if ($('#number').val() != '') {
+              		 $('#number').val('');
+              	 };
+              	 var row =  $('#contactListDg').datagrid('getSelected');
+              	 var index = $('#contactListDg').datagrid('getRowIndex',row);
+              	 $('#contactListDg').datagrid('clearSelections');
+              	 $('#number').blur();
+              	 $("input[type='radio']")[index].checked = false;
+
+              });
         });
 		
 	function ringAlert(msg) {
@@ -295,7 +330,7 @@ $.parser.onComplete = function(){
 			鄞州地方税务局纳税服务系统</span>
 			
 			<div style="float: right;line-height: 50px" fit="true">
-				<iframe id="phone" align="middle" name="phone" scrolling="no" frameborder="0"  src="<%=basePath%>edb_bar/phoneBar/phonebar.html?loginName=${current_user.callCenterAccount }&password=${current_user.callCenterPwd }&loginType=gateway" width="500px" height="60px"></iframe>
+				<iframe id="phone" align="middle" name="phone" scrolling="no" frameborder="0"  src="<%=basePath%>edb_bar/phoneBar/phonebar.html?loginName=${current_user.callCenterAccount }&password=${current_user.callCenterPwd }&loginType=sip" width="500px" height="60px"></iframe>
 			</div>
 	</div>
 	<div region="south" split="true"
@@ -376,7 +411,7 @@ $.parser.onComplete = function(){
 		style="width: 350px; height: 400px;" closed="true" modal="true"
 		buttons="#consultTranDlg-button">
 	</div>
-		<div id="consultTranDlg-button">
+	<div id="consultTranDlg-button">
 		<a id="consultTranDlgBtn" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-save">确定</a>
 		<a id="clearBtn" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel">清除</a>
 	</div>

@@ -58,40 +58,8 @@ $('#contactListDg').datagrid({
 // 	});
 	
 // 	$('#number').blur();
-    $('#consultTranDlgBtn').click(function(){
-    	
-    	var numberInput = $('#number').val().trim();
-    	var listSelected = isListSelected();
-		if (numberInput == '' && !listSelected) {
-			$.messager.alert('操作提示', "请选择电话号码","error");
-		} else if (numberInput != '' && listSelected) {
-			$.messager.alert('操作提示', "输入框和列表选择重复，请重新选择","error");
-		} else {
-			var number = numberInput==''?$('#contactListDg').datagrid('getSelected').number:numberInput;
-			//alert(number);
-			var type = $('#consultTranDlgBtn').attr('title');
-			if (type == 'transfer') {
-				$("#phone")[0].contentWindow.softphoneBar.exTransfer(number); 
-			} else if (type == 'consult') {
-				$("#phone")[0].contentWindow.softphoneBar.exConsult(number);
-			} else {
-				$.messager.alert('提示', '转接咨询初始化出错', 'error');
-			}
-			$('#consultTranDlg').dialog('close');
-		}	
-    });
-    $('#clearBtn').click(function(){
-    	
-   	 if ($('#number').val() != '') {
-   		 $('#number').val('');
-   	 };
-   	 var row =  $('#contactListDg').datagrid('getSelected');
-   	 var index = $('#contactListDg').datagrid('getRowIndex',row);
-   	 $('#contactListDg').datagrid('clearSelections');
-   	 $('#number').blur();
-   	 $("input[type='radio']")[index].checked = false;
 
-   });
+
     $('#number').keydown(function(event){
     	if (event.keyCode == 13) {
     		$('#consultTranDlgBtn').click();

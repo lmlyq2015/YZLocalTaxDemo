@@ -585,6 +585,97 @@ hojo.declare("icallcenter.Phone", null, {
         this._isInvestigatting = false;
     },
     
+//    transfer: function(destExten, mode, values) {
+//    	var self = this;  
+//        console.info("电话转接[%s:%s]", destExten, mode);
+//
+//        var fromCid = self.callObject.originCallNo;
+//        if(destExten.substr(0,1) == '9' && mode == 'external') {
+//        	if(destExten.length <= 5) {
+//        		destExten = destExten.substr(1);
+//        		var peer = this._base._getUserViaExten(destExten);
+//        		if(!peer) {
+//        			destExten = "9" + destExten;
+//        		}
+//        	}
+//        }
+//        
+//        if(destExten.length > 4 && mode != 'skillgroup') {
+//        	icallcenter.hojotools.showLoading(destExten);
+// 			fromCid = this.sipNo + '@' + this.didNum;
+// 		} else if(destExten.length <= 4 && mode != 'skillgroup'){
+// 			if(destExten.substr(0,1) != '9') {
+// 				icallcenter.hojotools.showLoading("工号  " + destExten + " ");	
+// 			} else {
+// 				icallcenter.hojotools.showLoading(destExten);
+// 			}
+// 		} else if(mode == 'skillgroup') {
+// 			icallcenter.hojotools.showLoading(destExten);
+// 		}
+//
+//        var synData = hojo.objectToQuery(values);
+//        var context = "";
+//        context = this.accountId;
+//        var workSheetId;
+//        var customerId;
+//        if(self.callObject && self.callObject.data){
+//        	workSheetId = self.callObject.data.workSheetId;
+//            customerId = self.callObject.data.customerId;
+//        }
+//    	self._sendAction('Transfer', {
+//	    	WorkSheetID: workSheetId?workSheetId:"",
+//	    	CustomerID: customerId?customerId:"",
+//	        Exten: destExten,
+//	        UserID: self.userId,
+//	        Channel: self._otherChannel,
+//	        ExtraChannel: self._curChannel,
+//	        Context: context
+//    	}, function(response, ioArgs) {
+//    		icallcenter.hojotools.close();
+//            var json = response;
+//            if (json.Succeed) {
+//            	window.parent.message("转接成功");
+//            	//icallcenter.hojotools.showSucc("转接成功");
+//                console.debug("转接成功");
+//            } else{
+//                console.debug("转接失败-"+json.Message);
+//                var message = "";
+//                if(json.Message == "310") {
+//                	message = "未配置外呼线路";
+//                } else if(json.Message == "311"){
+//                	message = "转接的用户忙";
+//                } else if(json.Message == "312"){
+//                	message = "转接的用户未签入";
+//                } else if(json.Message == "313"){
+//                	message = "转接的用户正在通话";
+//                } else if(json.Message == "314"){
+//                	message = "转接的用户没有以通话方式登录";
+//                } else if(json.Message == "315"){
+//                	message = "无法呼通转接的用户";
+//                } else if(json.Message == "316"){
+//                	message = "转接用户不存在";
+//                } else {
+//                	message = "";
+//                }
+//                
+//                if(message == "") {
+//                	window.parent.message("转接成功");
+//                	//window.parent.ringAlert("转接成功");
+//                	//icallcenter.hojotools.error("转接失败");	
+//                } else {
+//                	window.parent.message("转接失败");
+//                	//window.parent.ringAlert("转接失败:" + message);
+//                	//icallcenter.hojotools.error("转接失败：" + message);
+//                }
+//                if(json.Expired){
+//              		self._relogin();
+//              	}
+//            }
+//        },function(response, ioArgs) {
+//        	icallcenter.hojotools.close();
+//        	console.debug("ACTION返回错误");
+//        });
+//    },
     transfer: function(destExten, mode, values) {
     	var self = this;  
         console.info("电话转接[%s:%s]", destExten, mode);
@@ -599,21 +690,9 @@ hojo.declare("icallcenter.Phone", null, {
         		}
         	}
         }
-        
-        if(destExten.length > 4 && mode != 'skillgroup') {
-        	icallcenter.hojotools.showLoading(destExten);
- 			fromCid = this.sipNo + '@' + this.didNum;
- 		} else if(destExten.length <= 4 && mode != 'skillgroup'){
- 			if(destExten.substr(0,1) != '9') {
- 				icallcenter.hojotools.showLoading("工号  " + destExten + " ");	
- 			} else {
- 				icallcenter.hojotools.showLoading(destExten);
- 			}
- 		} else if(mode == 'skillgroup') {
- 			icallcenter.hojotools.showLoading(destExten);
- 		}
 
         var synData = hojo.objectToQuery(values);
+        console.debug(synData);
         var context = "";
         context = this.accountId;
         var workSheetId;
@@ -631,12 +710,12 @@ hojo.declare("icallcenter.Phone", null, {
 	        ExtraChannel: self._curChannel,
 	        Context: context
     	}, function(response, ioArgs) {
-    		icallcenter.hojotools.close();
+    		//icallcenter.hojotools.close();
+    		console.dir(response);
             var json = response;
             if (json.Succeed) {
-            	window.parent.message("转接成功");
             	//icallcenter.hojotools.showSucc("转接成功");
-                console.debug("转接成功");
+                //console.debug("转接成功");
             } else{
                 console.debug("转接失败-"+json.Message);
                 var message = "";
@@ -659,12 +738,10 @@ hojo.declare("icallcenter.Phone", null, {
                 }
                 
                 if(message == "") {
-                	window.parent.message("转接成功");
-                	//window.parent.ringAlert("转接成功");
+                	window.parent.message("转接失败");
                 	//icallcenter.hojotools.error("转接失败");	
                 } else {
                 	window.parent.message("转接失败");
-                	//window.parent.ringAlert("转接失败:" + message);
                 	//icallcenter.hojotools.error("转接失败：" + message);
                 }
                 if(json.Expired){
@@ -674,7 +751,33 @@ hojo.declare("icallcenter.Phone", null, {
         },function(response, ioArgs) {
         	icallcenter.hojotools.close();
         	console.debug("ACTION返回错误");
+        	console.dir(response);
         });
+    },
+    phone_cancelTransfer: function() {
+        var self = this;
+        if (self._otherChannel) {
+            var phoneJson = {
+                Channel: self._otherChannel
+            };
+            var onload = function(response) {
+                icallcenter.hojotools.close();
+                if(response.Succeed) {
+                    //icallcenter.hojotools.showSucc("取消转接成功");
+                	window.parent.message("取消转接成功");
+                } else {
+                    icallcenter.hojotools.error("取消转接失败");
+                    if(response.Expired){
+                        self._relogin();
+                    }
+                }
+            };
+            var error = function() {
+                icallcenter.hojotools.close();
+                icallcenter.hojotools.error("取消转接失败");
+            };
+            self._sendAction('CancelTransfer', phoneJson, onload, error);
+        }
     },
 
     

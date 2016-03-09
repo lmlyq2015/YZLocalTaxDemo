@@ -74,6 +74,14 @@ hojo.declare("icallcenter.stateElement.peerState", null, {
 					}
 				}
 			}
+		} else if(evtJson.Event == "IvrMenuEnd"){
+			hojo.publish("ivrMenuTransfering", [evtJson]);
+		} else if(evtJson.Event == "TransferSuccess" || evtJson.Event == "TransferFailed") {
+			evtJson.Type = "Transfer";
+			if(evtJson.Investigate) {
+				evtJson.Type = "Investigate";
+			}
+			hojo.publish("transfering", [evtJson]);
 		}
 		
 	},

@@ -27,7 +27,7 @@ icallcenter.hojotools.input = function(connectType) {
 	   bgObj.style.opacity="0.6";
 	   bgObj.style.left="0";
 	   bgObj.style.width=sWidth*1.6 + "px";
-	   bgObj.style.height=50 + "%";
+	   bgObj.style.height=sHeight + "px";
 	   bgObj.style.zIndex = "10000";
 	   document.getElementById("softphonebar").appendChild(bgObj);
 
@@ -37,13 +37,13 @@ icallcenter.hojotools.input = function(connectType) {
 	   msgObj.style.background="white";
 	   msgObj.style.border="1px solid " + bordercolor;
 	   msgObj.style.position = "absolute";
-       msgObj.style.left = "50%";
-       msgObj.style.top = "50%";
+//       msgObj.style.left = "50%";
+       msgObj.style.top = "0";
        msgObj.style.font="12px/1.6em Verdana, Geneva, Arial, Helvetica, sans-serif";
-       msgObj.style.marginLeft = "-135px" ;
-       msgObj.style.marginTop = -75+document.documentElement.scrollTop+"px";
-       msgObj.style.width = msgw + "px";
-       msgObj.style.height =msgh + "px";
+//       msgObj.style.marginLeft = "-135px" ;
+//       msgObj.style.marginTop = -75+document.documentElement.scrollTop+"px";
+       msgObj.style.width = sWidth + "px";
+       msgObj.style.height =sHeight + "px";
        msgObj.style.textAlign = "left";
        msgObj.style.lineHeight ="35px";
        msgObj.style.zIndex = "10001";
@@ -119,6 +119,63 @@ icallcenter.hojotools.checkLoadingHide = function(destExten) {
 	}
 	icallcenter.hojotools.notifyDialogStayRemain -= 1000;
 };
+
+icallcenter.hojotools.checkTransferLoadingHide = function(destExten) {
+	var index = icallcenter.hojotools.index ++;
+	var html = ("转接中...<a href='#' onclick=\"javascript:phone.phone_cancelTransfer();\" style=\"margin-left:3px;cursor:pointer;font-weight:bold;color:red;text-decoration:underline;\">取消</a>");
+	document.getElementById("hollyc5.loading.message").innerHTML = html;
+};
+//icallcenter.hojotools.checkLoadingHide = function(destExten) {
+//	var index = icallcenter.hojotools.index ++;
+//	var html = ("转接中...<a href='#' onclick=\"javascript:phone.phone_cancelTransfer();\" style=\"margin-left:3px;cursor:pointer;font-weight:bold;color:red;text-decoration:underline;\">取消</a>");
+//	document.getElementById("hollyc5.loading.message").innerHTML = html;
+//};
+icallcenter.hojotools.softphonebar_showTranster = function(destExten) {
+	var msgw,msgh,bordercolor;
+	msgw=247;
+	msgh=52;
+	bordercolor="#c6c6c6";
+
+	var sWidth,sHeight;
+	sWidth=document.getElementById("softphonebar").offsetWidth;
+	sHeight=document.getElementById("softphonebar").offsetHeight;
+	var bgObj=document.createElement("div");
+	bgObj.setAttribute('id','hollyc5.bgDiv');
+	bgObj.style.position="absolute";
+	bgObj.style.top="0";
+	bgObj.style.background="#f2f2f2";
+	bgObj.style.filter="progid:DXImageTransform.Microsoft.Alpha(style=3,opacity=25,finishOpacity=75";
+	bgObj.style.opacity="0.6";
+	bgObj.style.left="0";
+	bgObj.style.width=sWidth + "px";
+	bgObj.style.height=sHeight + "px";
+	bgObj.style.zIndex = "10000";
+	document.getElementById("softphonebar").appendChild(bgObj);
+
+	var msgObj=document.createElement("div");
+	msgObj.setAttribute("id","hollyc5.msgDiv");
+	msgObj.setAttribute("align","center");
+	msgObj.style.background="#f2f2f2";
+	msgObj.style.border="1px solid " + bordercolor;
+	msgObj.style.position = "absolute";
+	msgObj.style.top = "0";
+	msgObj.style.font="12px/1.6em Verdana, Geneva, Arial, Helvetica, sans-serif";
+//	msgObj.style.marginLeft = "-135px" ;
+//	msgObj.style.marginTop = -75+document.documentElement.scrollTop+"px";
+	msgObj.style.width = sWidth + "px";
+	msgObj.style.height =sHeight + "px";
+	msgObj.style.textAlign = "left";
+	msgObj.style.lineHeight ="25px";
+	msgObj.style.zIndex = "10001";
+	msgObj.style.paddingTop = "11px";
+	msgObj.style.paddingLeft = "12px";
+	msgObj.style.paddingRight = "10px";
+	msgObj.innerHTML = "<div style='height:20px;overflow:hidden;text-align:center'><img src='../imgs/loading.gif' style='float:left;margin-top:5px;' />" +
+		"<div id='hollyc5.loading.message' style='float:left;color:#666666;padding-left:5px;'>" +
+		+ "</div><div style='clear:both;height:1px;overflow:hidden'>&nbsp;</div></div>";
+	document.getElementById("softphonebar").appendChild(msgObj);
+	icallcenter.hojotools.checkTransferLoadingHide(destExten);
+}
 
 icallcenter.hojotools.hideNotify = function() {
 	icallcenter.hojotools.close();

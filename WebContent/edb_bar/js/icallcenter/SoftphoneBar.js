@@ -287,9 +287,14 @@ hojo.declare("icallcenter.SoftphoneBar", null, {
      	if (/^\d+$/.test(phoneNum)) {
      		icallcenter.hojotools.close('softphonebar'); 
             phone.transfer("9" + phoneNum, "external", {});
+			if(phoneNum.length <= 5) {
+				phoneNum = phoneNum.substr(1);
+				icallcenter.hojotools.softphonebar_showTranster("工号 " + phoneNum + " ");
+			} else
+				icallcenter.hojotools.softphonebar_showTranster(phoneNum + " ");
      	 } else {
-     		 window.parent.ringAlert("请输入正确的电话号码");
-     		 //icallcenter.hojotools.error("请输入正确的电话号码");
+     		window.parent.ringAlert("请输入正确的电话号码");
+     		//icallcenter.hojotools.error("请输入正确的电话号码");
      	 }       
     },
     
