@@ -131,7 +131,7 @@ public class TaxUtil {
 //		System.out.println(content);
 //		return content;
 		String content = "尊敬的会计，您所在的企业名称为：" + vo.getTaxName()
-				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳,查看链接："+ SEND_URL +"/YZLocalTaxDemo/YZ/"+vo.getMesId()+"/"+vo.getTaxId()+"，请尽快缴纳。联系电话：28861170。";
+				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳,查看链接："+ SEND_URL +"/YZLocalTaxDemo/YZ/"+vo.getMesId()+"/"+vo.getTaxId()+"，请尽快缴纳。联系电话：4000235082。";
 		System.out.println(content);
 		return content;
 	}
@@ -140,14 +140,14 @@ public class TaxUtil {
 		// TODO Auto-generated method stub
 		String content = "尊敬的会计，您所在的企业名称为：" + vo.getTaxName()
 				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未缴纳：缴款期限为" + vo.getStartTime() + "至" + vo.getEndTime() + "的" +  vo.getImposeType() + "，未缴税款为"
-				+ vo.getTotalTax() + "，请尽快缴纳。联系电话：28861170。";
+				+ vo.getTotalTax() + "，请尽快缴纳。联系电话：4000235082。";
 		System.out.println(content);
 		return content;
 	}
 	
 	public static String getReportContent(NotificationVo vo) {
 		String content = "尊敬的会计，您所在的企业名称为：" + vo.getTaxName()
-				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报,查看链接："+SEND_URL+"/YZLocalTaxDemo/YZ/"+vo.getMesId()+"/"+vo.getTaxId()+"，请尽快向鄞州地税局直属分局申报。联系电话：28861170。";
+				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报,查看链接："+SEND_URL+"/YZLocalTaxDemo/YZ/"+vo.getMesId()+"/"+vo.getTaxId()+"，请尽快向鄞州地税局直属分局申报。联系电话：4000235082。";
 		System.out.println(content);
 		return content;
 	}
@@ -156,7 +156,7 @@ public class TaxUtil {
 		// TODO Auto-generated method stub
 		String content = "尊敬的会计，您所在的企业名称为：" + vo.getTaxName()
 				+ "（识别号为" + vo.getTaxId() + "），目前尚有如下税款未申报：所属日期为" + vo.getStartTime() + "至" + vo.getEndTime() + "的"
-				+ vo.getImposeType() + "，请尽快向鄞州地税局直属分局申报。联系电话：28861170。";
+				+ vo.getImposeType() + "，请尽快向鄞州地税局直属分局申报。联系电话：4000235082。";
 		System.out.println(content);
 		return content;
 	}
