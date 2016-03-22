@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,7 @@ import com.util.TaxUtil;
 import com.vos.CallInfoVo;
 import com.vos.Consults;
 import com.vos.ContactVo;
+import com.vos.FoldTree;
 import com.vos.HungupVo;
 import com.vos.JsonResult;
 import com.vos.Message;
@@ -1030,6 +1032,104 @@ public class TaxMessageController {
 			map.put("total", list.size());	
 			return map;
 		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+	@RequestMapping("/getFoldTree")
+	public void getFoldTree(HttpServletResponse response) throws Exception {
+		PrintWriter pw = null;
+		try {
+			pw = response.getWriter();
+			List<FoldTree> list = messageService.getFoldTree();
+			
+			List<FoldTree> formatList =  FoldTree.buildtree(list,-1);
+			String jsonString= JSONArray.fromObject(formatList).toString();
+			pw.print(jsonString);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+	@RequestMapping("/addNode")
+	public void addNode(HttpServletResponse response,@RequestParam("data") String data) throws Exception {
+		PrintWriter pw = null;
+		try {
+			pw = response.getWriter();
+			FoldTree node = new FoldTree();
+			String[] arrData = data.split("=");
+			String nodeData = arrData[0];//父节点的信息
+			String newNodeName = arrData[1];//新增节点的名字
+			String d = URLDecoder.decode(nodeData, "UTF-8");
+			JSONObject object = JSONObject.fromObject(d);
+			node.setText(newNodeName);
+			node.setPid(object.getInt("id"));
+			messageService.addNode(node);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+	@RequestMapping("/getContentByNode")
+	@ResponseBody
+	public Map<String,Object> getContentByNode(@RequestParam("rows") Integer pageSize,@RequestParam("page") Integer pageNumber,
+			@RequestParam("nodeId") int nodeId) throws Exception {
+		Map<String,Object> map = new HashMap<String, Object>();
+		try {
+			
+			int intPageNum = pageNumber == null || pageNumber <= 0 ? 1 : pageNumber;
+			int intPageSize = pageSize == null || pageSize <= 0 ? 10 : pageSize;
+			int firstRow = (pageNumber - 1) * pageSize;
+			List<Consults> list = new ArrayList<Consults>();
+			//to be added the query logic
+			list = messageService.getContentByNode(nodeId,firstRow, pageSize);
+			map.put("rows", list);
+			map.put("total", list.size());
+			return map;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+	@RequestMapping("/addContentByNode")
+	public void addContentByNode(@RequestParam("title") String title,@RequestParam("content") String content,@RequestParam("nodeId") int nodeId,
+									HttpSession session,HttpServletRequest request) throws Exception {
+		try {
+			request.setCharacterEncoding("utf-8");
+			String t = new String(title.getBytes("iso8859-1"),"utf-8");
+			String c = new String(content.getBytes("iso8859-1"),"utf-8");
+			User user = (User) session.getAttribute("current_user");
+			Consults consult = new Consults();
+			consult.setQuestions(t);
+			consult.setAnswers(c);
+			consult.setEditor(user.getCallCenterAccount());
+			consult.setFoldId(nodeId);
+			consult.setUpdateDate(DateUtils.getNowTime());
+			messageService.addContentByNode(consult);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+	@RequestMapping("/searchContentByKeyWords")
+	@ResponseBody
+	public Map<String,Object> searchContentByKeyWords(@RequestParam("keywords") String keywords,@RequestParam("rows") Integer pageSize,@RequestParam("page") Integer pageNumber) throws Exception {
+		Map<String,Object> map = new HashMap<String, Object>();
+		try {
+			List<Consults> list = new ArrayList<Consults>();
+			int intPageNum = pageNumber == null || pageNumber <= 0 ? 1 : pageNumber;
+			int intPageSize = pageSize == null || pageSize <= 0 ? 10 : pageSize;
+			int firstRow = (pageNumber - 1) * pageSize;
+			list = messageService.searchContentByKeyWords(keywords.trim(), firstRow, pageSize);
+			map.put("rows", list);
+			map.put("total", list.size());
+			return map;
+		} catch(Exception e) {
 			e.printStackTrace();
 			throw e;
 		}

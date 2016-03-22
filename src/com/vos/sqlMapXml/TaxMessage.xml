@@ -336,4 +336,19 @@ b.TaxAgentMobile as taxAgentMobile,b.AdminMobile as adminMobile,b.RepMobile as r
 	<select id="getCallCount" resultClass="java.lang.Integer" parameterClass="java.lang.String">
 		select count(*) from tax_call_info where callNo = #callNo#
 	</select>
+	<select id="getFoldTree" resultClass="com.vos.FoldTree">
+		select id,text,parentId as pid from tax_knowledge_fold
+	</select>
+	<insert id="addNode" parameterClass="com.vos.FoldTree">
+		insert into tax_knowledge_fold(text,parentId) values (#text#,#pid#)
+	</insert>
+	<insert id="addContentByNode" parameterClass="com.vos.Consults">
+		insert into tax_knowledge_house(title,content,foldId,editor,updateDate) values (#questions#,#answers#,#foldId#,#editor#,#updateDate#)
+	</insert>
+	<select id="getContentByNode" parameterClass="java.util.Map" resultClass="com.vos.Consults">
+		select id, title as questions,content as answers,editor,DATE_FORMAT(updateDate, '%Y-%m-%d %H:%i:%s') as updateDate from tax_knowledge_house where foldId = #nodeId# order by updateDate desc
+	</select>
+	<select id="searchContentByKeyWords" parameterClass="java.util.Map" resultClass="com.vos.Consults">
+		select id, title as questions,content as answers,foldId,DATE_FORMAT(updateDate, '%Y-%m-%d %H:%i:%s') as updateDate from tax_knowledge_house where title like '%$keywords$%' order by updateDate desc
+	</select>
 </sqlMap>

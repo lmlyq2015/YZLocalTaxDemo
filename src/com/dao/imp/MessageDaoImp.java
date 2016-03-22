@@ -17,6 +17,7 @@ import com.util.TaxUtil;
 import com.vos.CallInfoVo;
 import com.vos.Consults;
 import com.vos.ContactVo;
+import com.vos.FoldTree;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
@@ -465,6 +466,72 @@ public class MessageDaoImp implements MessageDao {
 			throw e;
 		}
 		return count;
+	}
+
+	@Override
+	public List<FoldTree> getFoldTree() throws Exception {
+		List<FoldTree> treeList = new ArrayList<FoldTree>();
+		try {
+			treeList =  sqlMapClient.queryForList("getFoldTree");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return treeList;
+	}
+
+	@Override
+	public void addNode(FoldTree node) throws Exception {
+		try {
+			sqlMapClient.insert("addNode",node);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public void addContentByNode(Consults consult) throws Exception {
+		// TODO Auto-generated method stub
+		try {
+			sqlMapClient.insert("addContentByNode",consult);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public List<Consults> getContentByNode(int nodeId, int firstRow,
+			int pageSize) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			map.put("nodeId", nodeId);
+			map.put("beginRow", firstRow);
+			map.put("pageSize", pageSize);
+			List<Consults> list = sqlMapClient.queryForList("getContentByNode", map);
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public List<Consults> searchContentByKeyWords(String keywords,
+			int firstRow, int pageSize) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			map.put("keywords", keywords);
+			map.put("beginRow", firstRow);
+			map.put("pageSize", pageSize);
+			List<Consults> list = sqlMapClient.queryForList("searchContentByKeyWords", map);
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
 	}
 
 }

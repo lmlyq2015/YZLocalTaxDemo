@@ -15,6 +15,7 @@ import com.util.TaxUtil;
 import com.vos.CallInfoVo;
 import com.vos.Consults;
 import com.vos.ContactVo;
+import com.vos.FoldTree;
 import com.vos.Message;
 import com.vos.MessageResult;
 import com.vos.MessageSearchVO;
@@ -449,5 +450,37 @@ public class MessageServiceImp implements MessageService {
 	public int getCallInfoByCallNo(String callNo) throws Exception {
 		// TODO Auto-generated method stub
 		return messageDao.getCallInfoByCallNo(callNo);
+	}
+
+	@Override
+	public List<FoldTree> getFoldTree() throws Exception {
+		// TODO Auto-generated method stub
+		return messageDao.getFoldTree();
+	}
+
+	@Override
+	public void addNode(FoldTree node) throws Exception {
+		// TODO Auto-generated method stub
+		messageDao.addNode(node);
+		
+	}
+
+	@Override
+	public void addContentByNode(Consults consult) throws Exception {
+		messageDao.addContentByNode(consult);
+	}
+
+	@Override
+	public List<Consults> getContentByNode(int nodeId, int firstRow,
+			int pageSize) throws Exception {
+		// TODO Auto-generated method stub
+		return messageDao.getContentByNode(nodeId, firstRow, pageSize);
+	}
+
+	@Override
+	public List<Consults> searchContentByKeyWords(String keywords,
+			int firstRow, int pageSize) throws Exception {
+		// TODO Auto-generated method stub
+		return messageDao.searchContentByKeyWords(keywords, firstRow, pageSize);
 	}
 }

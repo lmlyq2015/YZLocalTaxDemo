@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.vos.CallInfoVo;
 import com.vos.Consults;
 import com.vos.ContactVo;
+import com.vos.FoldTree;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
@@ -76,4 +77,14 @@ public interface MessageService {
 	public int selectComp(List<MessageSearchVO> list,HttpServletResponse response) throws SQLException;
 
 	public List<ContactVo> getContactList() throws Exception;
+	
+	public List<FoldTree> getFoldTree() throws Exception;
+	
+	public void addNode(FoldTree node) throws Exception;
+	
+	public void addContentByNode(Consults consult) throws Exception;
+	
+	public List<Consults> getContentByNode(int nodeId,int firstRow, int pageSize) throws Exception;
+
+	public List<Consults> searchContentByKeyWords(String keywords,int firstRow, int pageSize) throws Exception; 
 }

@@ -44,7 +44,7 @@ $.parser.onComplete = function(){
 						},
 						{"menuid":"2","icon":"icon-knowledge","menuname":"知识库",
 							"menus":[
-								{"menuname":"模块开发中","icon":"","url":""}   
+								{"menuname":"知识库","icon":"","url":"jsp/knowledge/klg.jsp"}   
 								]
 						},
 // 						{"menuid":"3","icon":"icon-weixin","menuname":"微信公众平台",
