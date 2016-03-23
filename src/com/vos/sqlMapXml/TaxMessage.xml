@@ -342,13 +342,22 @@ b.TaxAgentMobile as taxAgentMobile,b.AdminMobile as adminMobile,b.RepMobile as r
 	<insert id="addNode" parameterClass="com.vos.FoldTree">
 		insert into tax_knowledge_fold(text,parentId) values (#text#,#pid#)
 	</insert>
+	<update id="updateNode" parameterClass="com.vos.FoldTree">
+		update tax_knowledge_fold set text = #text# where id = #id#
+	</update>
 	<insert id="addContentByNode" parameterClass="com.vos.Consults">
 		insert into tax_knowledge_house(title,content,foldId,editor,updateDate) values (#questions#,#answers#,#foldId#,#editor#,#updateDate#)
 	</insert>
 	<select id="getContentByNode" parameterClass="java.util.Map" resultClass="com.vos.Consults">
-		select id, title as questions,content as answers,editor,DATE_FORMAT(updateDate, '%Y-%m-%d %H:%i:%s') as updateDate from tax_knowledge_house where foldId = #nodeId# order by updateDate desc
+		select id, title as questions,content as answers,editor,DATE_FORMAT(updateDate, '%Y-%m-%d %H:%i:%s') as updateDate from tax_knowledge_house where foldId = #nodeId# order by updateDate desc limit #beginRow#,#pageSize#
+	</select>
+	<select id="getContentCountByNode" resultClass="java.lang.Integer" parameterClass="java.lang.Integer">
+		select count(*) from tax_knowledge_house where foldId = #nodeId#
 	</select>
 	<select id="searchContentByKeyWords" parameterClass="java.util.Map" resultClass="com.vos.Consults">
-		select id, title as questions,content as answers,foldId,DATE_FORMAT(updateDate, '%Y-%m-%d %H:%i:%s') as updateDate from tax_knowledge_house where title like '%$keywords$%' order by updateDate desc
+		select id, title as questions,content as answers,foldId,DATE_FORMAT(updateDate, '%Y-%m-%d %H:%i:%s') as updateDate from tax_knowledge_house where title like '%$keywords$%' order by updateDate desc limit #beginRow#,#pageSize#
+	</select>
+	<select id="getContentCountBySearch" resultClass="java.lang.Integer" parameterClass="java.lang.String">
+		select count(*) from tax_knowledge_house where title like '%$keywords$%'
 	</select>
 </sqlMap>

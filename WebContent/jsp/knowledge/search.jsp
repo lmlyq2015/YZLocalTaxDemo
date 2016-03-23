@@ -107,6 +107,11 @@
 		var path = window.parent.getNodePath(node.target);
 		return path + ">" +node.text;
 	}
+	function clickSearch(event){
+	    if(event.keyCode == 13){
+	    	$('#seatchBtn').click();
+	    }
+	}
 </script>
         <div class="crumb-wrap">
             <div id="path" class="crumb-list"><span class="crumb-name">当前位置:</span></div>
@@ -116,7 +121,7 @@
                     <table class="search-tab">
                         <tr>
                             <th width="70">关键字:</th>
-                            <td><input class="common-text" placeholder="关键字" name="keywords" id="keywords" type="text"></td>
+                            <td><input class="common-text" placeholder="关键字" name="keywords" id="keywords" type="text" onkeydown="clickSearch(event)"></td>
                             <td><button id="seatchBtn" class="btn btn-primary">查询</button></td>
                         	<td><button id="addBtn" class="btn btn-primary" style="display: none;">+新增</button></td>
                         </tr>

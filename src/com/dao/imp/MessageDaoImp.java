@@ -534,4 +534,38 @@ public class MessageDaoImp implements MessageDao {
 		
 	}
 
+	@Override
+	public int getContentCountByNode(int nodeId) throws Exception {
+		int count = 0;
+		try {
+			count = (Integer) sqlMapClient.queryForObject("getContentCountByNode",nodeId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return count;
+	}
+
+	@Override
+	public int getContentCountBySearch(int keywords) throws Exception {
+		int count = 0;
+		try {
+			count = (Integer) sqlMapClient.queryForObject("getContentCountBySearch",keywords);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return count;
+	}
+
+	@Override
+	public void updateNode(FoldTree node) throws Exception {
+		try {
+			sqlMapClient.update("updateNode",node);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}		
+	}
+
 }

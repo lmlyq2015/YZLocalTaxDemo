@@ -1062,11 +1062,14 @@ public class TaxMessageController {
 			String[] arrData = data.split("=");
 			String nodeData = arrData[0];//父节点的信息
 			String newNodeName = arrData[1];//新增节点的名字
+			String operate = arrData[2];
+			System.out.println(operate);
 			String d = URLDecoder.decode(nodeData, "UTF-8");
 			JSONObject object = JSONObject.fromObject(d);
+			node.setId(object.getInt("id"));
 			node.setText(newNodeName);
 			node.setPid(object.getInt("id"));
-			messageService.addNode(node);
+			messageService.addNode(node,operate);
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -1086,8 +1089,9 @@ public class TaxMessageController {
 			List<Consults> list = new ArrayList<Consults>();
 			//to be added the query logic
 			list = messageService.getContentByNode(nodeId,firstRow, pageSize);
+			int count = messageService.getContentCountByNode(nodeId);
 			map.put("rows", list);
-			map.put("total", list.size());
+			map.put("total", count);
 			return map;
 		} catch(Exception e) {
 			e.printStackTrace();

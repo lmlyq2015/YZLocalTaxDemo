@@ -80,11 +80,15 @@ public interface MessageService {
 	
 	public List<FoldTree> getFoldTree() throws Exception;
 	
-	public void addNode(FoldTree node) throws Exception;
+	public void addNode(FoldTree node, String operate) throws Exception;
 	
 	public void addContentByNode(Consults consult) throws Exception;
 	
 	public List<Consults> getContentByNode(int nodeId,int firstRow, int pageSize) throws Exception;
 
 	public List<Consults> searchContentByKeyWords(String keywords,int firstRow, int pageSize) throws Exception; 
+
+	public int getContentCountByNode(int nodeId) throws Exception;
+	public int getContentCountBySearch(int keywords) throws Exception;
 }
+

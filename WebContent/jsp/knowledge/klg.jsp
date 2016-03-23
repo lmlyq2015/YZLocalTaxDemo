@@ -16,6 +16,7 @@
 </head>
 <body>
 <script type="text/javascript">
+var operate;
 	$(function(){
 		$('#tt').tree({   
 		    url:'../../getFoldTree',
@@ -49,8 +50,8 @@
 			 		showHeader : true,
 			 		nowrap : false,
 					pagination : true,
-					pageSize:10,
-					pageList:[10,30,40],
+					pageSize:5,
+					pageList:[5,10,15],
 			 		queryParams : {'nodeId':node.id},
 					columns:[[
 								{
@@ -98,18 +99,28 @@
 		
 		
 		$('#mm-add').click(function(){
+			operate = 'add';
 			$('#dlg').dialog('open');
+			$('#fName').val('');
+			//$("input").removeAttr("disabled");
 			
 		});
 		
 		
 		$('#mm-update').click(function(){
+			operate = 'update';
+			$('#dlg').dialog('open');
 			var target = $('#mm').data("currfold");
+			$('#fName').val(target.text);
+			//$('#fName').attr('disabled','disabled');
+			
 		});
 		
 		
 		$('#mm-delete').click(function(){
-			var target = $('#mm').data("currfold");
+			operate = 'delete';
+			//$('#dlg').dialog('open');
+			//var target = $('#mm').data("currfold");					
 		});
 		
 		
@@ -129,7 +140,7 @@
 				url : '../../addNode',
 				type : "POST",
 				dataType : "json",
-				data : 'data=' + data + "=" + name,
+				data : 'data=' + data + "=" + name + "=" + operate,
 				success : function(r) {
 					$("#tt").tree('reload');
 					$('#dlg').dialog('close');

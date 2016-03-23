@@ -459,9 +459,14 @@ public class MessageServiceImp implements MessageService {
 	}
 
 	@Override
-	public void addNode(FoldTree node) throws Exception {
+	public void addNode(FoldTree node,String operate) throws Exception {
 		// TODO Auto-generated method stub
-		messageDao.addNode(node);
+		if (operate.equals("update")) {
+			messageDao.updateNode(node);
+		} else {
+			messageDao.addNode(node);
+		}
+		
 		
 	}
 
@@ -483,4 +488,17 @@ public class MessageServiceImp implements MessageService {
 		// TODO Auto-generated method stub
 		return messageDao.searchContentByKeyWords(keywords, firstRow, pageSize);
 	}
+
+	@Override
+	public int getContentCountByNode(int nodeId) throws Exception {
+		// TODO Auto-generated method stub
+		return messageDao.getContentCountByNode(nodeId);
+	}
+
+	@Override
+	public int getContentCountBySearch(int keywords) throws Exception {
+		// TODO Auto-generated method stub
+		return messageDao.getContentCountBySearch(keywords);
+	}
+
 }
