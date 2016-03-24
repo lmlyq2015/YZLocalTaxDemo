@@ -501,4 +501,10 @@ public class MessageServiceImp implements MessageService {
 		return messageDao.getContentCountBySearch(keywords);
 	}
 
+	@Override
+	public void deleteNode(int nodeId,List<Integer> list) throws Exception {
+		// TODO Auto-generated method stub
+		messageDao.deleteNode(nodeId,list);
+	}
+
 }

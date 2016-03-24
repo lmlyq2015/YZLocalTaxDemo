@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -1136,6 +1137,26 @@ public class TaxMessageController {
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw e;
+		}
+	}
+	
+	@RequestMapping("/deleteNode")
+	public void deleteNode(@RequestParam("data") String data,HttpServletResponse response) throws Exception {
+		try {
+			String jsonArr = URLDecoder.decode(data, "UTF-8");
+			String[] arrData = data.split("=");
+			JSONArray json = JSONArray.fromObject(arrData[1]);
+			Iterator iter=json.iterator();
+			List<Integer> list = new ArrayList<Integer>();
+			while(iter.hasNext()) {
+				JSONObject obj=(JSONObject)iter.next();
+				int id = obj.getInt("id");
+				list.add(id);
+			}
+			int nodeId = Integer.parseInt(arrData[0]);
+			messageService.deleteNode(nodeId,list);
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

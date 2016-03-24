@@ -119,8 +119,32 @@ var operate;
 		
 		$('#mm-delete').click(function(){
 			operate = 'delete';
-			//$('#dlg').dialog('open');
-			//var target = $('#mm').data("currfold");					
+			var node = $('#mm').data("currfold");
+			var parent = $('#tt').tree('getParent',node.target);
+			var child = $('#tt').tree('getChildren',node.target);
+			var childJson = encodeURI(JSON.stringify(child),"UTF-8");
+			if (parent == null) {
+				$.messager.alert('操作提示', "根节点无法删除","info");
+				return;
+			} else {
+			    $.messager.confirm("操作提示", "删除目录将同时子目录和目录下所有知识点，确定删除？", function (data) {
+			        if (data) {
+			           		$.ajax({
+			           			url : '../../deleteNode',
+			           			type : 'post',
+			           			dataType : 'json',
+			           			data : "data=" + node.id + "=" + childJson ,
+			           			success : function(data) {
+			           				$.messager.alert('操作提示', "删除成功","info");
+			           				$("#tt").tree('reload');
+			           			},
+			           			error : function() {
+			           				$.messager.alert('操作提示', "删除失败，请重试","error");
+			           			}	
+			           		});
+			          }
+			      });
+			}
 		});
 		
 		
@@ -179,7 +203,6 @@ var operate;
     function getWidth(percent){  
     	return $(window).width() * percent;  
     }
-
 
 </script>
 <div class="container clearfix">

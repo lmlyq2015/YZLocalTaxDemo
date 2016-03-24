@@ -360,4 +360,7 @@ b.TaxAgentMobile as taxAgentMobile,b.AdminMobile as adminMobile,b.RepMobile as r
 	<select id="getContentCountBySearch" resultClass="java.lang.Integer" parameterClass="java.lang.String">
 		select count(*) from tax_knowledge_house where title like '%$keywords$%'
 	</select>
+	<delete id="deleteNode" parameterClass="java.lang.Integer">
+		delete from tax_knowledge_fold where id = #nodeId#
+	</delete>
 </sqlMap>

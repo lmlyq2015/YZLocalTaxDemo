@@ -568,4 +568,18 @@ public class MessageDaoImp implements MessageDao {
 		}		
 	}
 
+	@Override
+	public void deleteNode(int nodeId,List<Integer> list) throws Exception {
+		// TODO Auto-generated method stub
+		try {
+			sqlMapClient.delete("deleteNode",nodeId);
+			for (int i : list) {//删除节点下的所有目录，级联删除知识点
+				sqlMapClient.delete("deleteNode",i);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}	
+	}
+
 }
