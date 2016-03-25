@@ -124,8 +124,25 @@
     	$('#addBtn').hide();
     }
 
-    function deleteContent(row) {
-    	alert('123');
+    function deleteContent(id) {
+    	$.messager.confirm("操作提示", "确认删除？", function (data) { 		
+    		if (data) {
+    	    	$.ajax({
+    	    		url : '../../deleteContent',
+    	    		type : 'post',
+    	    		data : 'data=' + id,
+    	    		success : function(data) {
+    	    			$.messager.alert('操作提示', "删除成功","info");
+    					var node = parent.$('#tt').tree('getSelected');
+    					node.target.click();
+    	    		},
+    	    		error : function() {
+    	    			$.messager.alert('操作提示', "删除失败","error");
+    	    		}
+    	    	});
+    		}
+    		
+    	});
     }
 </script>
         <div class="crumb-wrap">

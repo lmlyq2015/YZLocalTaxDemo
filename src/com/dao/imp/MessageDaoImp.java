@@ -593,4 +593,14 @@ public class MessageDaoImp implements MessageDao {
 		}
 	}
 
+	@Override
+	public void deleteContent(int contentId) throws Exception {
+		try {
+			sqlMapClient.delete("deleteContent",contentId);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 }

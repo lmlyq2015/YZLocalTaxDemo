@@ -1165,4 +1165,12 @@ public class TaxMessageController {
 			e.printStackTrace();
 		}
 	}
+	@RequestMapping("/deleteContent")
+	public void deleteContent(@RequestParam("data") int id,HttpServletResponse response) throws Exception {
+		try {
+			messageService.deleteContent(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

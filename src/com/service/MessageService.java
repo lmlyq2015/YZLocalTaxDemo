@@ -94,5 +94,7 @@ public interface MessageService {
 	public int getContentCountBySearch(int keywords) throws Exception;
 	
 	public void deleteNode(int nodeId,List<Integer>list) throws Exception;
+	
+	public void deleteContent(int contentId) throws Exception;
 }
 

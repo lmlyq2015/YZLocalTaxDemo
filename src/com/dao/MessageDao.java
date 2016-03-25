@@ -102,5 +102,7 @@ public interface MessageDao {
 	
 	public void updateContentByNode(Consults consult)
 			throws Exception;
+	
+	public void deleteContent(int contetId) throws Exception;
 
 }
