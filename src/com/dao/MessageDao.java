@@ -99,5 +99,8 @@ public interface MessageDao {
 	public int getContentCountBySearch(int keywords) throws Exception;
 	
 	public void deleteNode(int nodeId,List<Integer> list) throws Exception;
+	
+	public void updateContentByNode(Consults consult)
+			throws Exception;
 
 }

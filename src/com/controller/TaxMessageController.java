@@ -1101,7 +1101,7 @@ public class TaxMessageController {
 	}
 	
 	@RequestMapping("/addContentByNode")
-	public void addContentByNode(@RequestParam("title") String title,@RequestParam("content") String content,@RequestParam("nodeId") int nodeId,
+	public void addContentByNode(@RequestParam("contentId") int contentId,@RequestParam("title") String title,@RequestParam("content") String content,@RequestParam("nodeId") int nodeId,
 									HttpSession session,HttpServletRequest request) throws Exception {
 		try {
 			request.setCharacterEncoding("utf-8");
@@ -1114,7 +1114,13 @@ public class TaxMessageController {
 			consult.setEditor(user.getCallCenterAccount());
 			consult.setFoldId(nodeId);
 			consult.setUpdateDate(DateUtils.getNowTime());
-			messageService.addContentByNode(consult);
+			if (contentId == -1) {//-1表示知识点是新增，否则为更新知识点
+				messageService.addContentByNode(consult);
+			} else {
+				consult.setId(contentId);
+				messageService.updateContentByNode(consult);
+			}
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw e;

@@ -363,4 +363,7 @@ b.TaxAgentMobile as taxAgentMobile,b.AdminMobile as adminMobile,b.RepMobile as r
 	<delete id="deleteNode" parameterClass="java.lang.Integer">
 		delete from tax_knowledge_fold where id = #nodeId#
 	</delete>
+	<update id="updateContentByNode" parameterClass="com.vos.Consults">
+		update tax_knowledge_house set title = #questions#,content = #answers#,editor = #editor#,updateDate = #updateDate# where id = #id#
+	</update>
 </sqlMap>

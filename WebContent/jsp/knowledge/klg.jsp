@@ -79,8 +79,8 @@ var operate;
 									field : 'operate',
 									width:fixWidthTable(0.2),
 									formatter : function(value,row,index) {
-										return '<a href="javascript:void(0);" class="easyui-linkbutton">更新</a>' + 
-												'<a href="javascript:void(0);" class="easyui-linkbutton" style="padding-left:20px;">删除</a>';
+										return "<a href='javascript:void(0);' class='easyui-linkbutton' onclick='updateContent(\""+ row.id +"\",\""+ row.questions +"\",\""+ row.answers +"\");'>更新</a>" + 
+												"<a href='javascript:void(0);' class='easyui-linkbutton' style='padding-left:20px;' onclick='deleteContent(\"" + row.id + "\")'>删除</a>";
 									}
 								}
 					      	]],

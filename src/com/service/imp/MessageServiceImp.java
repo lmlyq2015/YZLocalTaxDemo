@@ -507,4 +507,11 @@ public class MessageServiceImp implements MessageService {
 		messageDao.deleteNode(nodeId,list);
 	}
 
+	@Override
+	public void updateContentByNode(Consults consult)
+			throws Exception {
+		// TODO Auto-generated method stub
+		messageDao.updateContentByNode(consult);
+	}
+
 }

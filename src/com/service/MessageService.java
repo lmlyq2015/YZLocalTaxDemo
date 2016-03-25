@@ -84,6 +84,8 @@ public interface MessageService {
 	
 	public void addContentByNode(Consults consult) throws Exception;
 	
+	public void updateContentByNode(Consults consult) throws Exception;
+	
 	public List<Consults> getContentByNode(int nodeId,int firstRow, int pageSize) throws Exception;
 
 	public List<Consults> searchContentByKeyWords(String keywords,int firstRow, int pageSize) throws Exception; 

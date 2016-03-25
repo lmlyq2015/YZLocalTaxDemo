@@ -582,4 +582,15 @@ public class MessageDaoImp implements MessageDao {
 		}	
 	}
 
+	@Override
+	public void updateContentByNode(Consults consult)
+			throws Exception {
+		try {
+			sqlMapClient.update("updateContentByNode",consult);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 }

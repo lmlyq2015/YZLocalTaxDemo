@@ -21,6 +21,9 @@
 			$('#titleDiv').css('display','none');
 			$('#searchByKewordsDiv').css('display','none');
 			$('#dgDiv').css('display','none');
+	    	$('#title').val('');
+	    	$('#content').val('');
+	    	$('#contentId').val(-1);
 
 		});
 		
@@ -40,7 +43,7 @@
 				return true;
 			},
 			success : function(data) {
-				$.messager.alert('操作提示', "添加成功","info");
+				$.messager.alert('操作提示', "操作成功","info");
 				var node = parent.$('#tt').tree('getSelected');
 				node.target.click();
 			}
@@ -112,6 +115,18 @@
 	    	$('#seatchBtn').click();
 	    }
 	}
+    function updateContent(id,title,content) {
+    	$('#resultDiv').css('display','block');
+    	$('#dgDiv').css('display','none');
+    	$('#title').val(title);
+    	$('#content').val(content);
+    	$('#contentId').val(id);
+    	$('#addBtn').hide();
+    }
+
+    function deleteContent(row) {
+    	alert('123');
+    }
 </script>
         <div class="crumb-wrap">
             <div id="path" class="crumb-list"><span class="crumb-name">当前位置:</span></div>
@@ -158,8 +173,12 @@
 	                                </td>
 	                            </tr>
 	                            <tr style="display: none">
-	                                <th><i class="require-red">*</i>内容：</th>
+	                                <th><i class="require-red">*</i></th>
 	                                <td><input name="nodeId" id="nodeId" type="text"></td>
+	                            </tr>
+	                            <tr style="display: none">
+	                                <th><i class="require-red">*</i></th>
+	                                <td><input name="contentId" id="contentId" type="text"></td>
 	                            </tr>
 	                            <tr>
 	                                <th>内容：</th>
