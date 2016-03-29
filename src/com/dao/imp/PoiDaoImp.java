@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.dao.PoiDao;
 import com.ibatis.sqlmap.client.SqlMapClient;
+import com.util.DateUtils;
 import com.vos.Message;
 import com.vos.MessageSearchVO;
 import com.vos.NotificationVo;
@@ -49,6 +50,9 @@ public class PoiDaoImp implements PoiDao{
 	public int[] insertComp(List<MessageSearchVO> list) throws SQLException {
 		// TODO Auto-generated method stub
 		int[] a = null;
+		for(int i = 0;i < list.size();i++){
+			list.get(i).setImportDate(DateUtils.getNowTime());
+		}
 		try {
 			a = (int[]) sqlMapClient.insert("insertComp", list);
 		} catch (Exception e) {

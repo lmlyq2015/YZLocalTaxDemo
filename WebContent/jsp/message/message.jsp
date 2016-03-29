@@ -31,9 +31,9 @@ $(function() {
 		url:'<%=basePath%>getAllComp',
 		title:'搜索',
 		pagination : true,
-		pageSize:10,
+		pageSize:20,
 		nowrap : false,
-		pageList:[10,30,40],
+		pageList:[10,20,40],
 		iconCls:'icon-reload',
 		rownumbers: true,
 		singleSelect:false,
@@ -81,12 +81,8 @@ $(function() {
 			},{
 				title : '法人',
 				field : 'rep',
+				hidden : 'true',
 				width : fixWidthTable(0.07),
-				align:'center'
-			},{
-				title : '法人手机',
-				field : 'repMobile',
-				width : fixWidthTable(0.13),
 				align:'center'
 			},{
 				title : '办税员',
@@ -98,14 +94,25 @@ $(function() {
 				field : 'taxAgentMobile',
 				width : fixWidthTable(0.13),
 				align:'center'
-			}, {
+			},{
 				title : '财务主管',
 				field : 'adminName',
+				hidden : 'true',
 				width : fixWidthTable(0.07),
 				align:'center'
 			},{
 				title : '财务主管手机',
 				field : 'adminMobile',
+				width : fixWidthTable(0.13),
+				align:'center'
+			},{
+				title : '法人手机',
+				field : 'repMobile',
+				width : fixWidthTable(0.13),
+				align:'center'
+			},{
+				title : '导入时间',
+				field : 'importDate',
 				width : fixWidthTable(0.13),
 				align:'center'
 			}]],

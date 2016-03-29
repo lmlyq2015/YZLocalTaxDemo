@@ -11,53 +11,63 @@
 		INSERT INTO
 		tax_report(TAXID,IMPOSETYPE,STARTTIME,ENDTIME)
 		VALUES
-		<iterate conjunction=",">  
-		(#value[].taxId#,#value[].imposeType#,#value[].startTime#,#value[].endTime#)
-		</iterate> 
+		<iterate conjunction=",">
+			(#value[].taxId#,#value[].imposeType#,#value[].startTime#,#value[].endTime#)
+		</iterate>
 	</insert>
-	
+
 	<insert id="insertComp" parameterClass="java.util.ArrayList">
 		INSERT INTO
-		tax_entbasicinfor(TAXID,TAXNAME,ADDRESS,REP,REPMOBILE,TAXADMIN,TAXAGENTNAME,TAXAGENTMOBILE,ADMINNAME,ADMINMOBILE,EID,STATE)
+		tax_entbasicinfor(TAXID,TAXNAME,ADDRESS,REP,REPMOBILE,TAXADMIN,TAXAGENTNAME,TAXAGENTMOBILE,ADMINNAME,ADMINMOBILE,EID,STATE,IMPORTDATE)
 		VALUES
-		<iterate conjunction=",">  
-		(#value[].taxId#,#value[].taxName#,#value[].address#,#value[].rep#,#value[].repMobile#,#value[].taxAdmin#,#value[].taxAgentName#,#value[].taxAgentMobile#,#value[].adminName#,#value[].adminMobile#,#value[].eid#,#value[].state#)
-		</iterate> 
+		<iterate conjunction=",">
+			(#value[].taxId#,#value[].taxName#,#value[].address#,#value[].rep#,#value[].repMobile#,#value[].taxAdmin#,#value[].taxAgentName#,#value[].taxAgentMobile#,#value[].adminName#,#value[].adminMobile#,#value[].eid#,#value[].state#,#value[].importDate#)
+		</iterate>
 	</insert>
-	
-	<select id="compareTaxId" resultClass="java.lang.Integer" parameterClass="java.util.Map">
-		select count(*) from tax_entbasicinfor where TaxId = #compareTaxId#
+
+	<select id="compareTaxId" resultClass="java.lang.Integer"
+		parameterClass="java.util.Map">
+		select count(*) from tax_entbasicinfor where TaxId =
+		#compareTaxId#
 	</select>
-	
+
 	<insert id="insertPay" parameterClass="java.util.ArrayList">
 		INSERT INTO
 		tax_pay(TAXID,IMPOSETYPE,TOTALTAX,STARTTIME,ENDTIME)
 		VALUES
-		<iterate conjunction=",">  
-		(#value[].taxId#,#value[].imposeType#,#value[].totalTax#,#value[].startTime#,#value[].endTime#)
-		</iterate> 
+		<iterate conjunction=",">
+			(#value[].taxId#,#value[].imposeType#,#value[].totalTax#,#value[].startTime#,#value[].endTime#)
+		</iterate>
 	</insert>
-	
+
 	<select id="selectUnequalNum" resultClass="java.lang.Integer">
-		select count(distinct(TaxId)) from tax_report where TaxId not in (select TaxId from tax_entbasicinfor)
+		select
+		count(distinct(TaxId)) from tax_report where TaxId not in (select
+		TaxId from tax_entbasicinfor)
 	</select>
-	
+
 	<select id="selectUnequalTaxId" resultClass="com.vos.TaxId">
-		select distinct(TaxId) from tax_report where TaxId not in (select TaxId from tax_entbasicinfor)
+		select
+		distinct(TaxId) from tax_report where TaxId not in (select TaxId from
+		tax_entbasicinfor)
 	</select>
-	
+
 	<select id="selectUnequalNumForpay" resultClass="java.lang.Integer">
-		select count(distinct(TaxId)) from tax_pay where TaxId not in (select TaxId from tax_entbasicinfor)
+		select
+		count(distinct(TaxId)) from tax_pay where TaxId not in (select TaxId
+		from tax_entbasicinfor)
 	</select>
-	
+
 	<select id="selectUnequalTaxIdForpay" resultClass="com.vos.TaxId">
-		select distinct(TaxId) from tax_pay where TaxId not in (select TaxId from tax_entbasicinfor)
+		select
+		distinct(TaxId) from tax_pay where TaxId not in (select TaxId from
+		tax_entbasicinfor)
 	</select>
-	
+
 	<select id="getComp" resultClass="com.vos.MessageSearchVO">
 		select * from tax_entbasicinfor
 	</select>
-	
+
 	<select id="getPay" resultClass="com.vos.Pay">
 		select * from tax_pay
 	</select>

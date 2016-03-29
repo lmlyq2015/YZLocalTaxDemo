@@ -120,7 +120,7 @@ DATE_FORMAT(s.SendDate, '%Y-%m-%d %H:%i') as sendDate,e.loginname as sendBy,RecI
 	<select id="getAllComp" resultClass="com.vos.MessageSearchVO"
 		parameterClass="java.util.Map">
 	<![CDATA[
-		select * from tax_entbasicinfor
+		select * from tax_entbasicinfor 
 	]]>
 		<dynamic prepend="WHERE">
 			<isNotEmpty prepend="AND" property="taxId">
@@ -132,7 +132,7 @@ DATE_FORMAT(s.SendDate, '%Y-%m-%d %H:%i') as sendDate,e.loginname as sendBy,RecI
 				'%$taxName$%')
 			</isNotEmpty>
 		</dynamic>
-		limit #firstRow#,#pageSize#
+		order by importDate desc limit #firstRow#,#pageSize#
 	</select>
 
 	<select id="getCompCount" resultClass="java.lang.Integer"

@@ -84,7 +84,7 @@ public class TaxUtil {
 	
 	public final static String MESSAGE_STATUS_BALANCE_ISSUE_MSG = "八信账号余额不足";
 	
-	public final static String MESSAGE_STATUS_UNKNOW_MSG = "未知错误";
+	public final static String MESSAGE_STATUS_UNKNOW_MSG = "提交过于频繁";
 	
 	public final static String OPERATE_SUCCESS_MSG = "操作成功";
 	

@@ -13,7 +13,15 @@ public class MessageSearchVO {
 	private String taxAgentMobile;
 	private String adminName;
 	private String adminMobile;
+	private String importDate;
 	
+	
+	public String getImportDate() {
+		return importDate;
+	}
+	public void setImportDate(String importDate) {
+		this.importDate = importDate;
+	}
 	public String getEid() {
 		return eid;
 	}
