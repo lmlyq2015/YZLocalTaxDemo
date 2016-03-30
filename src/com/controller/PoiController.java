@@ -68,17 +68,19 @@ public class PoiController {
 	 */
 	@RequestMapping(value = "/exportFailMsg", method = RequestMethod.POST)
 	public void getXLS(@RequestParam("data") String data,
-			HttpServletResponse response) throws SQLException {
-		String exportData = null;
+			HttpServletResponse response) throws SQLException {	
+		Message message  = new Message();
+		String str = null;
 		try {
-			exportData = URLDecoder.decode(data, "UTF-8");
+			str = URLDecoder.decode(data, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		JSONArray json = JSONArray.fromObject(exportData);
-		List<Message> list = json.toList(json, Message.class);
-		poiService.exportXLS(list, response);
+		JSONObject object = JSONObject.fromObject(str);
+		message.setSendDate(object.getString("sendDate"));
+		message.setSendDateEnd(object.getString("sendDateEnd"));
+		poiService.exportXLS(message, response);
 	}
 
 	@Resource(name = "reportService")

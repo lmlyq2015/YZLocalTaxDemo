@@ -27,7 +27,15 @@ public class NotificationVo {
 	private String year;
 	private String month;
 	private String msgType;
+	private String importDate;
 	
+	
+	public String getImportDate() {
+		return importDate;
+	}
+	public void setImportDate(String importDate) {
+		this.importDate = importDate;
+	}
 	public String getMsgType() {
 		return msgType;
 	}

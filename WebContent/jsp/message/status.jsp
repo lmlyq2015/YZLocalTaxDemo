@@ -244,22 +244,8 @@ function fixWidthTable(percent){
 }
 
 function exportFailMsg(){
-	var rows = $('#resultDg').datagrid('getSelections');
-	var i = 0;
-	if (rows.length == 0) {
-		$.messager.alert('操作提示', "请选择导出对象","info");
-		return;
-	}else if(rows.length > 10){
-		$.messager.alert('操作提示', "请选择小于等于十条的数据","info");
-		return;
-	}else{
-		var arr = [] ;
-			 for(i;i < rows.length;i++){
-				 var obj = new Object();
-				 obj.id = rows[i].id;
-				 arr.push(obj);
-			 }
-			 var data = encodeURI(JSON.stringify(arr),"UTF-8");
+		var data1 = sy.serializeObject($('#searchForm').form());
+		var data = encodeURI(JSON.stringify(data1), "UTF-8");
 		     var form = $("<form>");  
 		  	 form.attr('style','display:none');  
 		  	 form.attr('target','');  
@@ -276,7 +262,6 @@ function exportFailMsg(){
 	     			$('#resultDg').datagrid("clearSelections");
 	     		} 
 	     });
-}
 }
 
 function reSendFailMsg() {
@@ -365,15 +350,15 @@ function updateReceiver(){
 
 	<div id="resultToolbar" style="height: 57px;">
 		<form id="searchForm">
-			<table>
+			<table id="searchForm">
 				<tr>
 					<th>消息内容:</th>
 					<td><input id="content" class="easyui-validatebox"
 						name="content"></td>
 					<th>发送时间:</th>
-					<td><input id="sendDate" class="easyui-datebox"
+					<td><input id="sendDate" class="easyui-datetimebox"
 						name="sendDate" editable="false"> - <input
-						id="sendDateEnd" class="easyui-datebox" name="sendDateEnd"
+						id="sendDateEnd" class="easyui-datetimebox" name="sendDateEnd"
 						editable="false"></td>
 					<th>发送结果:</th>
 					<td><select id="status" class="easyui-combobox" name="status"

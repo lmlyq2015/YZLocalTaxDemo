@@ -13,7 +13,7 @@ import com.vos.TaxId;
 public interface PoiDao {
 	
 
-	public List<NotificationVo> getFailMsg(List<Message> list) throws SQLException;
+	public List<NotificationVo> getFailMsg(Message message) throws SQLException;
 
 	public int[] insertReport(List<Report> list) throws SQLException;
 

@@ -16,7 +16,7 @@ import com.vos.Pay;
 import com.vos.Report;
 import com.vos.TaxId;
 
-public class PoiDaoImp implements PoiDao{
+public class PoiDaoImp implements PoiDao {
 	private SqlMapClient sqlMapClient;
 
 	public SqlMapClient getSqlMapClient() {
@@ -28,16 +28,21 @@ public class PoiDaoImp implements PoiDao{
 	}
 
 	@Override
-	public List<NotificationVo> getFailMsg(List<Message> list) throws SQLException {
+	public List<NotificationVo> getFailMsg(Message message) throws SQLException {
 		// TODO Auto-generated method stub
-		List<NotificationVo> list1 = new ArrayList<NotificationVo>();
-		Map<String,Object> map = new HashMap<String,Object>();
-		for(int i = 0;i < list.size();i++){
-			map.put("msgId",list.get(i).getId());
-			List<NotificationVo> list2 =  sqlMapClient.queryForList("getFailMsg",map);
-			list1.addAll(list2);
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(message.getSendDate() == null || message.getSendDate().isEmpty()){
+			message.setSendDate("1970-01-01");
 		}
-		return list1;
+		if(message.getSendDateEnd() == null || message.getSendDateEnd().isEmpty()){
+			message.setSendDateEnd("2050-01-01");
+		}
+		map.put("sendDate", message.getSendDate());
+		map.put("sendDateEnd", message.getSendDateEnd());
+		System.out.println(message.getSendDate());
+		System.out.println(message.getSendDateEnd());
+		List<NotificationVo> list = sqlMapClient.queryForList("getFailMsg", map);
+		return list;
 	}
 
 	@Override
@@ -50,7 +55,7 @@ public class PoiDaoImp implements PoiDao{
 	public int[] insertComp(List<MessageSearchVO> list) throws SQLException {
 		// TODO Auto-generated method stub
 		int[] a = null;
-		for(int i = 0;i < list.size();i++){
+		for (int i = 0; i < list.size(); i++) {
 			list.get(i).setImportDate(DateUtils.getNowTime());
 		}
 		try {
@@ -64,8 +69,8 @@ public class PoiDaoImp implements PoiDao{
 	@Override
 	public int compareTaxId(String compareTaxId) throws SQLException {
 		// TODO Auto-generated method stub
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("compareTaxId",compareTaxId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("compareTaxId", compareTaxId);
 		return (Integer) sqlMapClient.queryForObject("compareTaxId", map);
 	}
 
@@ -116,6 +121,5 @@ public class PoiDaoImp implements PoiDao{
 		// TODO Auto-generated method stub
 		return sqlMapClient.queryForList("getPay");
 	}
-	
-	
+
 }
