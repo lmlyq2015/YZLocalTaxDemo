@@ -101,7 +101,7 @@ public class Layouter {
         cell3.setCellStyle(headerCellStyle);  
   
         HSSFCell cell4 = rowHeader.createCell(startColIndex + 3);  
-        cell4.setCellValue("失败原因");  
+        cell4.setCellValue("失败时间");  
         cell4.setCellStyle(headerCellStyle);  
   
         HSSFCell cell5 = rowHeader.createCell(startColIndex + 4);  

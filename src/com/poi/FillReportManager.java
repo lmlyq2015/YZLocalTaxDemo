@@ -39,7 +39,7 @@ public class FillReportManager {
   
  
             HSSFCell cell3 = row.createCell(startColIndex+2);  
-            cell3.setCellValue(datasource.get(i-2).getState());  
+            cell3.setCellValue(datasource.get(i-2).getSendDate());  
             cell3.setCellStyle(bodyCellStyle);  
   
 

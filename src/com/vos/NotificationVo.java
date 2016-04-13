@@ -28,8 +28,15 @@ public class NotificationVo {
 	private String month;
 	private String msgType;
 	private String importDate;
+	private String sendDate;
 	
 	
+	public String getSendDate() {
+		return sendDate;
+	}
+	public void setSendDate(String sendDate) {
+		this.sendDate = sendDate;
+	}
 	public String getImportDate() {
 		return importDate;
 	}
